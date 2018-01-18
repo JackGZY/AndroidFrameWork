@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="buttonLayout">
+        <attr name="buttonLayout_rippleRoundedCorners" format="dimension" localization="suggested"/>
+        <attr name="buttonLayout_rippleRoundedCornersLeftTop" format="dimension" localization="suggested"/>
+        <attr name="buttonLayout_rippleRoundedCornersRightTop" format="dimension" localization="suggested"/>
+        <attr name="buttonLayout_rippleRoundedCornersLeftBottom" format="dimension" localization="suggested"/>
+        <attr name="buttonLayout_rippleRoundedCornersRightBottom" format="dimension" localization="suggested"/>
+    </declare-styleable>
+
+</resources>

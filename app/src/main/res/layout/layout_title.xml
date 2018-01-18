@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <com.jackgu.androidframework.view.ButtonLayout
+        android:id="@+id/buttonLayout_back"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_height"
+            android:background="@color/theme"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <ImageView
+                android:layout_width="@dimen/title_back_img_height"
+                android:layout_height="@dimen/title_back_img_height"
+                android:src="@mipmap/title_back"/>
+
+
+            <TextView
+                android:id="@+id/leftText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="返回"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize_normal"/>
+        </LinearLayout>
+    </com.jackgu.androidframework.view.ButtonLayout>
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_weight="0.6"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="标题"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize_big"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.2"
+        android:gravity="right">
+
+        <com.jackgu.androidframework.view.ButtonLayout
+            android:id="@+id/buttonLayout_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/title_height"
+                android:background="@color/theme"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin">
+
+
+                <TextView
+                    android:id="@+id/moreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="返回"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_normal"/>
+            </LinearLayout>
+        </com.jackgu.androidframework.view.ButtonLayout>
+
+    </LinearLayout>
+</LinearLayout>

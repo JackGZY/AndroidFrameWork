@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AndroidFrameWork</string>
+    <string name="permissionReallyDeclined">您已拒绝部分或者全部权限，并且拒绝提醒。如需开启权限，请前往「设置」中开启，
+        在权限开启之前您将无法正常使用本软件的部分功能。</string>
+    <string name="permissionDeclined">您已拒绝部分权限，本软件的部分功能将不能正常使用！</string>
+
+
+    <string name="message_dialog_title">温馨提示</string>
+    <string name="message_dialog_content">这个是对话框的提示类容</string>
+    <string name="message_dialog_left_button">确定</string>
+    <string name="message_dialog_center_button">好的</string>
+    <string name="message_dialog_right_button">取消</string>
+
+    <string name="exit">再按一次退出本软件！</string>
+    <string name="i_know">我知道了</string>
+</resources>
