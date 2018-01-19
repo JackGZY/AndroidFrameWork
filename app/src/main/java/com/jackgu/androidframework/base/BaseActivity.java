@@ -8,9 +8,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,6 +21,7 @@ import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.config.ConstCode;
 import com.jackgu.androidframework.enums.MessageDialogType;
+import com.jackgu.androidframework.util.LoggerUtil;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.view.dialog.LoadingDialog;
 import com.jackgu.androidframework.view.dialog.MessageDialog;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -53,6 +58,18 @@ public abstract class BaseActivity extends RxActivity {
     protected abstract int getLayout();
 
     /**
+     * 重写了这个方法，setContentView不会调用getLayout
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/1/19
+     * @E-Mail: 528489389@qq.com
+     */
+    protected View getLayoutView() {
+        return null;
+    }
+
+
+    /**
      * 是否开启滑动返回
      */
     protected boolean isNeedSwipeBack() {
@@ -70,8 +87,26 @@ public abstract class BaseActivity extends RxActivity {
      * 在初始化控件前进行一些操作
      */
     protected void beforeInitView() {
+        //这个得原理是，在Activity的绘制完成后，当前就是一个空的消息队列，这个时候就会调用addIdleHandler，
+        Looper.myQueue().addIdleHandler(() -> {
+            //这里可以回调方法
+            viewDrawFinished();
+            //返回false表示只调用一次，下次队列为空的时候不会调用，
+            return false;
+        });
+    }
+
+    /**
+     * 当Activity绘制完成了的回调，在这里你可以获得高度宽度
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/1/19
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void viewDrawFinished() {
 
     }
+
 
     protected abstract void initView(Bundle savedInstanceState);
 
@@ -97,7 +132,12 @@ public abstract class BaseActivity extends RxActivity {
                     .setSwipeRelateOffset(500);//the Offset of following Activity when
         }
         beforeSetView();
-        setContentView(getLayout());
+        View view = getLayoutView();
+        if (view == null) {
+            setContentView(getLayout());
+        } else {
+            setContentView(view);
+        }
         mUnbinder = ButterKnife.bind(this);
         beforeInitView();
         initView(savedInstanceState);
@@ -136,7 +176,20 @@ public abstract class BaseActivity extends RxActivity {
         this.callBack = callBack;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(AppConfig.PERMISSIONS, ConstCode.PERMISSIONS_REQUEST_CODE);
+            //检查一下啊，同意没有
+            List<String> strings = new ArrayList<>();
+            for (String str : AppConfig.PERMISSIONS) {
+                if (!isPermissionGranted(str)) {
+                    strings.add(str);
+                }
+            }
+            if (strings.size() > 0) {
+                requestPermissions(strings.toArray(new String[strings.size()]), ConstCode
+                        .PERMISSIONS_REQUEST_CODE);
+            } else {
+                if (callBack != null)
+                    callBack.callBack(true, new ArrayList<>());
+            }
         } else {
             if (callBack != null)
                 callBack.callBack(true, new ArrayList<>());

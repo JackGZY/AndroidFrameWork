@@ -44,7 +44,7 @@ public class GreenDaoUtil {
         mDaoSession = mDaoMaster.newSession();
     }
 
-    public static DaoSession getDaoSession() {
+    public static synchronized DaoSession getDaoSession() {
         if (mDaoSession == null) {
             init();
         }

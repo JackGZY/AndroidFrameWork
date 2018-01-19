@@ -1,7 +1,9 @@
 package com.jackgu.androidframework.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.jackgu.androidframework.R;
@@ -10,6 +12,7 @@ import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.entity.Test;
 import com.jackgu.androidframework.enums.GlideScaleType;
 import com.jackgu.androidframework.eventAction.DownloadFileMessageEvent;
+import com.jackgu.androidframework.util.DownLoadFileUtil;
 import com.jackgu.androidframework.util.GlideUtil;
 import com.jackgu.androidframework.util.LoggerUtil;
 import com.jackgu.androidframework.util.ToastUtil;
@@ -19,6 +22,7 @@ import com.jackgu.androidframework.util.network.repository.DefaultRepository;
 import com.jackgu.androidframework.util.network.service.TestService;
 import com.jackgu.androidframework.view.ButtonHaveSelect;
 import com.jackgu.androidframework.view.dialog.SelectDialog;
+import com.jackgu.androidframework.view.notification.DownLoadNotificationUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,7 +62,11 @@ public class MainActivity extends BaseTitleActivity {
             "=3e7468d937f2c3c26ac0c959f59784e6&imgtype=0&src=http%3A%2F%2Fwww.bumimi" +
             ".com%2Fuploads%2Fvod%2F2017-11-13%2F5a09508e6d43d.jpg";
     @BindView(R.id.myButton)
+    ButtonHaveSelect myButton;
+    @BindView(R.id.buttonHaveSelect)
     ButtonHaveSelect buttonHaveSelect;
+    @BindView(R.id.buttonHaveSelect1)
+    ButtonHaveSelect buttonHaveSelect1;
 
     @Override
     protected int getLayout() {
@@ -67,6 +75,7 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+
         //请求权限
         checkPermission((success, strings) -> {
             if (success) {
@@ -79,7 +88,7 @@ public class MainActivity extends BaseTitleActivity {
                 //初始化数据库
                 GreenDaoUtil.init();
             } else {
-                if (!strings.contains(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (!strings.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     //创建文件
                     File file = new File(AppConfig.DATA_BASE_FILE);
                     if (!file.exists()) {
@@ -92,7 +101,13 @@ public class MainActivity extends BaseTitleActivity {
             }
         });
 
-        buttonHaveSelect.setOnClickListener(v -> {
+        setBackVisibility(true);
+        title.setText("测试的标题这里是主页");
+
+
+        buttonHaveSelect1.setOnClickListener(v -> turnActivity(DrawerLayoutActivity.class, false, null));
+
+        myButton.setOnClickListener(v -> {
             List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
             selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
             selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
@@ -109,6 +124,32 @@ public class MainActivity extends BaseTitleActivity {
             selectDialog.setTitle("测试的标题");
             selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
             selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
+        });
+
+
+        buttonHaveSelect.setOnClickListener(v -> {
+            //这里是需要文件的全路径
+            DownLoadFileUtil.downLoadFile
+                    ("http://101.204.240.105:50203/bizmodules/templates/app/lt" +
+                            ".apk", AppConfig.BASE_FILE, new DownLoadFileUtil
+                            .FileDownLoadCallBack() {
+                        @Override
+                        public void callBack(String msg, boolean success) {
+                            LoggerUtil.e("msg =" + msg);
+                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
+                                            .ic_launcher_round,
+                                    1, 1, success);
+                        }
+
+                        @Override
+                        public void callBack(long bytesRead, long contentLength, boolean done) {
+                            LoggerUtil.e("bytesRead= " + bytesRead + ",contentLength= " +
+                                    contentLength);
+                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
+                                            .ic_launcher_round,
+                                    bytesRead, contentLength, true);
+                        }
+                    });
         });
 
         GlideUtil.load(PATH, imageView1);
@@ -128,11 +169,6 @@ public class MainActivity extends BaseTitleActivity {
         GlideUtil.loadRound("", imageView8);
 
 
-        //这里是需要文件的全路径
-//        DownLoadFileUtil.downLoadFile("http://101.204.240.105:50203/bizmodules/templates/app/lt" +
-//                ".apk", AppConfig.BASE_FILE, (msg, success) -> LoggerUtil.e(msg + ";" + success));
-
-
         DefaultRepository.getInstance().submit(TestService.class, Test.class,
                 "get", new HashMap<>()).subscribe(new DefaultSubscriber<Test>() {
             @Override
@@ -147,6 +183,14 @@ public class MainActivity extends BaseTitleActivity {
         });
     }
 
+    @Override
+    protected void viewDrawFinished() {
+        super.viewDrawFinished();
+        LoggerUtil.e("绘制页面完成回调");
+
+        LoggerUtil.e("Width:" + myButton.getWidth() + ",Height:" + myButton.getHeight());
+
+    }
 
     //这里用eventbus订阅进度,一定要切换到主线程，如果有UI方面的操作
     @Subscribe(threadMode = ThreadMode.MAIN)

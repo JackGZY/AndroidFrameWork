@@ -6,6 +6,6 @@
     <dimen name="activity_margin">8dp</dimen>
     <dimen name="view_driver">1px</dimen>
     <dimen name="title_height">48dp</dimen>
-    <dimen name="title_back_img_height">28dp</dimen>
+    <dimen name="title_back_img_height">23dp</dimen>
     <dimen name="select_item_img_wh">30dp</dimen>
 </resources>

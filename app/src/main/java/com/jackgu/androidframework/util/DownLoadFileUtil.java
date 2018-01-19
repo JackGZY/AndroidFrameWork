@@ -2,6 +2,7 @@ package com.jackgu.androidframework.util;
 
 import android.text.TextUtils;
 
+import com.jackgu.androidframework.util.network.RetrofitDownloadHelper;
 import com.jackgu.androidframework.util.network.RetrofitHelper;
 import com.jackgu.androidframework.util.network.service.DownLoadFileService;
 
@@ -39,7 +40,14 @@ public class DownLoadFileUtil {
         String strs[] = url.split("/");
         String name = filePath + "/" + strs[strs.length - 1];
 
-        RetrofitHelper.getInstance().createService(DownLoadFileService.class).downloadFile
+        RetrofitDownloadHelper retrofitDownloadHelper = new RetrofitDownloadHelper((
+                bytesRead, contentLength, done) -> {
+            if (fileDownLoadCallBack != null) {
+                fileDownLoadCallBack.callBack(bytesRead, contentLength, done);
+            }
+        });
+
+        retrofitDownloadHelper.getsRetrofit().create(DownLoadFileService.class).downloadFile
                 (url).enqueue(new Callback<ResponseBody>() {
 
             @Override
@@ -152,5 +160,6 @@ public class DownLoadFileUtil {
 
     public interface FileDownLoadCallBack {
         void callBack(String msg, boolean success);
+        void callBack(long bytesRead, long contentLength, boolean done);
     }
 }

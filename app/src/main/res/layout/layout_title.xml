@@ -11,7 +11,7 @@
         android:id="@+id/buttonLayout_back"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2">
+        android:layout_weight="0.3">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
-        android:layout_weight="0.6"
+        android:layout_weight="0.4"
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
@@ -60,7 +60,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_weight="0.3"
         android:gravity="right">
 
         <com.jackgu.androidframework.view.ButtonLayout

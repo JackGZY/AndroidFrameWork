@@ -26,12 +26,7 @@ public class RetrofitHelper {
     private static volatile RetrofitHelper instance = null;
 
     private RetrofitHelper() {
-        builder = new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor(
-                (bytesRead, contentLength, done) -> {
-                    //这里发送事件
-                    EventBus.getDefault().post(new DownloadFileMessageEvent(bytesRead, contentLength,
-                            done));
-                }));
+        builder = new OkHttpClient.Builder();
 
         OkHttpClient client = builder
                 .retryOnConnectionFailure(true)

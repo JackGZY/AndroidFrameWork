@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.DrawerLayoutActivity"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities=".fileprovider"

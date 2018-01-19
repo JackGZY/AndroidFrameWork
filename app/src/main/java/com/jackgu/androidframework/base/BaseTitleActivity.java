@@ -16,21 +16,26 @@ import butterknife.BindView;
  */
 
 public abstract class BaseTitleActivity extends BaseActivity {
+    @BindView(R.id.buttonLayout_back)
     protected ButtonLayout buttonLayout_back;
+    @BindView(R.id.buttonLayout_more)
     protected ButtonLayout buttonLayout_more;
+    @BindView(R.id.moreText)
     protected TextView moreText;
+    @BindView(R.id.leftText)
     protected TextView leftText;
+    @BindView(R.id.title)
     protected TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        buttonLayout_back = findViewById(R.id.buttonLayout_back);
-        buttonLayout_more = findViewById(R.id.buttonLayout_more);
-        moreText = findViewById(R.id.moreText);
-        leftText = findViewById(R.id.leftText);
-        title = findViewById(R.id.title);
+//        buttonLayout_back = findViewById(R.id.buttonLayout_back);
+//        buttonLayout_more = findViewById(R.id.buttonLayout_more);
+//        moreText = findViewById(R.id.moreText);
+//        leftText = findViewById(R.id.leftText);
+//        title = findViewById(R.id.title);
 
 
         buttonLayout_more.setVisibility(View.GONE);
@@ -47,6 +52,17 @@ public abstract class BaseTitleActivity extends BaseActivity {
         this.leftText.setText(title);
     }
 
+
+    /**
+     * 设置左边的返回不可见
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/1/19
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setBackVisibility(boolean backVisibility) {
+        buttonLayout_back.setVisibility(backVisibility ? View.INVISIBLE : View.VISIBLE);
+    }
 
     public void setRightTitle(String title, View.OnClickListener onClickListener) {
         this.moreText.setText(title);
