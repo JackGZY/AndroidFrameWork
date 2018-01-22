@@ -123,7 +123,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
         } else if (o instanceof Integer) {
             drawerView = LayoutInflater.from(mContext).inflate((int) o, null);
         }
-        if (contentView != null) {
+        if (drawerView != null) {
             DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup
                     .LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = drawerFromGravity();//不设置这个不得行，因为源码是根据左右判断的

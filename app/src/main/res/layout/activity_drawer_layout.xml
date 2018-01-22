@@ -8,7 +8,6 @@
     android:background="@color/theme"
     android:orientation="vertical">
 
-
     <com.jackgu.androidframework.view.ButtonHaveSelect
         android:id="@+id/open"
         android:layout_width="match_parent"

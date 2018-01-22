@@ -4,6 +4,7 @@ import android.Manifest;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.jackgu.androidframework.R;
@@ -15,6 +16,7 @@ import com.jackgu.androidframework.eventAction.DownloadFileMessageEvent;
 import com.jackgu.androidframework.util.DownLoadFileUtil;
 import com.jackgu.androidframework.util.GlideUtil;
 import com.jackgu.androidframework.util.LoggerUtil;
+import com.jackgu.androidframework.util.StringUtils;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.util.db.GreenDaoUtil;
 import com.jackgu.androidframework.util.network.DefaultSubscriber;
@@ -56,17 +58,21 @@ public class MainActivity extends BaseTitleActivity {
     protected ImageView imageView9;
     @BindView(R.id.imageView10)
     protected ImageView imageView10;
-
-    private static final String PATH = "https://timgsa.baidu" +
-            ".com/timg?image&quality=80&size=b9999_10000&sec=1515732084256&di" +
-            "=3e7468d937f2c3c26ac0c959f59784e6&imgtype=0&src=http%3A%2F%2Fwww.bumimi" +
-            ".com%2Fuploads%2Fvod%2F2017-11-13%2F5a09508e6d43d.jpg";
     @BindView(R.id.myButton)
     ButtonHaveSelect myButton;
     @BindView(R.id.buttonHaveSelect)
     ButtonHaveSelect buttonHaveSelect;
     @BindView(R.id.buttonHaveSelect1)
     ButtonHaveSelect buttonHaveSelect1;
+    @BindView(R.id.editText)
+    EditText editText;
+    @BindView(R.id.buttonHaveSelect2)
+    ButtonHaveSelect buttonHaveSelect2;
+
+    private static final String PATH = "https://timgsa.baidu" +
+            ".com/timg?image&quality=80&size=b9999_10000&sec=1515732084256&di" +
+            "=3e7468d937f2c3c26ac0c959f59784e6&imgtype=0&src=http%3A%2F%2Fwww.bumimi" +
+            ".com%2Fuploads%2Fvod%2F2017-11-13%2F5a09508e6d43d.jpg";
 
     @Override
     protected int getLayout() {
@@ -105,7 +111,8 @@ public class MainActivity extends BaseTitleActivity {
         title.setText("测试的标题这里是主页");
 
 
-        buttonHaveSelect1.setOnClickListener(v -> turnActivity(DrawerLayoutActivity.class, false, null));
+        buttonHaveSelect1.setOnClickListener(v -> turnActivity(DrawerLayoutActivity.class, false,
+                null));
 
         myButton.setOnClickListener(v -> {
             List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
@@ -127,6 +134,10 @@ public class MainActivity extends BaseTitleActivity {
         });
 
 
+        buttonHaveSelect2.setOnClickListener(v -> {
+
+        });
+
         buttonHaveSelect.setOnClickListener(v -> {
             //这里是需要文件的全路径
             DownLoadFileUtil.downLoadFile
@@ -135,10 +146,8 @@ public class MainActivity extends BaseTitleActivity {
                             .FileDownLoadCallBack() {
                         @Override
                         public void callBack(String msg, boolean success) {
-                            LoggerUtil.e("msg =" + msg);
                             DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
-                                            .ic_launcher_round,
-                                    1, 1, success);
+                                    .ic_launcher_round, 1, 1, success);
                         }
 
                         @Override
@@ -146,8 +155,7 @@ public class MainActivity extends BaseTitleActivity {
                             LoggerUtil.e("bytesRead= " + bytesRead + ",contentLength= " +
                                     contentLength);
                             DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
-                                            .ic_launcher_round,
-                                    bytesRead, contentLength, true);
+                                    .ic_launcher_round, bytesRead, contentLength, true);
                         }
                     });
         });

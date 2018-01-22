@@ -56,6 +56,22 @@
                 android:textColor="@color/white"
                 app:buttonLayout_rippleRoundedCorners="5dp"/>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/editText"
+                android:layout_height="wrap_content"/>
+
+            <com.jackgu.androidframework.view.ButtonHaveSelect
+                android:id="@+id/buttonHaveSelect2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/theme_shape"
+                android:padding="10dp"
+                android:text="侧边栏activity"
+                android:textColor="@color/white"
+                app:buttonLayout_rippleRoundedCorners="5dp"/>
+
 
 
             <LinearLayout

@@ -37,8 +37,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by Marno on 2016/7/18/10:24.
- * All Activity base class
+ * @Author: JACK-GU
+ * @Date: 2018/1/22
+ * @E-Mail: 528489389@qq.com
  */
 public abstract class BaseActivity extends RxActivity {
     protected Activity mContext;
