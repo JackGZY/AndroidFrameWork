@@ -99,7 +99,6 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
                 .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         drawerLayout.setLayoutParams(drawerLayoutLayoutParams);
 
-
         //这里就需要加入两个view，第一个是内容，第二个是drawerLayout的内容
         Object o = getContentView();
         View contentView = null;
@@ -114,7 +113,6 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
             contentView.setLayoutParams(layoutParams);
             drawerLayout.addView(contentView, 0);
         }
-
 
         o = getDrawerView();
         View drawerView = null;

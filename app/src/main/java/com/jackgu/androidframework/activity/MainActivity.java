@@ -4,8 +4,9 @@ import android.Manifest;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.base.BaseTitleActivity;
@@ -16,7 +17,6 @@ import com.jackgu.androidframework.eventAction.DownloadFileMessageEvent;
 import com.jackgu.androidframework.util.DownLoadFileUtil;
 import com.jackgu.androidframework.util.GlideUtil;
 import com.jackgu.androidframework.util.LoggerUtil;
-import com.jackgu.androidframework.util.StringUtils;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.util.db.GreenDaoUtil;
 import com.jackgu.androidframework.util.network.DefaultSubscriber;
@@ -32,8 +32,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -64,10 +67,10 @@ public class MainActivity extends BaseTitleActivity {
     ButtonHaveSelect buttonHaveSelect;
     @BindView(R.id.buttonHaveSelect1)
     ButtonHaveSelect buttonHaveSelect1;
-    @BindView(R.id.editText)
-    EditText editText;
     @BindView(R.id.buttonHaveSelect2)
     ButtonHaveSelect buttonHaveSelect2;
+    @BindView(R.id.buttonHaveSelect3)
+    ButtonHaveSelect buttonHaveSelect3;
 
     private static final String PATH = "https://timgsa.baidu" +
             ".com/timg?image&quality=80&size=b9999_10000&sec=1515732084256&di" +
@@ -107,6 +110,7 @@ public class MainActivity extends BaseTitleActivity {
             }
         });
 
+
         setBackVisibility(true);
         title.setText("测试的标题这里是主页");
 
@@ -135,7 +139,25 @@ public class MainActivity extends BaseTitleActivity {
 
 
         buttonHaveSelect2.setOnClickListener(v -> {
+            showProgressDialog("测试的消息很长的那种消息哦，超过屏幕一半了的！");
 
+            //三秒后消失
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new TimerTask() {
+                        @Override
+                        public void run() {
+                            closeProgressDialog();
+                        }
+                    });
+                }
+            }, 3000);
+        });
+
+        buttonHaveSelect3.setOnClickListener(v -> {
+            turnActivity(FragmentTestActivity.class, false, null);
         });
 
         buttonHaveSelect.setOnClickListener(v -> {
@@ -177,8 +199,8 @@ public class MainActivity extends BaseTitleActivity {
         GlideUtil.loadRound("", imageView8);
 
 
-        DefaultRepository.getInstance().submit(TestService.class, Test.class,
-                "get", new HashMap<>()).subscribe(new DefaultSubscriber<Test>() {
+        DefaultRepository.getInstance().submit(TestService.class, Test.class, "get", new
+                HashMap<>()).subscribe(new DefaultSubscriber<Test>() {
             @Override
             public void _onNext(Test entity) {
                 LoggerUtil.e(entity.toString());
@@ -195,17 +217,15 @@ public class MainActivity extends BaseTitleActivity {
     protected void viewDrawFinished() {
         super.viewDrawFinished();
         LoggerUtil.e("绘制页面完成回调");
-
         LoggerUtil.e("Width:" + myButton.getWidth() + ",Height:" + myButton.getHeight());
-
     }
 
     //这里用eventbus订阅进度,一定要切换到主线程，如果有UI方面的操作
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(DownloadFileMessageEvent downloadFileMessageEvent) {
         LoggerUtil.e("bytesRead:" + downloadFileMessageEvent.bytesRead + ",contentLength:" +
-                downloadFileMessageEvent.contentLength + "," +
-                "done=" + downloadFileMessageEvent.done);
+                downloadFileMessageEvent.contentLength + "," + "done=" + downloadFileMessageEvent
+                .done);
         if (downloadFileMessageEvent.done)
             ToastUtil.showLongMessage("下载完成!");
     }

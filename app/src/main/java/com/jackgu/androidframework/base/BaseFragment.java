@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,13 @@ public abstract class BaseFragment extends RxFragment {
      * 在初始化视图前做一些操作
      */
     protected void beforeInitView() {
+        //这个得原理是，在Activity的绘制完成后，当前就是一个空的消息队列，这个时候就会调用addIdleHandler，
+        Looper.myQueue().addIdleHandler(() -> {
+            //这里可以回调方法
+            viewDrawFinished();
+            //返回false表示只调用一次，下次队列为空的时候不会调用，
+            return false;
+        });
     }
 
 
@@ -110,6 +118,20 @@ public abstract class BaseFragment extends RxFragment {
             mContext.finish();
         }
     }
+
+
+    /**
+     * 当fragment绘制完成了的回调，在这里你可以获得高度宽度等等，或者更改布局等等，不会触发再次调用的
+     * ，是晚于activity的
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/1/19
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void viewDrawFinished() {
+
+    }
+
 
     /**
      * 显示进度对话框,带有消息

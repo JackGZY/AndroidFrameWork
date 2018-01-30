@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.MessageQueue;
+import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -98,7 +99,7 @@ public abstract class BaseActivity extends RxActivity {
     }
 
     /**
-     * 当Activity绘制完成了的回调，在这里你可以获得高度宽度
+     * 当Activity绘制完成了的回调，在这里你可以获得高度宽度等等，或者更改布局等等，不会触发再次调用的
      *
      * @Author: JACK-GU
      * @Date: 2018/1/19
@@ -152,7 +153,7 @@ public abstract class BaseActivity extends RxActivity {
      * @param bundle   不需要传参数的时候传入空即可
      * @author GZY
      */
-    protected void turnActivity(Class class1, boolean isFinish, Bundle bundle) {
+    protected void turnActivity(@NonNull Class class1, @NonNull boolean isFinish, Bundle bundle) {
         Intent intent = new Intent();
         intent.setClass(this, class1);
         if (bundle != null) {
@@ -208,6 +209,7 @@ public abstract class BaseActivity extends RxActivity {
      */
     protected void showProgressDialog(String message) {
         loadingDialog.show();
+        loadingDialog.setMessage(message);
     }
 
     /**
@@ -241,8 +243,8 @@ public abstract class BaseActivity extends RxActivity {
      * @param RequestCode 请求码
      * @author GZY
      */
-    protected void turnActivityForResult(Class class1, boolean isFinish, Bundle bundle, int
-            RequestCode) {
+    protected void turnActivityForResult(@NonNull Class class1, @NonNull boolean isFinish, Bundle
+            bundle, @NonNull int RequestCode) {
         Intent intent = new Intent();
         intent.setClass(this, class1);
         if (bundle != null) {
@@ -309,6 +311,7 @@ public abstract class BaseActivity extends RxActivity {
         void callBack(boolean success, List<String> permissions);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -360,6 +363,10 @@ public abstract class BaseActivity extends RxActivity {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
     /**
      * return true if permission is declined, false otherwise.

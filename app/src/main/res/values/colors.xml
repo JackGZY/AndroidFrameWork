@@ -3,17 +3,16 @@
     <color name="colorPrimary">@color/theme</color>
     <color name="colorPrimaryDark">@color/theme</color>
     <color name="colorAccent">@color/theme</color>
-
-
     <color name="theme">#3F51B5</color>
 
     <color name="gray">#8a8a8a</color>
     <color name="orange">#FF4500</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#242424</color>
+    <color name="black">#000000</color>
     <color name="bg">#ECEDF1</color>
     <color name="red">#FF0000</color>
-    <color name="text_gray">#333333</color>
+    <color name="text_color">#333333</color>
+    <color name="transparent">#00000000</color>
 
 
 </resources>

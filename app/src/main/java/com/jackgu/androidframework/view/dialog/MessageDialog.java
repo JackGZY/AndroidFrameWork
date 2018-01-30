@@ -293,7 +293,7 @@ public class MessageDialog extends Dialog {
         textViewContent.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
                 (R.dimen.textSize_normal)));
         textViewContent.setPadding(padding, 0, padding, padding);
-        textViewContent.setTextColor(context.getResources().getColor(R.color.text_gray));
+        textViewContent.setTextColor(context.getResources().getColor(R.color.text_color));
         rootLinearLayout.addView(textViewContent);
 
         //一条线

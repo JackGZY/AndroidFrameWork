@@ -242,7 +242,7 @@ public class SelectDialog extends Dialog {
 
         textView.setPadding(padding, padding, padding, padding);
         if (selectItem.getColor() == 0) {
-            textView.setTextColor(context.getResources().getColor(R.color.text_gray));
+            textView.setTextColor(context.getResources().getColor(R.color.text_color));
         } else {
             textView.setTextColor(selectItem.getColor());
         }
