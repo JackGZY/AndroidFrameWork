@@ -26,7 +26,6 @@ public interface AppConfig {
     //数据库名字
     String DB_NAME = "AndroidFramework.db";
 
-
     //文件夹的名字
     String FILE_NAME = "AndroidFramework";
     //文件的路径基础

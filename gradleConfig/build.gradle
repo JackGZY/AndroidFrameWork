@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        debug {
+            keyAlias 'jackgu'
+            keyPassword '142234'
+            storeFile file('/Volumes/MacFile/项目/AndroidProject/TestGradle/debug.jks')
+            storePassword '142234'
+        }
+        release {
+            keyAlias 'jackgu'
+            keyPassword '142234'
+            storeFile file('/Volumes/MacFile/项目/AndroidProject/TestGradle/release.jks')
+            storePassword '142234'
+        }
+    }
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "jackgu.com.testgradle"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                            def timeStamp = new Date().format('yyyy年MM月dd日HH时mm分ss秒');
+                            def fileName = timeStamp + " " + "V${defaultConfig.versionName}发布版本" + ".apk";
+                            output.outputFile = file("${outputFile.parent}/${fileName}")
+                        }
+                    }
+            }
+        }
+        debug {
+            signingConfig signingConfigs.debug
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
+                        def timeStamp = new Date().format('yyyy年MM月dd日HH时mm分ss秒');
+                        def fileName = timeStamp + " " + "V${VERSION}debug版本" + ".apk";
+                        output.outputFile = file("${outputFile.parent}/${fileName}")
+                    }
+                }
+            }
+        }
+    }
+
+    productFlavors {
+        oneFlavor {
+            minSdkVersion 21
+            applicationId 'com.jackgu.testGradle2'
+            targetSdkVersion 26
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+            buildConfigField "int", "TYPE", "1"
+        }
+
+        twoFlavor {
+            minSdkVersion 21
+            applicationId 'com.jackgu.testGradle'
+            targetSdkVersion 26
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 1
+            versionName '1.0'
+            buildConfigField "int", "TYPE", "1"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}

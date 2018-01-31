@@ -21,8 +21,21 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            //是否进行混淆
+            minifyEnabled true
+            //去除没有用到的资源文件，要求minifyEnabled为true才生效
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                        def timeStamp = new Date().format('yyyy年MM月dd日HH时mm分ss秒');
+                        def fileName = timeStamp + " " + "V${defaultConfig.versionName}发布版本" + ".apk";
+                        output.outputFile = file("${outputFile.parent}/${fileName}")
+                    }
+                }
+            }
         }
     }
     externalNativeBuild {
