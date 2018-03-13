@@ -60,9 +60,28 @@ abstract class RxActivity extends FragmentActivity {
 
     @NonNull
     public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final RxLifeEvent event) {
+        /*return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> sourceObservable) {
+                //发射满足条件的第一条数据
+                Observable<RxLifeEvent> compareLifecycleObservable =
+                        lifecycleSubject.takeFirst(new Func1<RxLifeEvent, Boolean>() {
+                            @Override
+                            public Boolean call(RxLifeEvent activityLifeCycleEvent) {
+                                return activityLifeCycleEvent.equals(event);
+                            }
+                        });
+                //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
+                return sourceObservable.takeUntil(compareLifecycleObservable);
+            }
+        };*/
+
         return sourceObservable -> {
+            //发射满足条件的第一条数据
             Observable<RxLifeEvent> compareLifecycleObservable =
-                    lifecycleSubject.takeFirst(activityLifeCycleEvent -> activityLifeCycleEvent.equals(event));
+                    lifecycleSubject.takeFirst(activityLifeCycleEvent -> activityLifeCycleEvent
+                            .equals(event));
+            //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
             return sourceObservable.takeUntil(compareLifecycleObservable);
         };
     }

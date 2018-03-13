@@ -40,7 +40,6 @@
         </LinearLayout>
     </com.jackgu.androidframework.view.ButtonLayout>
 
-
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
@@ -76,7 +75,6 @@
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_margin"
                 android:paddingRight="@dimen/activity_margin">
-
 
                 <TextView
                     android:id="@+id/moreText"

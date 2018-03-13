@@ -1,13 +1,20 @@
 package com.jackgu.androidframework.activity;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.jackgu.androidframework.BuildConfig;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.base.BaseTitleActivity;
 import com.jackgu.androidframework.config.AppConfig;
@@ -18,11 +25,13 @@ import com.jackgu.androidframework.util.DownLoadFileUtil;
 import com.jackgu.androidframework.util.GlideUtil;
 import com.jackgu.androidframework.util.LoggerUtil;
 import com.jackgu.androidframework.util.ToastUtil;
+import com.jackgu.androidframework.util.compress.CompressUtil;
 import com.jackgu.androidframework.util.db.GreenDaoUtil;
 import com.jackgu.androidframework.util.network.DefaultSubscriber;
 import com.jackgu.androidframework.util.network.repository.DefaultRepository;
 import com.jackgu.androidframework.util.network.service.TestService;
 import com.jackgu.androidframework.view.ButtonHaveSelect;
+import com.jackgu.androidframework.view.TitleBarLayout;
 import com.jackgu.androidframework.view.dialog.SelectDialog;
 import com.jackgu.androidframework.view.notification.DownLoadNotificationUtil;
 
@@ -39,6 +48,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import rx.Subscriber;
 
 public class MainActivity extends BaseTitleActivity {
     @BindView(R.id.imageView1)
@@ -71,6 +81,8 @@ public class MainActivity extends BaseTitleActivity {
     ButtonHaveSelect buttonHaveSelect2;
     @BindView(R.id.buttonHaveSelect3)
     ButtonHaveSelect buttonHaveSelect3;
+    @BindView(R.id.buttonHaveSelect4)
+    ButtonHaveSelect buttonHaveSelect4;
 
     private static final String PATH = "https://timgsa.baidu" +
             ".com/timg?image&quality=80&size=b9999_10000&sec=1515732084256&di" +
@@ -84,9 +96,10 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
         //请求权限
-        checkPermission((success, strings) -> {
+        checkPermission((success, strings) ->
+
+        {
             if (success) {
                 //创建文件
                 File file = new File(AppConfig.DATA_BASE_FILE);
@@ -112,13 +125,17 @@ public class MainActivity extends BaseTitleActivity {
 
 
         setBackVisibility(true);
-        title.setText("测试的标题这里是主页");
+        setTitle("测试的标题这里是主页");
 
 
-        buttonHaveSelect1.setOnClickListener(v -> turnActivity(DrawerLayoutActivity.class, false,
-                null));
+        buttonHaveSelect1.setOnClickListener(v ->
 
-        myButton.setOnClickListener(v -> {
+                turnActivity(DrawerLayoutActivity.class, false,
+                        null));
+
+        myButton.setOnClickListener(v ->
+
+        {
             List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
             selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
             selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
@@ -138,7 +155,9 @@ public class MainActivity extends BaseTitleActivity {
         });
 
 
-        buttonHaveSelect2.setOnClickListener(v -> {
+        buttonHaveSelect2.setOnClickListener(v ->
+
+        {
             showProgressDialog("测试的消息很长的那种消息哦，超过屏幕一半了的！");
 
             //三秒后消失
@@ -156,11 +175,34 @@ public class MainActivity extends BaseTitleActivity {
             }, 3000);
         });
 
-        buttonHaveSelect3.setOnClickListener(v -> {
+        buttonHaveSelect3.setOnClickListener(v ->
+
+        {
             turnActivity(FragmentTestActivity.class, false, null);
         });
 
-        buttonHaveSelect.setOnClickListener(v -> {
+
+        buttonHaveSelect4.setOnClickListener(v ->
+
+        {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri uri = null;
+            File file = new File(AppConfig.DATA_BASE_FILE + "/1.jpg");
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                uri = Uri.fromFile(file);
+            } else {
+                String s = BuildConfig.APPLICATION_ID + ".fileprovider";
+                uri = FileProvider.getUriForFile(mContext, s, file);
+                //添加权限
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(intent, 1);
+        });
+
+        buttonHaveSelect.setOnClickListener(v ->
+
+        {
             //这里是需要文件的全路径
             DownLoadFileUtil.downLoadFile
                     ("http://101.204.240.105:50203/bizmodules/templates/app/lt" +
@@ -199,18 +241,22 @@ public class MainActivity extends BaseTitleActivity {
         GlideUtil.loadRound("", imageView8);
 
 
-        DefaultRepository.getInstance().submit(TestService.class, Test.class, "get", new
-                HashMap<>()).subscribe(new DefaultSubscriber<Test>() {
-            @Override
-            public void _onNext(Test entity) {
-                LoggerUtil.e(entity.toString());
-            }
+        DefaultRepository.getInstance().
 
-            @Override
-            public void _onError(String msg) {
-                LoggerUtil.e(msg);
-            }
-        });
+                submit(TestService.class, Test.class, "get", new
+                        HashMap<>()).
+
+                subscribe(new DefaultSubscriber<Test>() {
+                    @Override
+                    public void _onNext(Test entity) {
+                        LoggerUtil.e(entity.toString());
+                    }
+
+                    @Override
+                    public void _onError(String msg) {
+                        LoggerUtil.e(msg);
+                    }
+                });
     }
 
     @Override
@@ -240,5 +286,29 @@ public class MainActivity extends BaseTitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            File file = new File(AppConfig.DATA_BASE_FILE + "/1.jpg");
+            CompressUtil.compress(file.getAbsolutePath(), true).subscribe(new Subscriber<String>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    LoggerUtil.e("压缩失败");
+                }
+
+                @Override
+                public void onNext(String s) {
+                    LoggerUtil.e("压缩成功，地址：" + s);
+                }
+            });
+        }
     }
 }

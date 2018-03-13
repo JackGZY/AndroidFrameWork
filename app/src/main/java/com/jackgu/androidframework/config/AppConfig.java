@@ -22,6 +22,7 @@ public interface AppConfig {
     //需要的权限,注意配置文件需要权限，不然不会弹出来
     String[] PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_FINE_LOCATION};
     //数据库名字
     String DB_NAME = "AndroidFramework.db";

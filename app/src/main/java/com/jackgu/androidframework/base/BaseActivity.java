@@ -1,5 +1,6 @@
 package com.jackgu.androidframework.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -110,6 +112,19 @@ public abstract class BaseActivity extends RxActivity {
     }
 
 
+    /**
+     * 是否开启透明状态栏
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/1/19
+     * @E-Mail: 528489389@qq.com
+     */
+    public boolean isTranslucentStatus() {
+        return true;
+    }
+
+
+
     protected abstract void initView(Bundle savedInstanceState);
 
 
@@ -121,6 +136,11 @@ public abstract class BaseActivity extends RxActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isTranslucentStatus()) {
+            setTranslucentStatus(true);
+        }
+
         mContext = this;
         loadingDialog = new LoadingDialog(mContext);
 
@@ -140,6 +160,7 @@ public abstract class BaseActivity extends RxActivity {
         } else {
             setContentView(view);
         }
+
         mUnbinder = ButterKnife.bind(this);
         beforeInitView();
         initView(savedInstanceState);
@@ -400,4 +421,17 @@ public abstract class BaseActivity extends RxActivity {
         return isPermissionDeclined(permission) && !isExplanationNeeded(permission);
     }
 
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
 }

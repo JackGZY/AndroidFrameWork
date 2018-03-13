@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"/>
 
+    <com.jackgu.androidframework.view.TitleBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -77,6 +76,19 @@
                 android:text="测试fragment"
                 android:textColor="@color/white"
                 app:buttonLayout_rippleRoundedCorners="5dp"/>
+
+
+            <com.jackgu.androidframework.view.ButtonHaveSelect
+                android:id="@+id/buttonHaveSelect4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/theme_shape"
+                android:padding="10dp"
+                android:text="先拍照，在压缩图片"
+                android:textColor="@color/white"
+                app:buttonLayout_rippleRoundedCorners="5dp"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

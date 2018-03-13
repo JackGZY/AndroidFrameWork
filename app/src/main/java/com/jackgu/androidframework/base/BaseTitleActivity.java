@@ -1,55 +1,68 @@
 package com.jackgu.androidframework.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jackgu.androidframework.R;
+import com.jackgu.androidframework.util.LoggerUtil;
 import com.jackgu.androidframework.view.ButtonLayout;
+import com.jackgu.androidframework.view.TitleBarLayout;
 
 import butterknife.BindView;
 
 /**
+ * xml中必须有com.jackgu.androidframework.view.TitleBarLayout
+ *
  * @Author: JACK-GU
  * @Date: 2018/1/11 15:55
  * @E-Mail: 528489389@qq.com
  */
 
 public abstract class BaseTitleActivity extends BaseActivity {
-    @BindView(R.id.buttonLayout_back)
-    protected ButtonLayout buttonLayout_back;
-    @BindView(R.id.buttonLayout_more)
-    protected ButtonLayout buttonLayout_more;
-    @BindView(R.id.moreText)
-    protected TextView moreText;
-    @BindView(R.id.leftText)
-    protected TextView leftText;
-    @BindView(R.id.title)
-    protected TextView title;
+    protected TitleBarLayout titleBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        buttonLayout_back = findViewById(R.id.buttonLayout_back);
-//        buttonLayout_more = findViewById(R.id.buttonLayout_more);
-//        moreText = findViewById(R.id.moreText);
-//        leftText = findViewById(R.id.leftText);
-//        title = findViewById(R.id.title);
-
-
-        buttonLayout_more.setVisibility(View.GONE);
-        buttonLayout_back.setOnClickListener(v -> {
+        titleBarLayout.getButtonLayout_more().setVisibility(View.GONE);
+        titleBarLayout.getButtonLayout_back().setOnClickListener(v -> {
             finish();
         });
     }
 
+    @Override
+    protected void beforeInitView() {
+        super.beforeInitView();
+
+
+        ViewGroup view = (ViewGroup) getWindow().getDecorView();
+        ViewGroup viewGroup = view.findViewById(android.R.id.content);
+        View view1 = viewGroup.getChildAt(0);
+        if (view1 instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view1).getChildCount(); i++) {
+                if (((ViewGroup) view1).getChildAt(i) instanceof TitleBarLayout) {
+                    titleBarLayout = (TitleBarLayout) ((ViewGroup) view1).getChildAt(i);
+                    LoggerUtil.e("找到了titleBarLayout= " + titleBarLayout.toString());
+                    break;
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isTranslucentStatus()) {
+            titleBarLayout.setTranslucentStatus();
+        }
+
+    }
+
     public void setTitle(String title) {
-        this.title.setText(title);
+        titleBarLayout.getTitle().setText(title);
     }
 
     public void setleftTitle(String title) {
-        this.leftText.setText(title);
+        titleBarLayout.getLeftText().setText(title);
     }
 
 
@@ -61,14 +74,15 @@ public abstract class BaseTitleActivity extends BaseActivity {
      * @E-Mail: 528489389@qq.com
      */
     public void setBackVisibility(boolean backVisibility) {
-        buttonLayout_back.setVisibility(backVisibility ? View.INVISIBLE : View.VISIBLE);
+        titleBarLayout.getButtonLayout_back().setVisibility(backVisibility ? View.INVISIBLE :
+                View.VISIBLE);
     }
 
     public void setRightTitle(String title, View.OnClickListener onClickListener) {
-        this.moreText.setText(title);
-        buttonLayout_more.setVisibility(View.VISIBLE);
+        titleBarLayout.getMoreText().setText(title);
+        titleBarLayout.getButtonLayout_more().setVisibility(View.VISIBLE);
         if (onClickListener != null) {
-            buttonLayout_more.setOnClickListener(onClickListener);
+            titleBarLayout.getButtonLayout_more().setOnClickListener(onClickListener);
         }
     }
 }
