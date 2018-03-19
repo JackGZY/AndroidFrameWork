@@ -17,6 +17,6 @@
         android:padding="@dimen/activity_margin"
         android:text="打开侧边栏"
         android:textColor="@color/white"
-        app:buttonLayout_rippleRoundedCorners="5dp"/>
+        app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 </LinearLayout>

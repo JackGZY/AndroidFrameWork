@@ -2,7 +2,6 @@ package com.jackgu.androidframework.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -11,12 +10,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.MessageQueue;
-import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,7 +21,6 @@ import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.config.ConstCode;
 import com.jackgu.androidframework.enums.MessageDialogType;
-import com.jackgu.androidframework.util.LoggerUtil;
 import com.jackgu.androidframework.util.SystemBarTintManager;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.view.dialog.LoadingDialog;
@@ -36,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -368,7 +362,7 @@ public abstract class BaseActivity extends RxActivity {
                 MessageDialog messageDialog = new MessageDialog(this, MessageDialogType.ONE_BUTTON);
                 messageDialog.show();
                 messageDialog.setContent(getResources().getString(R.string
-                        .permissionReallyDeclined));
+                        .permission_really_declined));
                 messageDialog.getCenterButton().getTextView().setText(getResources().getString(R
                         .string.i_know));
                 messageDialog.setOneButtonClickListener(v -> {
@@ -381,7 +375,7 @@ public abstract class BaseActivity extends RxActivity {
                     //说明有没同意的权限
                     //提示用户
                     ToastUtil.showShortMessage(getResources().getString(R.string
-                            .permissionDeclined));
+                            .permission_declined));
                     if (callBack != null)
                         callBack.callBack(false, strings);
                 } else {

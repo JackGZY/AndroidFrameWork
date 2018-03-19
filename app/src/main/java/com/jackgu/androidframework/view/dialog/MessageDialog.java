@@ -276,7 +276,7 @@ public class MessageDialog extends Dialog {
 
         textViewTitle.setText(context.getResources().getText(R.string.message_dialog_title));
         textViewTitle.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.textSize_big)));
+                (R.dimen.text_size_big)));
         textViewTitle.setGravity(Gravity.CENTER);
         textViewTitle.setPadding(padding, padding, padding, padding);
         textViewTitle.setTextColor(context.getResources().getColor(R.color.theme));
@@ -291,7 +291,7 @@ public class MessageDialog extends Dialog {
 //        textViewContent.setGravity(Gravity.CENTER);
         textViewContent.setText(context.getResources().getText(R.string.message_dialog_content));
         textViewContent.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.textSize_normal)));
+                (R.dimen.text_size_normal)));
         textViewContent.setPadding(padding, 0, padding, padding);
         textViewContent.setTextColor(context.getResources().getColor(R.color.text_color));
         rootLinearLayout.addView(textViewContent);
@@ -344,7 +344,7 @@ public class MessageDialog extends Dialog {
             leftButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_left_button));
             leftButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.textSize_normal)));
+                    .getDimension(R.dimen.text_size_normal)));
             leftButton.getTextView().setTextColor(context.getResources().getColor(R.color.theme));
             leftButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
@@ -372,7 +372,7 @@ public class MessageDialog extends Dialog {
             centerButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_center_button));
             centerButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.textSize_normal)));
+                    .getDimension(R.dimen.text_size_normal)));
             centerButton.getTextView().setTextColor(context.getResources().getColor(R.color.black));
             centerButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
@@ -410,7 +410,7 @@ public class MessageDialog extends Dialog {
             rightButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_right_button));
             rightButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.textSize_normal)));
+                    .getDimension(R.dimen.text_size_normal)));
             rightButton.getTextView().setTextColor(context.getResources().getColor(R.color.gray));
             rightButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams

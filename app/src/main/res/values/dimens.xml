@@ -1,8 +1,8 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="textSize_normal">16sp</dimen>
-    <dimen name="textSize_big">18sp</dimen>
-    <dimen name="textSize_small">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_big">18sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
     <dimen name="activity_margin">8dp</dimen>
     <dimen name="view_driver">1px</dimen>
     <dimen name="title_height">48dp</dimen>

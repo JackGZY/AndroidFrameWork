@@ -30,7 +30,7 @@
                 android:padding="10dp"
                 android:text="测试按钮"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
             <com.jackgu.androidframework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect"
@@ -41,7 +41,7 @@
                 android:padding="10dp"
                 android:text="软件更新测试"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 
             <com.jackgu.androidframework.view.ButtonHaveSelect
@@ -53,7 +53,7 @@
                 android:padding="10dp"
                 android:text="侧边栏activity"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
             <com.jackgu.androidframework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect2"
@@ -64,7 +64,7 @@
                 android:padding="10dp"
                 android:text="netWork dialog"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
             <com.jackgu.androidframework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect3"
@@ -75,7 +75,7 @@
                 android:padding="10dp"
                 android:text="测试fragment"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 
             <com.jackgu.androidframework.view.ButtonHaveSelect
@@ -87,7 +87,7 @@
                 android:padding="10dp"
                 android:text="先拍照，在压缩图片"
                 android:textColor="@color/white"
-                app:buttonLayout_rippleRoundedCorners="5dp"/>
+                app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 
             <LinearLayout

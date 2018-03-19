@@ -155,24 +155,27 @@ public class MainActivity extends BaseTitleActivity {
         });
 
 
-        buttonHaveSelect2.setOnClickListener(v ->
+        buttonHaveSelect2.setOnClickListener(v -> {
+//            showProgressDialog("测试的消息很长的那种消息哦，超过屏幕一半了的！");
+//
+//            //三秒后消失
+//            Timer timer = new Timer();
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    runOnUiThread(new TimerTask() {
+//                        @Override
+//                        public void run() {
+//                            closeProgressDialog();
+//                        }
+//                    });
+//                }
+//            }, 3000);
 
-        {
-            showProgressDialog("测试的消息很长的那种消息哦，超过屏幕一半了的！");
-
-            //三秒后消失
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new TimerTask() {
-                        @Override
-                        public void run() {
-                            closeProgressDialog();
-                        }
-                    });
-                }
-            }, 3000);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, 1);
         });
 
         buttonHaveSelect3.setOnClickListener(v ->

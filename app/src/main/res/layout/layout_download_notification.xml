@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="软件更新下载"
                 android:textColor="@color/theme"
-                android:textSize="@dimen/textSize_normal"/>
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/percentage"
@@ -40,7 +40,7 @@
                 android:gravity="right"
                 android:text="0%"
                 android:textColor="@color/theme"
-                android:textSize="@dimen/textSize_small"/>
+                android:textSize="@dimen/text_size_small"/>
         </LinearLayout>
 
 
@@ -69,7 +69,7 @@
                 android:gravity="right"
                 android:text="0/0"
                 android:textColor="@color/text_color"
-                android:textSize="@dimen/textSize_small"/>
+                android:textSize="@dimen/text_size_small"/>
         </RelativeLayout>
     </LinearLayout>
 

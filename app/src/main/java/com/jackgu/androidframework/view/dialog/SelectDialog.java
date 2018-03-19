@@ -163,7 +163,7 @@ public class SelectDialog extends Dialog {
 
         textViewTitle.setText(context.getResources().getText(R.string.message_dialog_title));
         textViewTitle.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.textSize_big)));
+                (R.dimen.text_size_big)));
         textViewTitle.setPadding(padding, padding, padding, padding);
         textViewTitle.setTextColor(context.getResources().getColor(R.color.theme));
         rootLinearLayout.addView(textViewTitle);
@@ -178,7 +178,7 @@ public class SelectDialog extends Dialog {
         textViewContent.setText("*" + context.getResources().getText(R.string
                 .message_dialog_content));
         textViewContent.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.textSize_small)));
+                (R.dimen.text_size_small)));
         textViewContent.setPadding(padding, 0, padding, padding);
         textViewContent.setTextColor(context.getResources().getColor(R.color.red));
         rootLinearLayout.addView(textViewContent);
@@ -237,7 +237,7 @@ public class SelectDialog extends Dialog {
 
         textView.setText(selectItem.getName());
         textView.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.textSize_normal)));
+                (R.dimen.text_size_normal)));
         textView.setGravity(selectItem.getGravity());
 
         textView.setPadding(padding, padding, padding, padding);

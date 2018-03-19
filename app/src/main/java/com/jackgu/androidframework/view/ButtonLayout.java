@@ -70,16 +70,16 @@ public class ButtonLayout extends FrameLayout {
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ButtonLayout);
         DEFAULT_RADIUS = a.getDimensionPixelSize(R.styleable
-                .ButtonLayout_buttonLayout_rippleRoundedCorners, -1);
+                .ButtonLayout_buttonLayoutRippleRoundedCorners, -1);
 
         DEFAULT_RADIUS_LEFT_TOP = a.getDimensionPixelSize(R.styleable
-                .ButtonLayout_buttonLayout_rippleRoundedCornersLeftTop, -1);
+                .ButtonLayout_buttonLayoutRippleRoundedCornersLeftTop, -1);
         DEFAULT_RADIUS_LEFT_BOTTOM = a.getDimensionPixelSize(R.styleable
-                .ButtonLayout_buttonLayout_rippleRoundedCornersLeftBottom, -1);
+                .ButtonLayout_buttonLayoutRippleRoundedCornersLeftBottom, -1);
         DEFAULT_RADIUS_RIGHT_TOP = a.getDimensionPixelSize(R.styleable
-                .ButtonLayout_buttonLayout_rippleRoundedCornersRightTop, -1);
+                .ButtonLayout_buttonLayoutRippleRoundedCornersRightTop, -1);
         DEFAULT_RADIUS_RIGHT_BOTTOM = a.getDimensionPixelSize(R.styleable
-                .ButtonLayout_buttonLayout_rippleRoundedCornersRightBottom, -1);
+                .ButtonLayout_buttonLayoutRippleRoundedCornersRightBottom, -1);
     }
 
 

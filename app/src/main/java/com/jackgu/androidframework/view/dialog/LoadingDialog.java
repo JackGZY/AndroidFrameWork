@@ -76,7 +76,7 @@ public class LoadingDialog extends Dialog {
         textView.setLayoutParams(textLayoutParams);
         textView.setTextColor(getContext().getResources().getColor(R.color.white));
         textView.setTextSize(DensityUtil.px2sp(context, getContext().getResources().getDimension
-                (R.dimen.textSize_small)));
+                (R.dimen.text_size_small)));
         textView.setMaxWidth(DensityUtil.getWidth(context) /2);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);

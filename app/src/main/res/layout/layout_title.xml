@@ -36,7 +36,7 @@
                 android:singleLine="true"
                 android:text="返回"
                 android:textColor="@color/white"
-                android:textSize="@dimen/textSize_normal"/>
+                android:textSize="@dimen/text_size_normal"/>
         </LinearLayout>
     </com.jackgu.androidframework.view.ButtonLayout>
 
@@ -53,7 +53,7 @@
         android:singleLine="true"
         android:text="标题"
         android:textColor="@color/white"
-        android:textSize="@dimen/textSize_big"/>
+        android:textSize="@dimen/text_size_big"/>
 
 
     <LinearLayout
@@ -84,7 +84,7 @@
                     android:singleLine="true"
                     android:text="返回"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textSize_normal"/>
+                    android:textSize="@dimen/text_size_normal"/>
             </LinearLayout>
         </com.jackgu.androidframework.view.ButtonLayout>
 
