@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -25,6 +26,7 @@ import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.config.ConstCode;
 import com.jackgu.androidframework.enums.MessageDialogType;
 import com.jackgu.androidframework.util.LoggerUtil;
+import com.jackgu.androidframework.util.SystemBarTintManager;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.view.dialog.LoadingDialog;
 import com.jackgu.androidframework.view.dialog.MessageDialog;
@@ -57,6 +59,9 @@ public abstract class BaseActivity extends RxActivity {
 
     //权限的回调
     private CallBack callBack;
+
+
+    private SystemBarTintManager systemBarTintManager;
 
     @LayoutRes
     protected abstract int getLayout();
@@ -124,7 +129,6 @@ public abstract class BaseActivity extends RxActivity {
     }
 
 
-
     protected abstract void initView(Bundle savedInstanceState);
 
 
@@ -139,6 +143,10 @@ public abstract class BaseActivity extends RxActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isTranslucentStatus()) {
             setTranslucentStatus(true);
+            systemBarTintManager = new SystemBarTintManager(this);
+            systemBarTintManager.setStatusBarTintEnabled(true);
+            systemBarTintManager.setStatusBarAlpha(0.5f);
+            systemBarTintManager.setStatusBarTintColor(Color.parseColor("#000000"));
         }
 
         mContext = this;

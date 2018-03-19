@@ -45,7 +45,6 @@ public abstract class BaseTitleActivity extends BaseActivity {
             for (int i = 0; i < ((ViewGroup) view1).getChildCount(); i++) {
                 if (((ViewGroup) view1).getChildAt(i) instanceof TitleBarLayout) {
                     titleBarLayout = (TitleBarLayout) ((ViewGroup) view1).getChildAt(i);
-                    LoggerUtil.e("找到了titleBarLayout= " + titleBarLayout.toString());
                     break;
                 }
             }
