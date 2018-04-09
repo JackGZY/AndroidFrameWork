@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">AndroidFrameWork</string>
+    <string name="app_name">Linc</string>
     <string name="permission_really_declined">您已拒绝部分或者全部权限，并且拒绝提醒。如需开启权限，请前往「设置」中开启，
         在权限开启之前您将无法正常使用本软件的部分功能。</string>
-    <string name="permission_declined">您已拒绝部分权限，本软件的部分功能将不能正常使用！</string>
+    <string name="permission_declined">您已拒绝部分权限，软件的部分功能将不能正常使用！</string>
 
 
     <string name="message_dialog_title">温馨提示</string>
@@ -11,6 +11,18 @@
     <string name="message_dialog_center_button">好的</string>
     <string name="message_dialog_right_button">取消</string>
 
-    <string name="exit">再按一次退出本软件！</string>
+    <string name="exit">再按一次退出「Linc」</string>
     <string name="i_know">我知道了</string>
+
+    <string name="empty">暂无数据</string>
+
+    <!--上拉的提示-->
+    <string name="footer_pulling">上拉加载更多</string>
+    <string name="footer_release">释放立即加载</string>
+    <string name="footer_loading">数据加载中...</string>
+    <string name="footer_refreshing">数据刷新中...</string>
+    <string name="footer_finish">加载完成</string>
+    <string name="footer_failed">加载失败</string>
+    <string name="footer_nothing">- 我也是有底线的 -</string>
+
 </resources>

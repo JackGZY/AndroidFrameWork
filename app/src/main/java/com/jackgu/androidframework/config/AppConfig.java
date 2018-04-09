@@ -40,4 +40,7 @@ public interface AppConfig {
     int IMAGE_EMPTY = R.mipmap.ic_empty;
     int IMAGE_LOADING = R.mipmap.ic_loading;
 
+
+    //数据获取成功的code
+    int DATA_SUCCESS_CODE = 1;
 }

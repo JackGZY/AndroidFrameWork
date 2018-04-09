@@ -3,21 +3,18 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'org.greenrobot.greendao'
 
+def configInfo = rootProject.ext.config
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.jackgu.androidframework"
+        applicationId configInfo.ID
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode configInfo.VERSION_CODE
+        versionName configInfo.VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
     }
     buildTypes {
         release {
@@ -41,11 +38,6 @@ android {
             jniDebuggable false
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -56,7 +48,7 @@ android {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.jackgu.androidframework.dao'
+    daoPackage configInfo.ID + ".dao"
 }
 
 dependencies {
@@ -83,6 +75,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'org.greenrobot:eventbus:3.1.1'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-3'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-3'//没有使用特殊Header，可以不加这行
 }
 
 
