@@ -3,7 +3,7 @@
 	本框架是基于以下框架进行封装集成的几套快速开发框架，对常用的控件、Activity、工具类进行了一些封装
 ### 下面是本项目使用的一些开源框架
 
-     名称      |     地址     |     用途
+名称      |     地址     |     用途
 ------------- | -------------|------------
 Glide         | [Github](https://github.com/bumptech/glide)   |   图片加载
 Gson          | [Github](https://github.com/google/gson)      |   数据解析
