@@ -2,7 +2,8 @@ package com.jackgu.androidframework.util;
 
 import android.content.res.Resources;
 
-import com.linc.linc.MyApplication;
+import com.jackgu.androidframework.MyApplication;
+
 
 /**
  * 获取资源

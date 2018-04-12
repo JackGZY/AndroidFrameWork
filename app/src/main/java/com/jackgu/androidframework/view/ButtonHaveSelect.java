@@ -97,6 +97,18 @@ public class ButtonHaveSelect extends LinearLayout {
     }
 
 
+    /**
+     * 设置按钮文字
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/4/12 09:41
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setText(String args) {
+        textView.setText(args);
+    }
+
+
     public void setTextView(TextView textView) {
         this.textView = textView;
     }

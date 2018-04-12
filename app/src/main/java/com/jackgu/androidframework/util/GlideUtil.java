@@ -19,7 +19,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.jackgu.androidframework.MyApplication;
 import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.enums.GlideScaleType;
 import com.jackgu.androidframework.enums.GlideType;
@@ -35,7 +34,6 @@ import java.io.File;
  */
 
 public class GlideUtil {
-
     /**
      * @param obj       图片的地址，可以是int，可以是string，uri，file
      * @param imageView 需要加载的试图

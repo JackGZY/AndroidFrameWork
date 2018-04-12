@@ -11,19 +11,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.enums.MessageDialogType;
 import com.jackgu.androidframework.util.DensityUtil;
 import com.jackgu.androidframework.view.ButtonHaveSelect;
 
 /**
+ * <p>
+ * 消息提示的dialog，可以设置type，一个按钮，两个按钮，或者三个按钮，一个按钮是默认不可取消的
+ * <p>
+ * 一个按钮是中间，两个按钮是左右
+ *
  * @Author: JACK-GU
  * @Date: 2018/1/16
  * @E-Mail: 528489389@qq.com
- * <p>
- * 消息提示的dialog，可以设置type，一个按钮，两个按钮，或者三个按钮，一个按钮是默认不可取消的
  */
 
 public class MessageDialog extends Dialog {
+    //定义三种类型的dialog
+    public static final int TYPE_ONE_BUTTON = 0;
+    public static final int TYPE_TWO_BUTTON = 1;
+    public static final int TYPE_THREE_BUTTON = 2;
+
+    //dialog距离两边的宽度
+    private static final int MARGIN_DEVICE = 20;
     private Context context;
     private LinearLayout rootLinearLayout;
     private LinearLayout buttonLinearLayout;
@@ -35,11 +44,44 @@ public class MessageDialog extends Dialog {
     private ButtonHaveSelect centerButton;
     private ButtonHaveSelect rightButton;
 
-    private MessageDialogType messageDialogType;
+    private int messageDialogType;
 
 
-    //dialog距离两边的宽度
-    private final static int MARGIN_DEVICE = 20;
+    /**
+     * 构造方法
+     *
+     * @param context           上下文
+     * @param messageDialogType 类型
+     * @Author: JACK-GU
+     * @Date: 2018/4/12 09:47
+     * @E-Mail: 528489389@qq.com
+     */
+    public MessageDialog(@NonNull Context context, int messageDialogType) {
+        super(context, R.style.MyDialog);
+        this.context = context;
+        this.messageDialogType = messageDialogType;
+    }
+
+    /**
+     * 构造方法，默认两个按钮
+     *
+     * @param context 上下文
+     * @Author: JACK-GU
+     * @Date: 2018/4/12 09:47
+     * @E-Mail: 528489389@qq.com
+     */
+    public MessageDialog(@NonNull Context context) {
+        super(context, R.style.MyDialog);
+        this.context = context;
+        this.messageDialogType = TYPE_TWO_BUTTON;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(getRootView());
+    }
 
 
     /**
@@ -69,7 +111,98 @@ public class MessageDialog extends Dialog {
     }
 
     /**
-     * 设置左边按钮文字
+     * 设置
+     *
+     * @Author: JACK-GU
+     * @Date: 2018/4/12 09:35
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setButtonTexts(String... args) {
+        switch (args.length) {
+            case 1: {
+                //分两种情况，如果只有一个按钮，就设置中间的，否则就是设置左边的
+                if (messageDialogType == TYPE_ONE_BUTTON) {
+                    if (centerButton != null) {
+                        centerButton.setText(args[0]);
+                    }
+                } else {
+                    if (leftButton == null) {
+                        leftButton.setText(args[0]);
+                    }
+                }
+                break;
+            }
+            case 2: {
+                //这种情况也要判断,
+                if (messageDialogType == TYPE_ONE_BUTTON) {
+                    //如果只是一个按钮，我们就设置第一个值
+                    if (centerButton != null) {
+                        centerButton.setText(args[0]);
+                    }
+                } else if (messageDialogType == TYPE_TWO_BUTTON) {
+                    //两个按钮设置左右
+                    if (leftButton != null) {
+                        leftButton.setText(args[0]);
+                    }
+
+                    if (rightButton != null) {
+                        rightButton.setText(args[1]);
+                    }
+                } else if (messageDialogType == TYPE_THREE_BUTTON) {
+                    //三个按钮，左中
+                    if (leftButton != null) {
+                        leftButton.setText(args[0]);
+                    }
+
+                    if (centerButton != null) {
+                        centerButton.setText(args[1]);
+                    }
+                }
+
+                break;
+            }
+            case 3: {
+                //这种情况也要判断,
+                if (messageDialogType == TYPE_ONE_BUTTON) {
+                    //如果只是一个按钮，我们就设置第一个值
+                    if (centerButton != null) {
+                        centerButton.setText(args[1]);
+                    }
+                } else if (messageDialogType == TYPE_TWO_BUTTON) {
+                    //两个按钮设置左右
+                    if (leftButton != null) {
+                        leftButton.setText(args[0]);
+                    }
+
+                    if (rightButton != null) {
+                        rightButton.setText(args[2]);
+                    }
+                } else if (messageDialogType == TYPE_THREE_BUTTON) {
+                    //三个按钮，左中
+                    if (leftButton != null) {
+                        leftButton.setText(args[0]);
+                    }
+
+                    if (centerButton != null) {
+                        centerButton.setText(args[1]);
+                    }
+
+                    if (rightButton != null) {
+                        rightButton.setText(args[2]);
+                    }
+                }
+
+
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
+    /**
+     * 设置左边按钮文字，当只有两个按钮或者三个按钮的时候
      *
      * @Author: JACK-GU
      * @Date: 2018/1/17
@@ -82,7 +215,7 @@ public class MessageDialog extends Dialog {
     }
 
     /**
-     * 设置中间按钮文字
+     * 设置中间按钮文字，当只有一个按钮或者三个按钮的时候
      *
      * @Author: JACK-GU
      * @Date: 2018/1/17
@@ -96,7 +229,7 @@ public class MessageDialog extends Dialog {
 
 
     /**
-     * 设置右边按钮文字
+     * 设置右边按钮文字，当只有两个按钮或者三个按钮的时候
      *
      * @Author: JACK-GU
      * @Date: 2018/1/17
@@ -187,60 +320,26 @@ public class MessageDialog extends Dialog {
         return textViewTitle;
     }
 
-    public void setTextViewTitle(TextView textViewTitle) {
-        this.textViewTitle = textViewTitle;
-    }
 
     public TextView getTextViewContent() {
         return textViewContent;
     }
 
-    public void setTextViewContent(TextView textViewContent) {
-        this.textViewContent = textViewContent;
-    }
 
     public ButtonHaveSelect getLeftButton() {
         return leftButton;
     }
 
-    public void setLeftButton(ButtonHaveSelect leftButton) {
-        this.leftButton = leftButton;
-    }
 
     public ButtonHaveSelect getCenterButton() {
         return centerButton;
     }
 
-    public void setCenterButton(ButtonHaveSelect centerButton) {
-        this.centerButton = centerButton;
-    }
 
     public ButtonHaveSelect getRightButton() {
         return rightButton;
     }
 
-    public void setRightButton(ButtonHaveSelect rightButton) {
-        this.rightButton = rightButton;
-    }
-
-    public MessageDialog(@NonNull Context context, MessageDialogType messageDialogType) {
-        super(context, R.style.MyDialog);
-        this.context = context;
-        this.messageDialogType = messageDialogType;
-    }
-
-    public MessageDialog(@NonNull Context context) {
-        super(context, R.style.MyDialog);
-        this.context = context;
-        this.messageDialogType = MessageDialogType.TWO_BUTTON;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(getRootView());
-    }
 
     /**
      * 获得整个的根布局
@@ -310,7 +409,7 @@ public class MessageDialog extends Dialog {
 
 
         //默认，一个按钮不可以取消
-        if (messageDialogType == MessageDialogType.ONE_BUTTON) {
+        if (messageDialogType == TYPE_ONE_BUTTON) {
             setCanceledOnTouchOutside(false);
             setCancelable(false);
         } else {
@@ -337,15 +436,15 @@ public class MessageDialog extends Dialog {
         buttonLinearLayout.setLayoutParams(rootLayoutParams);
 
 
-        if (messageDialogType == MessageDialogType.TWO_BUTTON || messageDialogType ==
-                MessageDialogType.THREE_BUTTON) {
+        if (messageDialogType == TYPE_TWO_BUTTON || messageDialogType ==
+                TYPE_THREE_BUTTON) {
             leftButton = new ButtonHaveSelect(context);
 
             leftButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_left_button));
             leftButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
                     .getDimension(R.dimen.text_size_normal)));
-            leftButton.getTextView().setTextColor(context.getResources().getColor(R.color.theme));
+            leftButton.getTextView().setTextColor(context.getResources().getColor(R.color.gray));
             leftButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
@@ -355,7 +454,7 @@ public class MessageDialog extends Dialog {
             buttonLinearLayout.addView(leftButton);
         }
 
-        if (messageDialogType == MessageDialogType.THREE_BUTTON) {
+        if (messageDialogType == TYPE_THREE_BUTTON) {
             View view = new View(context);
             LinearLayout.LayoutParams viewLayoutParams = new LinearLayout.LayoutParams((int)
                     context.getResources().getDimension(R.dimen.view_driver), ViewGroup
@@ -366,8 +465,8 @@ public class MessageDialog extends Dialog {
         }
 
 
-        if (messageDialogType == MessageDialogType.ONE_BUTTON || messageDialogType ==
-                MessageDialogType.THREE_BUTTON) {
+        if (messageDialogType == TYPE_ONE_BUTTON || messageDialogType ==
+                TYPE_THREE_BUTTON) {
             centerButton = new ButtonHaveSelect(context);
             centerButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_center_button));
@@ -380,7 +479,7 @@ public class MessageDialog extends Dialog {
                             .WRAP_CONTENT, 1);
             centerButton.setLayoutParams(centerButtonLayoutParams);
 
-            if (MessageDialogType.ONE_BUTTON == messageDialogType) {
+            if (TYPE_ONE_BUTTON == messageDialogType) {
                 //设置圆角
                 centerButton.getTextView().setTextColor(context.getResources().getColor(R.color
                         .theme));
@@ -391,8 +490,8 @@ public class MessageDialog extends Dialog {
         }
 
 
-        if (messageDialogType == MessageDialogType.THREE_BUTTON || messageDialogType ==
-                MessageDialogType.TWO_BUTTON) {
+        if (messageDialogType == TYPE_THREE_BUTTON || messageDialogType ==
+                TYPE_TWO_BUTTON) {
             View view = new View(context);
             LinearLayout.LayoutParams viewLayoutParams = new LinearLayout.LayoutParams((int)
                     context.getResources().getDimension(R.dimen.view_driver), ViewGroup
@@ -402,8 +501,8 @@ public class MessageDialog extends Dialog {
             buttonLinearLayout.addView(view);
         }
 
-        if (messageDialogType == MessageDialogType.TWO_BUTTON || messageDialogType ==
-                MessageDialogType.THREE_BUTTON) {
+        if (messageDialogType == TYPE_TWO_BUTTON || messageDialogType ==
+                TYPE_THREE_BUTTON) {
             rightButton = new ButtonHaveSelect(context);
 
 
@@ -411,7 +510,7 @@ public class MessageDialog extends Dialog {
                     .message_dialog_right_button));
             rightButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
                     .getDimension(R.dimen.text_size_normal)));
-            rightButton.getTextView().setTextColor(context.getResources().getColor(R.color.gray));
+            rightButton.getTextView().setTextColor(context.getResources().getColor(R.color.theme));
             rightButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams

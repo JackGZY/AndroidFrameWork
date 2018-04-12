@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.config.ConstCode;
-import com.jackgu.androidframework.enums.MessageDialogType;
 import com.jackgu.androidframework.util.SystemBarTintManager;
 import com.jackgu.androidframework.util.ToastUtil;
 import com.jackgu.androidframework.view.dialog.LoadingDialog;
@@ -359,7 +358,7 @@ public abstract class BaseActivity extends RxActivity {
 
             if (flag) {
                 //有的话，谈对话框提示用户
-                MessageDialog messageDialog = new MessageDialog(this, MessageDialogType.ONE_BUTTON);
+                MessageDialog messageDialog = new MessageDialog(this, MessageDialog.TYPE_ONE_BUTTON);
                 messageDialog.show();
                 messageDialog.setContent(getResources().getString(R.string
                         .permission_really_declined));

@@ -32,6 +32,7 @@ import com.jackgu.androidframework.util.network.repository.DefaultRepository;
 import com.jackgu.androidframework.util.network.service.TestService;
 import com.jackgu.androidframework.view.ButtonHaveSelect;
 import com.jackgu.androidframework.view.TitleBarLayout;
+import com.jackgu.androidframework.view.dialog.MessageDialog;
 import com.jackgu.androidframework.view.dialog.SelectDialog;
 import com.jackgu.androidframework.view.notification.DownLoadNotificationUtil;
 
@@ -136,22 +137,26 @@ public class MainActivity extends BaseTitleActivity {
         myButton.setOnClickListener(v ->
 
         {
-            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
-            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
-                    .theme)));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+//            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
+//                    .theme)));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+//
+//            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
+//            selectDialog.show();
+//            selectDialog.setTitle("测试的标题");
+//            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
+//            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
 
-            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
-            selectDialog.show();
-            selectDialog.setTitle("测试的标题");
-            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
-            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
+            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog.TYPE_THREE_BUTTON);
+            messageDialog.show();
+            messageDialog.setButtonTexts("取消1","好的1","确定1");
         });
 
 
