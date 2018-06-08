@@ -2,10 +2,10 @@ package com.jackgu.androidframework.activity;
 
 import android.os.Bundle;
 
+import com.jack.framework.base.BaseActivity;
+import com.jack.framework.util.LoggerUtil;
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.base.BaseActivity;
 import com.jackgu.androidframework.fragment.TestFragment;
-import com.jackgu.androidframework.util.LoggerUtil;
 
 /**
  * 测试fragment的

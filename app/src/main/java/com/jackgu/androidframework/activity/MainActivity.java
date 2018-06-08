@@ -7,46 +7,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.jack.framework.base.BaseTitleActivity;
+import com.jack.framework.config.AppConfig;
+import com.jack.framework.enums.GlideScaleType;
+import com.jack.framework.eventAction.DownloadFileMessageEvent;
+import com.jack.framework.util.DownLoadFileUtil;
+import com.jack.framework.util.GlideUtil;
+import com.jack.framework.util.LoggerUtil;
+import com.jack.framework.util.ToastUtil;
+import com.jack.framework.util.compress.CompressUtil;
+import com.jack.framework.util.db.GreenDaoUtil;
+import com.jack.framework.util.network.DefaultSubscriber;
+import com.jack.framework.util.network.repository.DefaultRepository;
+import com.jack.framework.view.ButtonHaveSelect;
+import com.jack.framework.view.TimerTextView;
+import com.jack.framework.view.dialog.MessageDialog;
+import com.jack.framework.view.notification.DownLoadNotificationUtil;
 import com.jackgu.androidframework.BuildConfig;
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.base.BaseTitleActivity;
-import com.jackgu.androidframework.config.AppConfig;
 import com.jackgu.androidframework.entity.Test;
-import com.jackgu.androidframework.enums.GlideScaleType;
-import com.jackgu.androidframework.eventAction.DownloadFileMessageEvent;
-import com.jackgu.androidframework.util.DownLoadFileUtil;
-import com.jackgu.androidframework.util.GlideUtil;
-import com.jackgu.androidframework.util.LoggerUtil;
-import com.jackgu.androidframework.util.ToastUtil;
-import com.jackgu.androidframework.util.compress.CompressUtil;
-import com.jackgu.androidframework.util.db.GreenDaoUtil;
-import com.jackgu.androidframework.util.network.DefaultSubscriber;
-import com.jackgu.androidframework.util.network.repository.DefaultRepository;
-import com.jackgu.androidframework.util.network.service.TestService;
-import com.jackgu.androidframework.view.ButtonHaveSelect;
-import com.jackgu.androidframework.view.TitleBarLayout;
-import com.jackgu.androidframework.view.dialog.MessageDialog;
-import com.jackgu.androidframework.view.dialog.SelectDialog;
-import com.jackgu.androidframework.view.notification.DownLoadNotificationUtil;
+import com.jackgu.androidframework.retrofit.service.TestService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import rx.Subscriber;
@@ -84,11 +73,11 @@ public class MainActivity extends BaseTitleActivity {
     ButtonHaveSelect buttonHaveSelect3;
     @BindView(R.id.buttonHaveSelect4)
     ButtonHaveSelect buttonHaveSelect4;
+    @BindView(R.id.timerTextView)
+    TimerTextView timerTextView;
 
-    private static final String PATH = "https://timgsa.baidu" +
-            ".com/timg?image&quality=80&size=b9999_10000&sec=1515732084256&di" +
-            "=3e7468d937f2c3c26ac0c959f59784e6&imgtype=0&src=http%3A%2F%2Fwww.bumimi" +
-            ".com%2Fuploads%2Fvod%2F2017-11-13%2F5a09508e6d43d.jpg";
+
+    private static final String PATH = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528439091467&di=cdeb7a7cf624c5d2fe6ad7c24b33e0da&imgtype=0&src=http%3A%2F%2Ftvax2.sinaimg.cn%2Fcrop.187.136.962.962.180%2F0070QoFGly8fm5zc7n1ymj310r0zk11q.jpg";
 
     @Override
     protected int getLayout() {
@@ -128,6 +117,21 @@ public class MainActivity extends BaseTitleActivity {
         setBackVisibility(true);
         setTitle("测试的标题这里是主页");
 
+        /***** 伟大的分割线 ***** 计时器 ***** start *****/
+        // timerTextView.setSecondFormat("重新发送(%)");
+        timerTextView.setSeconds(2 * 24 * 3600 - 1 - 23 * 3600 - 58 * 60);
+        timerTextView.setOnRunListener((day, hour, minute, seconds) -> {
+            String s = "%d-%d:%d:%d";
+            timerTextView.setText(String.format(s, day, hour, minute, seconds));
+
+            return true;
+        });
+        timerTextView.startTimer(() -> {
+            timerTextView.setText("点击发送");
+            showLongToast("计时完成");
+        });
+        /***** 伟大的分割线 ***** 计时器 ***** end *****/
+
 
         buttonHaveSelect1.setOnClickListener(v ->
 
@@ -154,9 +158,10 @@ public class MainActivity extends BaseTitleActivity {
 //            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
 //            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
 
-            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog.TYPE_THREE_BUTTON);
+            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog
+                    .TYPE_THREE_BUTTON);
             messageDialog.show();
-            messageDialog.setButtonTexts("取消1","好的1","确定1");
+            messageDialog.setButtonTexts("取消1", "好的1", "确定1");
         });
 
 

@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.jack.framework.base.BaseTitleFragment;
+import com.jack.framework.util.ItemDecorationUtil;
+import com.jack.framework.util.RefreshHelper;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.adapter.MainAdapter;
-import com.jackgu.androidframework.base.BaseTitleFrament;
-import com.jackgu.androidframework.util.ItemDecorationUtil;
-import com.jackgu.androidframework.util.LoggerUtil;
-import com.jackgu.androidframework.util.RefreshHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -29,7 +27,7 @@ import butterknife.BindView;
  * @Date: 2018/1/30 14:18
  * @E-Mail: 528489389@qq.com
  */
-public class TestFragment extends BaseTitleFrament {
+public class TestFragment extends BaseTitleFragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.smartRefreshLayout)

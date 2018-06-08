@@ -11,9 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.jack.framework.util.GlideUtil;
+import com.jack.framework.util.SystemBarTintManager;
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.util.GlideUtil;
-import com.jackgu.androidframework.util.SystemBarTintManager;
 
 /**
  * 开屏页

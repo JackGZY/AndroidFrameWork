@@ -2,12 +2,11 @@ package com.jackgu.androidframework.activity;
 
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 
+import com.jack.framework.base.BaseDrawerLayoutActivity;
+import com.jack.framework.view.ButtonHaveSelect;
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.base.BaseDrawerLayoutActivity;
-import com.jackgu.androidframework.view.ButtonHaveSelect;
 
 import butterknife.BindView;
 

@@ -7,7 +7,8 @@
     android:orientation="vertical">
 
 
-    <com.jackgu.androidframework.view.TitleBarLayout
+    <com.jack.framework.view.TitleBarLayout
+        android:id="@+id/titleBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -21,7 +22,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+
+            <com.jack.framework.view.TimerTextView
+                android:id="@+id/timerTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme"
+                android:textSize="@dimen/text_size_small"/>
+
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/myButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +41,7 @@
                 android:textColor="@color/white"
                 app:buttonLayoutRippleRoundedCorners="5dp"/>
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,7 +53,7 @@
                 app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +64,7 @@
                 android:textColor="@color/white"
                 app:buttonLayoutRippleRoundedCorners="5dp"/>
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +75,7 @@
                 android:textColor="@color/white"
                 app:buttonLayoutRippleRoundedCorners="5dp"/>
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +87,7 @@
                 app:buttonLayoutRippleRoundedCorners="5dp"/>
 
 
-            <com.jackgu.androidframework.view.ButtonHaveSelect
+            <com.jack.framework.view.ButtonHaveSelect
                 android:id="@+id/buttonHaveSelect4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
