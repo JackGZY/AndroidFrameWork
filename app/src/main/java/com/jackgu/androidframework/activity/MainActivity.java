@@ -127,7 +127,7 @@ public class MainActivity extends BaseTitleActivity {
             return true;
         });
         timerTextView.startTimer(() -> {
-            timerTextView.setText("点击发送");
+            timerTextView.setText(R.string.send);
             showLongToast("计时完成");
         });
         /***** 伟大的分割线 ***** 计时器 ***** end *****/
