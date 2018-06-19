@@ -27,32 +27,8 @@ import rx.Observable;
  * @E-Mail: 528489389@qq.com
  */
 public class MyRepository<T> extends BaseRepository {
-    private static volatile MyRepository instance = null;
-    //默认的方法名字
+    //默认的方法名字,可以少传一个参数，最好是保持一致的
     private final static String DEFAULT_METHOD_NAME = "get";
-
-    private MyRepository() {
-    }
-
-    /**
-     * 获取单列实例
-     *
-     * @return 返回实例
-     * @Author: JACK-GU
-     * @Date: 2018-06-12 10:22
-     * @E-Mail: 528489389@qq.com
-     */
-    public static MyRepository getInstance() {
-        if (instance == null) {
-            synchronized (MyRepository.class) {
-                if (instance == null) {
-                    instance = new MyRepository();
-                }
-            }
-        }
-
-        return instance;
-    }
 
     /**
      * 开始请求,返回必须是BaseEntity<T>
@@ -93,7 +69,7 @@ public class MyRepository<T> extends BaseRepository {
      * @E-Mail: 528489389@qq.com
      */
     public Observable<T> getList(Class serviceClass, String methodName, Map<String, Object> params,
-                             RefreshHelper refreshHelper) {
+                                 RefreshHelper refreshHelper) {
         Observable<T> rObservable = null;
         try {
             addParams(params);
@@ -194,7 +170,7 @@ public class MyRepository<T> extends BaseRepository {
      * @E-Mail: 528489389@qq.com
      */
     public Observable<T> getList(Class serviceClass, Map<String, Object> params,
-                             RefreshHelper refreshHelper) {
+                                 RefreshHelper refreshHelper) {
         Observable<T> rObservable = null;
         try {
             addParams(params);

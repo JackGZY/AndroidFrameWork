@@ -13,6 +13,7 @@ import java.util.Map;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -32,9 +33,10 @@ public class BaseRepository {
 
     //这里面主要是切换线程，如果我们的接口按照规则写，我们也可以在里面进行过滤操作
     protected <T> Observable<T> transformResult(Observable<BaseEntity<T>> observable) {
-        return observable.subscribeOn(Schedulers.io())
+        return observable.compose(baseEntityObservable -> baseEntityObservable
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(result -> {
+                .flatMap((Func1<BaseEntity<T>, Observable<T>>) result -> {
                     if (result == null) {
                         return Observable.error(new NetworkErrorException());
                     } else {
@@ -49,21 +51,21 @@ public class BaseRepository {
                                     .getCode()));
                         }
                     }
-                });
+                }));
     }
 
 
     //这里面主要是切换线程，如果我们的接口按照规则写，我们也可以在里面进行过滤操作
     protected <T> Observable<T> transformResult(Observable<BaseEntity<T>> observable,
                                                 RefreshHelper refreshHelper) {
-        return observable.subscribeOn(Schedulers.io())
+        return observable.compose(baseEntityObservable -> baseEntityObservable
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(result -> {
+                .flatMap((Func1<BaseEntity<T>, Observable<T>>) result -> {
                     if (result == null) {
                         return Observable.error(new NetworkErrorException());
                     } else {
                         if (result.getCode() == AppConfig.DATA_SUCCESS_CODE) {
-
                             Observable<T> tObservable = Observable.create(subscriber -> {
                                 subscriber.onNext(result.getData());
                             });
@@ -74,7 +76,7 @@ public class BaseRepository {
                                     .getCode()));
                         }
                     }
-                });
+                }));
     }
 
 

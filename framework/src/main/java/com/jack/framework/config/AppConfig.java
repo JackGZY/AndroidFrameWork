@@ -16,7 +16,7 @@ import com.jack.framework.R;
 
 public interface AppConfig {
     //配置网络请求的url
-    String BASE_URL = "http://post.baibaoyun.com/api/";
+    String BASE_URL = "https://www.apiopen.top/";
     //本地数据得文件名称
     String SHAREDPREFERNCES_NAME = "AndroidFramework";
     //需要的权限,注意配置文件需要权限，不然不会弹出来
@@ -42,5 +42,5 @@ public interface AppConfig {
 
 
     //数据获取成功的code
-    int DATA_SUCCESS_CODE = 1;
+    int DATA_SUCCESS_CODE = 200;
 }

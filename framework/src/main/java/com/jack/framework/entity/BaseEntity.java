@@ -10,7 +10,7 @@ package com.jack.framework.entity;
 
 public class BaseEntity<T> {
     private String msg;
-    private int code;//确定好之后，我们可以在DefaultSubscriber里面进行拦截判断
+    private int code;//确定好之后，可以在baseRespiratory里面进行拦截操作
     private T data;
 
     public String getMsg() {

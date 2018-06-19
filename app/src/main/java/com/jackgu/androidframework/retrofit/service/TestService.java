@@ -1,10 +1,14 @@
 package com.jackgu.androidframework.retrofit.service;
 
 
-import junit.framework.Test;
+import com.jack.framework.entity.BaseEntity;
+import com.jackgu.androidframework.entity.TestEntity;
 
 import java.util.HashMap;
+import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -19,6 +23,10 @@ import rx.Observable;
  */
 public interface TestService {
     @FormUrlEncoded
-    @POST("0a953068ff01781ce22c0822c075018c")
-    Observable<Test> get(@FieldMap HashMap<String, Object> params);
+    @POST("satinApi")
+    Observable<BaseEntity<List<TestEntity>>> get(@FieldMap HashMap<String, Object> params);
+
+    @FormUrlEncoded
+    @POST("satinApi")
+    Call<ResponseBody> getTest(@FieldMap HashMap<String, Object> params);
 }

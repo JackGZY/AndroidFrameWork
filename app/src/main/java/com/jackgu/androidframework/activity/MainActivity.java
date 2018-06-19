@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.jack.framework.base.BaseTitleActivity;
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.enums.GlideScaleType;
+import com.jack.framework.enums.RxLifeEvent;
 import com.jack.framework.eventAction.DownloadFileMessageEvent;
 import com.jack.framework.util.DownLoadFileUtil;
 import com.jack.framework.util.GlideUtil;
@@ -20,14 +21,15 @@ import com.jack.framework.util.ToastUtil;
 import com.jack.framework.util.compress.CompressUtil;
 import com.jack.framework.util.db.GreenDaoUtil;
 import com.jack.framework.util.network.DefaultSubscriber;
-import com.jack.framework.util.network.repository.DefaultRepository;
+import com.jack.framework.util.network.RetrofitHelper;
+import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
 import com.jack.framework.view.dialog.MessageDialog;
 import com.jack.framework.view.notification.DownLoadNotificationUtil;
 import com.jackgu.androidframework.BuildConfig;
 import com.jackgu.androidframework.R;
-import com.jackgu.androidframework.entity.Test;
+import com.jackgu.androidframework.entity.TestEntity;
 import com.jackgu.androidframework.retrofit.service.TestService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,9 +37,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Subscriber;
 
 public class MainActivity extends BaseTitleActivity {
@@ -112,7 +120,6 @@ public class MainActivity extends BaseTitleActivity {
                 }
             }
         });
-
 
         setBackVisibility(true);
         setTitle("测试的标题这里是主页");
@@ -254,20 +261,41 @@ public class MainActivity extends BaseTitleActivity {
         GlideUtil.loadRound("", imageView8);
 
 
-        DefaultRepository.getInstance().
-
-                submit(TestService.class, Test.class, "get", new
-                        HashMap<>()).
-
-                subscribe(new DefaultSubscriber<Test>() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("type", 1);
+        hashMap.put("page", 1);
+        MyRepository<List<TestEntity>> testMyRepository = new MyRepository<>();
+        testMyRepository.get(TestService.class, hashMap)
+                .compose(bindUntilEvent(RxLifeEvent.DESTROY))
+                .subscribe(new DefaultSubscriber<List<TestEntity>>() {
                     @Override
-                    public void _onNext(Test entity) {
-                        LoggerUtil.e(entity.toString());
+                    public void _onNext(List<TestEntity> entity) {
+                        for (TestEntity testEntity : entity) {
+                            LoggerUtil.e(testEntity.toString());
+                        }
                     }
 
                     @Override
                     public void _onError(String msg) {
-                        LoggerUtil.e(msg);
+
+                    }
+                });
+
+        RetrofitHelper.getInstance().createService(TestService.class).getTest(hashMap)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            String s = response.body().string();
+                            LoggerUtil.e(s);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
                     }
                 });
     }

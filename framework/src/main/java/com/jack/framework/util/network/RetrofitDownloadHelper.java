@@ -2,7 +2,6 @@ package com.jack.framework.util.network;
 
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.util.network.interceptor.DownloadProgressInterceptor;
-import com.jack.framework.util.network.interceptor.DownloadProgressListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,12 +30,10 @@ public class RetrofitDownloadHelper {
     }
 
     public RetrofitDownloadHelper(CallBack callBack) {
-        builder = new OkHttpClient.Builder().addInterceptor(new DownloadProgressInterceptor(new DownloadProgressListener() {
-            @Override
-            public void update(long bytesRead, long contentLength, boolean done) {
-                if (callBack != null) {
-                    callBack.callBack(bytesRead, contentLength, done);
-                }
+        builder = new OkHttpClient.Builder().addInterceptor(new
+                DownloadProgressInterceptor((bytesRead, contentLength, done) -> {
+            if (callBack != null) {
+                callBack.callBack(bytesRead, contentLength, done);
             }
         }));
 

@@ -274,7 +274,7 @@ public class TimerTextView extends android.support.v7.widget.AppCompatTextView {
         /**
          * 返回计时的具体
          *
-         * @return false 不适用默认的覆盖显示格式，如果返回true就覆盖
+         * @return false 不使用默认的,覆盖显示格式，如果返回true就覆盖
          * @Author: JACK-GU
          * @E-Mail: 528489389@qq.com
          */

@@ -1,5 +1,6 @@
 package com.jack.framework.util;
 
+
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,9 @@ import java.util.List;
 
 /**
  * 刷新的帮助类，需要传入SmartRefreshLayout和RecyclerView，设置总的数量，自动判断有没有更多
+ * <p>
+ * 如果不需要刷新功能，可以不设置SmartRefreshLayout，传入null
+ * </p>
  * <p>
  * <strong>建议（其实是必须这么用）：</strong>
  * </p>
@@ -116,56 +120,14 @@ public class RefreshHelper<T> {
      * @param baseQuickAdapter   适配器
      * @param recyclerView       列表
      * @param context            上下文
-     * @param smartRefreshLayout 刷新组件
+     * @param smartRefreshLayout 刷新组件,可以不传
      * @Author: JACK-GU
      * @Date: 2018/3/30 10:42
      * @E-Mail: 528489389@qq.com
      */
     public RefreshHelper(SmartRefreshLayout smartRefreshLayout, RecyclerView recyclerView,
                          BaseQuickAdapter baseQuickAdapter, Context context) {
-        this.smartRefreshLayout = smartRefreshLayout;
-        this.recyclerView = recyclerView;
-        this.baseQuickAdapter = baseQuickAdapter;
-
-        this.dataList = new ArrayList<>();
-        this.baseQuickAdapter.setNewData(this.dataList);
-
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context,
-                LinearLayoutManager.VERTICAL, false));
-
-
-        baseQuickAdapter.bindToRecyclerView(recyclerView);
-        //创建空的view
-        emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null);
-        baseQuickAdapter.setEmptyView(emptyView);
-
-        //设置不开启自动加载多多
-        smartRefreshLayout.setEnableAutoLoadMore(false);
-        //默认不开启加载更多，只有当刷新后手动开启
-        smartRefreshLayout.setEnableLoadMore(false);
-        //关闭不满一页关闭上拉
-        smartRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
-
-
-        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            //刷新，变为0;
-            this.page = PAGE_START;
-
-            if (onRefreshAndLoadMoreListener != null) {
-                onRefreshAndLoadMoreListener.onRefresh(refreshLayout);
-            }
-
-
-        });
-
-        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            //否则++
-            this.page++;
-
-            if (onRefreshAndLoadMoreListener != null) {
-                onRefreshAndLoadMoreListener.onLoadMore(refreshLayout);
-            }
-        });
+        init(smartRefreshLayout, recyclerView, baseQuickAdapter, context, -1);
     }
 
 
@@ -174,7 +136,7 @@ public class RefreshHelper<T> {
      *
      * @param baseQuickAdapter   适配器
      * @param recyclerView       列表
-     * @param smartRefreshLayout 刷新组件
+     * @param smartRefreshLayout 刷新组件,可以不传
      * @param number             一行的个数
      * @param context            上下文
      * @Author: JACK-GU
@@ -183,6 +145,17 @@ public class RefreshHelper<T> {
      */
     public RefreshHelper(SmartRefreshLayout smartRefreshLayout, RecyclerView recyclerView,
                          BaseQuickAdapter baseQuickAdapter, Context context, int number) {
+        init(smartRefreshLayout, recyclerView, baseQuickAdapter, context, number);
+    }
+
+    /**
+     * 初始化
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    private void init(SmartRefreshLayout smartRefreshLayout, RecyclerView recyclerView,
+                      BaseQuickAdapter baseQuickAdapter, Context context, int number) {
         this.smartRefreshLayout = smartRefreshLayout;
         this.recyclerView = recyclerView;
         this.baseQuickAdapter = baseQuickAdapter;
@@ -190,8 +163,13 @@ public class RefreshHelper<T> {
         this.dataList = new ArrayList<>();
         this.baseQuickAdapter.setNewData(this.dataList);
 
-        recyclerView.setLayoutManager(new WrapContentGridLayoutManager(context,
-                number, GridLayoutManager.VERTICAL, false));
+        if (number <= 0) {
+            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(context,
+                    LinearLayoutManager.VERTICAL, false));
+        } else {
+            recyclerView.setLayoutManager(new WrapContentGridLayoutManager(context,
+                    number, GridLayoutManager.VERTICAL, false));
+        }
 
 
         baseQuickAdapter.bindToRecyclerView(recyclerView);
@@ -199,33 +177,32 @@ public class RefreshHelper<T> {
         emptyView = LayoutInflater.from(context).inflate(R.layout.layout_empty, null);
         baseQuickAdapter.setEmptyView(emptyView);
 
-        //设置不开启自动加载多多
-        smartRefreshLayout.setEnableAutoLoadMore(false);
-        //默认不开启加载更多，只有当刷新后手动开启
-        smartRefreshLayout.setEnableLoadMore(false);
-        //关闭不满一页关闭上拉
-        smartRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        if (smartRefreshLayout != null) {
+            //设置不开启自动加载多多
+            smartRefreshLayout.setEnableAutoLoadMore(false);
+            //默认不开启加载更多，只有当刷新后手动开启
+            smartRefreshLayout.setEnableLoadMore(false);
+            //关闭不满一页关闭上拉
+            smartRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
 
+            smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+                //刷新，变为0;
+                this.page = PAGE_START;
 
-        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            //刷新，变为0;
-            this.page = PAGE_START;
+                if (onRefreshAndLoadMoreListener != null) {
+                    onRefreshAndLoadMoreListener.onRefresh(refreshLayout);
+                }
+            });
 
-            if (onRefreshAndLoadMoreListener != null) {
-                onRefreshAndLoadMoreListener.onRefresh(refreshLayout);
-            }
+            smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+                //否则++
+                this.page++;
 
-
-        });
-
-        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            //否则++
-            this.page++;
-
-            if (onRefreshAndLoadMoreListener != null) {
-                onRefreshAndLoadMoreListener.onLoadMore(refreshLayout);
-            }
-        });
+                if (onRefreshAndLoadMoreListener != null) {
+                    onRefreshAndLoadMoreListener.onLoadMore(refreshLayout);
+                }
+            });
+        }
     }
 
     /**
@@ -271,6 +248,10 @@ public class RefreshHelper<T> {
         haveLoad();
     }
 
+    public T getData(int position) {
+        return dataList.get(position);
+    }
+
 
     /**
      * 移除一个数据
@@ -310,7 +291,8 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void loadAll(boolean loadAll) {
-        smartRefreshLayout.setNoMoreData(loadAll);
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.setNoMoreData(loadAll);
     }
 
 
@@ -322,8 +304,9 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void haveLoad() {
-        //开启上拉
-        smartRefreshLayout.setEnableLoadMore(true);
+        if (smartRefreshLayout != null)
+            //开启上拉
+            smartRefreshLayout.setEnableLoadMore(true);
 
         loadAll(total <= this.dataList.size());
     }
@@ -336,7 +319,8 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void finishRefresh() {
-        smartRefreshLayout.finishRefresh();
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.finishRefresh();
     }
 
 
@@ -348,7 +332,8 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void finishLoadMore() {
-        smartRefreshLayout.finishLoadMore();
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.finishLoadMore();
     }
 
 
@@ -360,7 +345,8 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void autoRefresh() {
-        smartRefreshLayout.autoRefresh();
+        if (smartRefreshLayout != null)
+            smartRefreshLayout.autoRefresh();
     }
 
     public interface OnRefreshAndLoadMoreListener {
