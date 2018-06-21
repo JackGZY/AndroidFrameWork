@@ -11,10 +11,9 @@ import android.widget.ImageView;
 
 import com.jack.framework.base.BaseTitleActivity;
 import com.jack.framework.config.AppConfig;
-import com.jack.framework.enums.GlideScaleType;
+import com.jack.framework.enums.GlideType;
 import com.jack.framework.enums.RxLifeEvent;
 import com.jack.framework.eventAction.DownloadFileMessageEvent;
-import com.jack.framework.util.DownLoadFileUtil;
 import com.jack.framework.util.GlideUtil;
 import com.jack.framework.util.LoggerUtil;
 import com.jack.framework.util.ToastUtil;
@@ -26,7 +25,6 @@ import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
 import com.jack.framework.view.dialog.MessageDialog;
-import com.jack.framework.view.notification.DownLoadNotificationUtil;
 import com.jackgu.androidframework.BuildConfig;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.entity.TestEntity;
@@ -85,7 +83,7 @@ public class MainActivity extends BaseTitleActivity {
     TimerTextView timerTextView;
 
 
-    private static final String PATH = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528439091467&di=cdeb7a7cf624c5d2fe6ad7c24b33e0da&imgtype=0&src=http%3A%2F%2Ftvax2.sinaimg.cn%2Fcrop.187.136.962.962.180%2F0070QoFGly8fm5zc7n1ymj310r0zk11q.jpg";
+    private static final String PATH = "https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=9fc27aa361224f4a4899751339f69044/b3b7d0a20cf431ade6d64fbc4736acaf2edd982a.jpg";
 
     @Override
     protected int getLayout() {
@@ -195,9 +193,7 @@ public class MainActivity extends BaseTitleActivity {
             startActivityForResult(intent, 1);
         });
 
-        buttonHaveSelect3.setOnClickListener(v ->
-
-        {
+        buttonHaveSelect3.setOnClickListener(v -> {
             turnActivity(FragmentTestActivity.class, false, null);
         });
 
@@ -223,42 +219,48 @@ public class MainActivity extends BaseTitleActivity {
         buttonHaveSelect.setOnClickListener(v ->
 
         {
-            //这里是需要文件的全路径
-            DownLoadFileUtil.downLoadFile
-                    ("http://101.204.240.105:50203/bizmodules/templates/app/lt" +
-                            ".apk", AppConfig.BASE_FILE, new DownLoadFileUtil
-                            .FileDownLoadCallBack() {
-                        @Override
-                        public void callBack(String msg, boolean success) {
-                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
-                                    .ic_launcher_round, 1, 1, success);
-                        }
 
-                        @Override
-                        public void callBack(long bytesRead, long contentLength, boolean done) {
-                            LoggerUtil.e("bytesRead= " + bytesRead + ",contentLength= " +
-                                    contentLength);
-                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
-                                    .ic_launcher_round, bytesRead, contentLength, true);
-                        }
-                    });
+            turnActivity(CoordinatorLayoutActivity.class, false, null);
+            //这里是需要文件的全路径
+//            DownLoadFileUtil.downLoadFile
+//                    ("http://101.204.240.105:50203/bizmodules/templates/app/lt" +
+//                            ".apk", AppConfig.BASE_FILE, new DownLoadFileUtil
+//                            .FileDownLoadCallBack() {
+//                        @Override
+//                        public void callBack(String msg, boolean success) {
+//                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
+//                                    .ic_launcher_round, 1, 1, success);
+//                        }
+//
+//                        @Override
+//                        public void callBack(long bytesRead, long contentLength, boolean done) {
+//                            LoggerUtil.e("bytesRead= " + bytesRead + ",contentLength= " +
+//                                    contentLength);
+//                            DownLoadNotificationUtil.show(mContext, "软件更新测试", R.mipmap
+//                                    .ic_launcher_round, bytesRead, contentLength, true);
+//                        }
+//                    });
+
         });
 
         GlideUtil.load(PATH, imageView1);
 
-        GlideUtil.load(PATH, imageView2, GlideScaleType.centerCrop);
+        GlideUtil.load(PATH, imageView2, GlideType.centerCrop);
 
-        GlideUtil.load(PATH, imageView3, GlideScaleType.fitCenter);
+        GlideUtil.load(PATH, imageView3, GlideType.fitCenter);
 
-        GlideUtil.loadCircle(PATH, imageView4, GlideScaleType.centerCrop);
+        GlideUtil.loadCircle(PATH, imageView4);
+        GlideUtil.loadCircle("", imageView7, (requestOptions, requestBuilder) -> {
+            //我们在这里修改,加载失败显示的是空
+            requestOptions.placeholder(AppConfig.IMAGE_EMPTY);
+            requestOptions.error(AppConfig.IMAGE_EMPTY);
+            requestOptions.fallback(AppConfig.IMAGE_EMPTY);
+        });
 
-        GlideUtil.loadCircle(PATH, imageView5);
+        GlideUtil.loadRound(PATH, imageView5, 30);
 
-        GlideUtil.loadRound(PATH, imageView6);
-
-        GlideUtil.loadRound(PATH, imageView7, GlideScaleType.centerCrop);
-
-        GlideUtil.loadRound("", imageView8);
+        GlideUtil.loadRound("", imageView6, 30);
+        GlideUtil.loadRound(null, imageView8, 30);
 
 
         HashMap<String, Object> hashMap = new HashMap<>();

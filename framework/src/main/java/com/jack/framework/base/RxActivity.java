@@ -2,7 +2,7 @@ package com.jack.framework.base;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.jack.framework.enums.RxLifeEvent;
 
@@ -17,7 +17,7 @@ import rx.subjects.PublishSubject;
  * 根据Activity生命周期判断Retrofit的网络请求与否
  */
 
-abstract class RxActivity extends FragmentActivity {
+abstract class RxActivity extends AppCompatActivity {
     protected final PublishSubject<RxLifeEvent> lifecycleSubject = PublishSubject.create();
 
     @Override

@@ -33,6 +33,7 @@
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.DrawerLayoutActivity"/>
         <activity android:name=".activity.FragmentTestActivity"/>
+        <activity android:name=".activity.CoordinatorLayoutActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

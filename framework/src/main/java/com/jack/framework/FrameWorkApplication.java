@@ -5,6 +5,8 @@ import android.app.Application;
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.util.SharedPreferencesUtil;
 import com.jack.framework.view.ClassicsFooter;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
@@ -23,6 +25,8 @@ public class FrameWorkApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
+
+        Logger.addLogAdapter(new AndroidLogAdapter());
         //初始化
         SharedPreferencesUtil.init(application, AppConfig.SHAREDPREFERNCES_NAME);
 

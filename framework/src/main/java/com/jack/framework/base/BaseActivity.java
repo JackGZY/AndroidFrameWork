@@ -24,7 +24,6 @@ import com.jack.framework.util.SystemBarTintManager;
 import com.jack.framework.util.ToastUtil;
 import com.jack.framework.view.dialog.LoadingDialog;
 import com.jack.framework.view.dialog.MessageDialog;
-import com.jude.swipbackhelper.SwipeBackHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,13 +145,13 @@ public abstract class BaseActivity extends RxActivity {
         loadingDialog = new LoadingDialog(mContext);
 
         if (isNeedSwipeBack()) {
-            SwipeBackHelper.onCreate(this);
-            SwipeBackHelper.getCurrentPage(this)//get current instance
-                    .setSwipeBackEnable(true)//on-off
-                    .setSwipeEdge(100)
-                    .setSwipeSensitivity(0.15f)//sensitiveness of the gesture。0:slow  1:sensitive
-                    .setSwipeRelateEnable(true)//if should move together with the following Activity
-                    .setSwipeRelateOffset(500);//the Offset of following Activity when
+//            SwipeBackHelper.onCreate(this);
+//            SwipeBackHelper.getCurrentPage(this)//get current instance
+//                    .setSwipeBackEnable(true)//on-off
+//                    .setSwipeEdge(100)
+//                    .setSwipeSensitivity(0.15f)//sensitiveness of the gesture。0:slow  1:sensitive
+//                    .setSwipeRelateEnable(true)//if should move together with the following Activity
+//                    .setSwipeRelateOffset(500);//the Offset of following Activity when
         }
         beforeSetView();
         View view = getLayoutView();
@@ -288,7 +287,7 @@ public abstract class BaseActivity extends RxActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (isNeedSwipeBack()) SwipeBackHelper.onPostCreate(this);
+        //if (isNeedSwipeBack()) SwipeBackHelper.onPostCreate(this);
     }
 
     @Override
@@ -300,7 +299,7 @@ public abstract class BaseActivity extends RxActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isNeedSwipeBack()) SwipeBackHelper.onDestroy(this);
+       // if (isNeedSwipeBack()) SwipeBackHelper.onDestroy(this);
         mUnbinder.unbind();
     }
 
