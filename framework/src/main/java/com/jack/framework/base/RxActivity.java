@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jack.framework.enums.RxLifeEvent;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.subjects.PublishSubject;
+
 
 /**
  * @Author: JACK-GU
@@ -57,7 +59,30 @@ abstract class RxActivity extends AppCompatActivity {
     }
 
     @NonNull
-    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final RxLifeEvent event) {
+    public <T> ObservableTransformer<T, T> bindUntilEvent(@NonNull final RxLifeEvent event) {
+       /* return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                Observable<RxLifeEvent> compareLifecycleObservable =
+                        lifecycleSubject.filter(new Predicate<RxLifeEvent>() {
+                            @Override
+                            public boolean test(RxLifeEvent rxLifeEvent) {
+                                return rxLifeEvent.equals(event);
+                            }
+                        }).take(1);
+                return upstream.takeUntil(compareLifecycleObservable);
+            }
+        };*/
+
+        return upstream -> {
+            Observable<RxLifeEvent> compareLifecycleObservable =
+                    lifecycleSubject.filter(rxLifeEvent -> rxLifeEvent.equals(event)).take(1);
+            return upstream.takeUntil(compareLifecycleObservable);
+        };
+
+
+
+        //这个是rx1的写法
         /*return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> sourceObservable) {
@@ -72,8 +97,7 @@ abstract class RxActivity extends AppCompatActivity {
                 //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
                 return sourceObservable.takeUntil(compareLifecycleObservable);
             }
-        };*/
-
+        };
         return sourceObservable -> {
             //发射满足条件的第一条数据
             Observable<RxLifeEvent> compareLifecycleObservable =
@@ -81,6 +105,6 @@ abstract class RxActivity extends AppCompatActivity {
                             .equals(event));
             //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
             return sourceObservable.takeUntil(compareLifecycleObservable);
-        };
+        };*/
     }
 }

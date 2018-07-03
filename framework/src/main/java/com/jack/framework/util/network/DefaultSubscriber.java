@@ -10,7 +10,9 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import retrofit2.adapter.rxjava.HttpException;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import retrofit2.HttpException;
 
 /**
  * 默认的订阅者，最好是用这个，好统一管理
@@ -19,10 +21,10 @@ import retrofit2.adapter.rxjava.HttpException;
  * @Date: 2018/1/18
  * @E-Mail: 528489389@qq.com
  */
-public abstract class DefaultSubscriber<T> extends rx.Subscriber<T> {
+public abstract class DefaultSubscriber<T> implements Observer<T> {
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
 
     }
 
@@ -45,6 +47,11 @@ public abstract class DefaultSubscriber<T> extends rx.Subscriber<T> {
         }
         e.printStackTrace();
         _onError(reason);
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
     }
 
     @Override

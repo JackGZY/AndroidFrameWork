@@ -8,8 +8,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.RequestBody;
-import rx.Observable;
 
 /**
  * 响应,T表示最后需要的数据，不用创建那么多的repository

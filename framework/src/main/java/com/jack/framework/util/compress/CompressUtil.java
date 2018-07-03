@@ -3,7 +3,6 @@ package com.jack.framework.util.compress;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-
 import com.jack.framework.FrameWorkApplication;
 
 import java.io.File;
@@ -11,9 +10,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * 图片压缩
@@ -56,7 +56,7 @@ public class CompressUtil {
                     }
 
                     subscriber.onNext(compressedImage.getAbsolutePath());
-                    subscriber.onCompleted();
+                    subscriber.onComplete();
                 } catch (IOException e) {
                     subscriber.onError(e);
                     e.printStackTrace();

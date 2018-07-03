@@ -3,10 +3,8 @@ package com.jackgu.androidframework.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.widget.ImageView;
 
 import com.jack.framework.base.BaseTitleActivity;
@@ -17,6 +15,7 @@ import com.jack.framework.eventAction.DownloadFileMessageEvent;
 import com.jack.framework.util.GlideUtil;
 import com.jack.framework.util.LoggerUtil;
 import com.jack.framework.util.ToastUtil;
+import com.jack.framework.util.UriUtil;
 import com.jack.framework.util.compress.CompressUtil;
 import com.jack.framework.util.db.GreenDaoUtil;
 import com.jack.framework.util.network.DefaultSubscriber;
@@ -25,7 +24,6 @@ import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
 import com.jack.framework.view.dialog.MessageDialog;
-import com.jackgu.androidframework.BuildConfig;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.entity.TestEntity;
 import com.jackgu.androidframework.retrofit.service.TestService;
@@ -40,11 +38,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Subscriber;
 
 public class MainActivity extends BaseTitleActivity {
     @BindView(R.id.imageView1)
@@ -202,16 +201,8 @@ public class MainActivity extends BaseTitleActivity {
 
         {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri uri = null;
             File file = new File(AppConfig.DATA_BASE_FILE + "/1.jpg");
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                uri = Uri.fromFile(file);
-            } else {
-                String s = BuildConfig.APPLICATION_ID + ".fileprovider";
-                uri = FileProvider.getUriForFile(mContext, s, file);
-                //添加权限
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            }
+            Uri uri = UriUtil.getUriFromFile(file, intent);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             startActivityForResult(intent, 1);
         });
@@ -321,8 +312,9 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        timerTextView.cancel();
         EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -336,10 +328,15 @@ public class MainActivity extends BaseTitleActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             File file = new File(AppConfig.DATA_BASE_FILE + "/1.jpg");
-            CompressUtil.compress(file.getAbsolutePath(), true).subscribe(new Subscriber<String>() {
+            CompressUtil.compress(file.getAbsolutePath(), true).subscribe(new Observer<String>() {
                 @Override
-                public void onCompleted() {
+                public void onSubscribe(Disposable d) {
 
+                }
+
+                @Override
+                public void onNext(String s) {
+                    LoggerUtil.e("压缩成功，地址：" + s);
                 }
 
                 @Override
@@ -348,8 +345,8 @@ public class MainActivity extends BaseTitleActivity {
                 }
 
                 @Override
-                public void onNext(String s) {
-                    LoggerUtil.e("压缩成功，地址：" + s);
+                public void onComplete() {
+
                 }
             });
         }

@@ -10,8 +10,10 @@ import android.view.View;
 
 import com.jack.framework.enums.RxLifeEvent;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.subjects.PublishSubject;
+
 
 /**
  * @Author: JACK-GU
@@ -87,7 +89,30 @@ abstract class RxFragment extends Fragment {
 
     //监听Frament声明周期，当Fragment销毁后，停止网络请求
     @NonNull
-    public <T> Observable.Transformer<T, T> bindUntilEvent(@NonNull final RxLifeEvent event) {
+    public <T> ObservableTransformer<T, T> bindUntilEvent(@NonNull final RxLifeEvent event) {
+       /* return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                Observable<RxLifeEvent> compareLifecycleObservable =
+                        lifecycleSubject.filter(new Predicate<RxLifeEvent>() {
+                            @Override
+                            public boolean test(RxLifeEvent rxLifeEvent) {
+                                return rxLifeEvent.equals(event);
+                            }
+                        }).take(1);
+                return upstream.takeUntil(compareLifecycleObservable);
+            }
+        };*/
+
+        return upstream -> {
+            Observable<RxLifeEvent> compareLifecycleObservable =
+                    lifecycleSubject.filter(rxLifeEvent -> rxLifeEvent.equals(event)).take(1);
+            return upstream.takeUntil(compareLifecycleObservable);
+        };
+
+
+
+        //这个是rx1的写法
         /*return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> sourceObservable) {
@@ -102,8 +127,7 @@ abstract class RxFragment extends Fragment {
                 //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
                 return sourceObservable.takeUntil(compareLifecycleObservable);
             }
-        };*/
-
+        };
         return sourceObservable -> {
             //发射满足条件的第一条数据
             Observable<RxLifeEvent> compareLifecycleObservable =
@@ -111,6 +135,6 @@ abstract class RxFragment extends Fragment {
                             .equals(event));
             //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
             return sourceObservable.takeUntil(compareLifecycleObservable);
-        };
+        };*/
     }
 }

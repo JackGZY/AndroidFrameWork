@@ -87,8 +87,6 @@ public abstract class BaseFragment extends RxFragment {
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        mContext.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim
-                .slide_out_right);
         if (isFinish) {
             mContext.finish();
         }
@@ -111,8 +109,6 @@ public abstract class BaseFragment extends RxFragment {
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, RequestCode);
-        mContext.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim
-                .slide_out_right);
         if (isFinish) {
             mContext.finish();
         }

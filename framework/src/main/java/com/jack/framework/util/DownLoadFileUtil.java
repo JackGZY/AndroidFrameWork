@@ -11,14 +11,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @Author: JACK-GU
@@ -75,20 +76,22 @@ public class DownLoadFileUtil {
         Observable<String> stringObservable = Observable.create(subscriber -> {
             if (writeResponseBodyToDisk(responseBody, name)) {
                 //成功
-                subscriber.onCompleted();
+                subscriber.onComplete();
             } else {
                 //失败
                 subscriber.onError(new NullPointerException("写入文件失败！"));
             }
         });
-
-
         stringObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers
-                .mainThread()).subscribe(new Subscriber<String>() {
+                .mainThread()).subscribe(new Observer<String>() {
             @Override
-            public void onCompleted() {
-                if (fileDownLoadCallBack != null)
-                    fileDownLoadCallBack.callBack("下载完成！", true);
+            public void onSubscribe(Disposable d) {
+                d.dispose();
+            }
+
+            @Override
+            public void onNext(String s) {
+
             }
 
             @Override
@@ -98,7 +101,9 @@ public class DownLoadFileUtil {
             }
 
             @Override
-            public void onNext(String s) {
+            public void onComplete() {
+                if (fileDownLoadCallBack != null)
+                    fileDownLoadCallBack.callBack("下载完成！", true);
             }
         });
     }

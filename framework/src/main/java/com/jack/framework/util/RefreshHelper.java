@@ -213,7 +213,27 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void add(T t) {
+        /****** 伟大的分割线 ****** 避免加载更多数据的时候，item的间隔不对 ****** start ******/
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        int n = 0;
+        //添加前的长度
+        int oldSize = dataList.size();
+
+        if (layoutManager instanceof GridLayoutManager) {
+            n = ((GridLayoutManager) layoutManager).getSpanCount();
+            //计算最后一排的个数
+            int m = oldSize % n;
+            n = m == 0 ? n : m;
+        } else if (layoutManager instanceof LinearLayoutManager) {
+            n = 1;
+        }
+
+
         baseQuickAdapter.addData(t);
+        if (oldSize - n >= 0) {
+            baseQuickAdapter.notifyItemRangeChanged(oldSize - n, n);
+        }
+        /****** 伟大的分割线 ****** 避免加载更多数据的时候，item的间隔不对 ****** end ******/
 
         //加入新的数据，判断一下是不是满了
         haveLoad();
@@ -227,8 +247,27 @@ public class RefreshHelper<T> {
      * @E-Mail: 528489389@qq.com
      */
     public void add(List<T> dataS) {
-        baseQuickAdapter.addData(dataS);
+        /****** 伟大的分割线 ****** 避免加载更多数据的时候，item的间隔不对 ****** start ******/
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        int n = 0;
+        //添加前的长度
+        int oldSize = dataList.size();
 
+        if (layoutManager instanceof GridLayoutManager) {
+            n = ((GridLayoutManager) layoutManager).getSpanCount();
+            //计算最后一排的个数
+            int m = oldSize % n;
+            n = m == 0 ? n : m;
+        } else if (layoutManager instanceof LinearLayoutManager) {
+            n = 1;
+        }
+
+
+        baseQuickAdapter.addData(dataS);
+        if (oldSize - n >= 0) {
+            baseQuickAdapter.notifyItemRangeChanged(oldSize - n, n);
+        }
+        /****** 伟大的分割线 ****** 避免加载更多数据的时候，item的间隔不对 ****** end ******/
         //加入新的数据，判断一下是不是满了
         haveLoad();
     }

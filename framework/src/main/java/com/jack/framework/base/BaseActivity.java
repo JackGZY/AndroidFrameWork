@@ -181,7 +181,6 @@ public abstract class BaseActivity extends RxActivity {
             intent.putExtras(bundle);
         }
         startActivity(intent);
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         if (isFinish) {
             finish();
         }
@@ -222,7 +221,6 @@ public abstract class BaseActivity extends RxActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, android.R.anim.slide_out_right);
     }
 
     /**
@@ -272,7 +270,6 @@ public abstract class BaseActivity extends RxActivity {
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, RequestCode);
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         if (isFinish) {
             finish();
         }

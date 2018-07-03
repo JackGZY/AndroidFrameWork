@@ -7,19 +7,20 @@ import com.jackgu.androidframework.entity.TestEntity;
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import rx.Observable;
 
 /**
+ * 测试的service
+ *
  * @Author: JACK-GU
  * @Date: 2018/1/12
  * @E-Mail: 528489389@qq.com
- * <p>
- * 测试的service
+ *
  */
 public interface TestService {
     @FormUrlEncoded

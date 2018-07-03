@@ -10,11 +10,12 @@ import com.jack.framework.util.network.CodeException;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * @Author: JACK-GU
@@ -36,19 +37,21 @@ public class BaseRepository {
         return observable.compose(baseEntityObservable -> baseEntityObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap((Func1<BaseEntity<T>, Observable<T>>) result -> {
-                    if (result == null) {
+                .flatMap((Function<BaseEntity<T>, ObservableSource<T>>) tBaseEntity -> {
+                    if (tBaseEntity == null) {
                         return Observable.error(new NetworkErrorException());
                     } else {
-                        if (result.getCode() == AppConfig.DATA_SUCCESS_CODE) {
-                            Observable<T> tObservable = Observable.create(subscriber -> {
-                                subscriber.onNext(result.getData());
+                        if (tBaseEntity.getCode() == AppConfig.DATA_SUCCESS_CODE) {
+                            Observable<T> tObservable = Observable.create(emitter -> {
+                                if (emitter.isDisposed()) {
+                                    emitter.onNext(tBaseEntity.getData());
+                                }
                             });
                             return tObservable;
                         } else {
                             //具体处理异常的问题,返回msg
-                            return Observable.error(new CodeException(result.getMsg(), result
-                                    .getCode()));
+                            return Observable.error(new CodeException(tBaseEntity.getMsg(),
+                                    tBaseEntity.getCode()));
                         }
                     }
                 }));
@@ -61,19 +64,21 @@ public class BaseRepository {
         return observable.compose(baseEntityObservable -> baseEntityObservable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMap((Func1<BaseEntity<T>, Observable<T>>) result -> {
-                    if (result == null) {
+                .flatMap((Function<BaseEntity<T>, ObservableSource<T>>) tBaseEntity -> {
+                    if (tBaseEntity == null) {
                         return Observable.error(new NetworkErrorException());
                     } else {
-                        if (result.getCode() == AppConfig.DATA_SUCCESS_CODE) {
-                            Observable<T> tObservable = Observable.create(subscriber -> {
-                                subscriber.onNext(result.getData());
+                        if (tBaseEntity.getCode() == AppConfig.DATA_SUCCESS_CODE) {
+                            Observable<T> tObservable = Observable.create(emitter -> {
+                                if (emitter.isDisposed()) {
+                                    emitter.onNext(tBaseEntity.getData());
+                                }
                             });
                             return tObservable;
                         } else {
                             //具体处理异常的问题,返回msg
-                            return Observable.error(new CodeException(result.getMsg(), result
-                                    .getCode()));
+                            return Observable.error(new CodeException(tBaseEntity.getMsg(),
+                                    tBaseEntity.getCode()));
                         }
                     }
                 }));

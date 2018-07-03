@@ -18,8 +18,8 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
  * 应用程序
  */
 
-public class FrameWorkApplication extends Application {
-    private static Application application;
+public abstract class FrameWorkApplication extends Application {
+    private static FrameWorkApplication application;
 
     @Override
     public void onCreate() {
@@ -33,7 +33,15 @@ public class FrameWorkApplication extends Application {
         initSmartRefreshLayout();
     }
 
-    public static Application getApplication() {
+    /**
+     * 获取app这个Module的application id
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    public abstract String getMainModuleID();
+
+    public static FrameWorkApplication getApplication() {
         return application;
     }
 

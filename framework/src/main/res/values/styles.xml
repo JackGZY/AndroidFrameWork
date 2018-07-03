@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:imeOptions">flagNoExtractUi</item>
         <item name="android:overScrollMode">never</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+    </style>
+
+    <style name="activityAnimation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/fragment_slide_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fragment_slide_left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fragment_slide_left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fragment_slide_right_out</item>
     </style>
 
     <style name="MyDialog" parent="@android:style/Theme.Holo.Dialog">
@@ -21,6 +29,7 @@
 
 
     <style name="SplashTheme" parent="AppTheme">
+
     </style>
 
     <!--定义一些常用的style-->

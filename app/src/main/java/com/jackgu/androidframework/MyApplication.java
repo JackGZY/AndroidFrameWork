@@ -16,4 +16,9 @@ public class MyApplication extends FrameWorkApplication {
         super.onCreate();
     }
 
+    @Override
+    public String getMainModuleID() {
+        return BuildConfig.APPLICATION_ID;
+    }
+
 }
