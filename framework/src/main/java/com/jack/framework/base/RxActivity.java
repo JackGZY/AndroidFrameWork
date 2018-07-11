@@ -1,8 +1,11 @@
 package com.jack.framework.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.jack.framework.enums.RxLifeEvent;
 
@@ -55,6 +58,7 @@ abstract class RxActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         lifecycleSubject.onNext(RxLifeEvent.DESTROY);
+        closeKeyboard();
         super.onDestroy();
     }
 
@@ -81,7 +85,6 @@ abstract class RxActivity extends AppCompatActivity {
         };
 
 
-
         //这个是rx1的写法
         /*return new Observable.Transformer<T, T>() {
             @Override
@@ -106,5 +109,14 @@ abstract class RxActivity extends AppCompatActivity {
             //当compareLifecycleObservable发射数据后，sourceObservable(原数据源)就会舍弃后面的全部数据
             return sourceObservable.takeUntil(compareLifecycleObservable);
         };*/
+    }
+
+    private void closeKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

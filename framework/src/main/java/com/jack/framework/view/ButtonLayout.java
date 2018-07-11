@@ -78,6 +78,7 @@ public class ButtonLayout extends FrameLayout {
                 .ButtonLayout_buttonLayoutRippleRoundedCornersRightTop, -1);
         DEFAULT_RADIUS_RIGHT_BOTTOM = a.getDimensionPixelSize(R.styleable
                 .ButtonLayout_buttonLayoutRippleRoundedCornersRightBottom, -1);
+        a.recycle();
     }
 
 

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
@@ -42,7 +43,6 @@ public class MyRepository<T> extends BaseRepository {
     public Observable<T> get(Class serviceClass, String methodName, Map<String, Object> params) {
         Observable<T> rObservable = null;
         try {
-            addParams(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(methodName, HashMap.class);
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
@@ -72,7 +72,6 @@ public class MyRepository<T> extends BaseRepository {
                                  RefreshHelper refreshHelper) {
         Observable<T> rObservable = null;
         try {
-            addParams(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(methodName, HashMap.class);
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
@@ -89,14 +88,12 @@ public class MyRepository<T> extends BaseRepository {
     /**
      * 开始请求,返回必须是BaseEntity<T>
      * <p>
-     * 1. 放入一个普通参数
-     * <p>
-     * map.put("mobile", RequestBody.create(MediaType.parse("multipart/form-data"),
-     * AppConfig.userInfo.getUsername()));
-     * <p>
-     * 2. 放入一个文件参数
-     * <p>
-     * MultipartBody.Part part = MultipartBodyHelper.transform(path, "header");
+     * MultipartBody.Part part = MultipartBodyHelper.transform("", "header");
+     * MultipartBody multipartBody = new MultipartBody.Builder()
+     * .setType(MultipartBody.FORM) //设置为表单格式
+     * .addPart(part) //添加文件参数
+     * .addFormDataPart("name", "王麻子") //添加普通参数
+     * .build();
      * <p>
      * 定义service的时候
      * <p>
@@ -118,7 +115,6 @@ public class MyRepository<T> extends BaseRepository {
                                     Map<String, RequestBody> params) {
         Observable<T> rObservable = null;
         try {
-            addParamsRequestBody(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(methodName, HashMap.class);
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
@@ -143,7 +139,6 @@ public class MyRepository<T> extends BaseRepository {
     public Observable<T> get(Class serviceClass, Map<String, Object> params) {
         Observable<T> rObservable = null;
         try {
-            addParams(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(DEFAULT_METHOD_NAME,
                     HashMap.class);
@@ -173,7 +168,6 @@ public class MyRepository<T> extends BaseRepository {
                                  RefreshHelper refreshHelper) {
         Observable<T> rObservable = null;
         try {
-            addParams(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(DEFAULT_METHOD_NAME, HashMap.class);
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
@@ -201,28 +195,23 @@ public class MyRepository<T> extends BaseRepository {
      * <p>
      * 定义service的时候
      * <p>
-     * \@Multipart
-     * <p>
-     * \@POST("UserCenter/UpdateUserHeader.ashx")
-     * <p>
-     * Observable<BaseEntity<UserInfo>> get(@PartMap HashMap<String, RequestBody> params)
-     * <p>
+     * \ @POST("one")
+     * Call<ResponseBody> upload(@Body MultipartBody multipartBody);
      * </p>
      *
-     * @param serviceClass service的class
-     * @param params       参数，这个适合传文件的时候使用
+     * @param serviceClass  service的class
+     * @param multipartBody body
      * @Author: JACK-GU
      * @E-Mail: 528489389@qq.com
      */
-    public Observable<T> uploadFile(Class serviceClass, Map<String, RequestBody> params) {
+    public Observable<T> uploadFile(Class serviceClass, MultipartBody multipartBody) {
         Observable<T> rObservable = null;
         try {
-            addParamsRequestBody(params);
             Object o = RetrofitHelper.getInstance().createService(serviceClass);
             Method declaredMethod = o.getClass().getDeclaredMethod(DEFAULT_METHOD_NAME,
                     HashMap.class);
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
-                    declaredMethod.invoke(o, params);
+                    declaredMethod.invoke(o, multipartBody);
             rObservable = transformResult(baseEntityObservable);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

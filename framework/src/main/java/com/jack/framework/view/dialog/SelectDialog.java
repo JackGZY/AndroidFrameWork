@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jack.framework.R;
 import com.jack.framework.util.DensityUtil;
 import com.jack.framework.util.GlideUtil;
+import com.jack.framework.util.ResourcesUtil;
 import com.jack.framework.view.ButtonLayout;
 
 import java.util.List;
@@ -145,8 +146,7 @@ public class SelectDialog extends Dialog {
         rootLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
         //设置布局
-        int width = DensityUtil.getDeviceWidth() - 2 * DensityUtil.dip2px(context,
-                MARGIN_DEVICE);
+        int width = DensityUtil.getDeviceWidth() - 2 * DensityUtil.dip2px(MARGIN_DEVICE);
         LinearLayout.LayoutParams rootLayoutParams = new LinearLayout.LayoutParams(width,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         rootLayoutParams.width = width;
@@ -162,8 +162,7 @@ public class SelectDialog extends Dialog {
         textViewTitle.setLayoutParams(titleLayoutParams);
 
         textViewTitle.setText(context.getResources().getText(R.string.message_dialog_title));
-        textViewTitle.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.text_size_big)));
+        textViewTitle.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_big)));
         textViewTitle.setPadding(padding, padding, padding, padding);
         textViewTitle.setTextColor(context.getResources().getColor(R.color.theme));
         rootLinearLayout.addView(textViewTitle);
@@ -177,8 +176,7 @@ public class SelectDialog extends Dialog {
 //        textViewContent.setGravity(Gravity.CENTER);
         textViewContent.setText("*" + context.getResources().getText(R.string
                 .message_dialog_content));
-        textViewContent.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.text_size_small)));
+        textViewContent.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_small)));
         textViewContent.setPadding(padding, 0, padding, padding);
         textViewContent.setTextColor(context.getResources().getColor(R.color.red));
         rootLinearLayout.addView(textViewContent);
@@ -218,10 +216,10 @@ public class SelectDialog extends Dialog {
         });
 
         if (selectItems.indexOf(selectItem) == selectItems.size() - 1) {
-            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(context, 5));
-            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(context, 5));
+            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(5));
+            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(5));
         } else {
-            buttonLayout.setRadius(DensityUtil.dip2px(context, 0));
+            buttonLayout.setRadius(DensityUtil.dip2px(0));
         }
 
         return buttonLayout;
@@ -236,8 +234,7 @@ public class SelectDialog extends Dialog {
         textView.setLayoutParams(titleLayoutParams);
 
         textView.setText(selectItem.getName());
-        textView.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.text_size_normal)));
+        textView.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_normal)));
         textView.setGravity(selectItem.getGravity());
 
         textView.setPadding(padding, padding, padding, padding);
@@ -283,10 +280,10 @@ public class SelectDialog extends Dialog {
         });
 
         if (selectItems.indexOf(selectItem) == selectItems.size() - 1) {
-            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(context, 5));
-            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(context, 5));
+            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(5));
+            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(5));
         } else {
-            buttonLayout.setRadius(DensityUtil.dip2px(context, 0));
+            buttonLayout.setRadius(DensityUtil.dip2px(0));
         }
 
         rootLinearLayout.addView(buttonLayout);

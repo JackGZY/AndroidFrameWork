@@ -31,6 +31,7 @@ public class ResourcesUtil {
     /**
      * 通过id获得string
      *
+     * @param id 资源ID
      * @return string id对应的string
      * @Author: JACK-GU
      * @Date: 2018/4/9 10:15
@@ -55,13 +56,26 @@ public class ResourcesUtil {
     /**
      * 获得颜色
      *
+     * @param id 资源ID
      * @return color 返回颜色，可以直接设置
      * @Author: JACK-GU
      * @Date: 2018/4/9 10:17
      * @E-Mail: 528489389@qq.com
      */
-    public static int getColor(int color) {
-        return resources.getColor(color);
+    public static int getColor(int id) {
+        return resources.getColor(id);
     }
 
+    /**
+     * 获得像素
+     *
+     * @param id 资源ID
+     * @return px 返回像素,如果xml中单位是px，返回是px，如果是dp或者sp都会转成px
+     * @Author: JACK-GU
+     * @Date: 2018/4/9 10:17
+     * @E-Mail: 528489389@qq.com
+     */
+    public static float getPx(int id) {
+        return resources.getDimension(id);
+    }
 }

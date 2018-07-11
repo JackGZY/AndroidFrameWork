@@ -9,6 +9,10 @@
         <item name="android:imeOptions">flagNoExtractUi</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 
     <style name="activityAnimation" parent="@android:style/Animation">

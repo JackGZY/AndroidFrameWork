@@ -3,6 +3,7 @@ package com.jack.framework;
 import android.app.Application;
 
 import com.jack.framework.config.AppConfig;
+import com.jack.framework.util.ResourcesUtil;
 import com.jack.framework.util.SharedPreferencesUtil;
 import com.jack.framework.view.ClassicsFooter;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -31,6 +32,8 @@ public abstract class FrameWorkApplication extends Application {
         SharedPreferencesUtil.init(application, AppConfig.SHAREDPREFERNCES_NAME);
 
         initSmartRefreshLayout();
+
+        ResourcesUtil.init();
     }
 
     /**

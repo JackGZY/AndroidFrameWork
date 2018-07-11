@@ -6,7 +6,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.jack.framework.FrameWorkApplication;
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.enums.GlideType;
 
@@ -207,7 +206,7 @@ public class GlideUtil {
                 requestOptions.circleCrop();
             } else if (glideType == GlideType.ROUND) {
                 requestOptions.transform(new RoundedCornersTransformation(DensityUtil.dip2px
-                        (FrameWorkApplication.getApplication(), roundRadius), 0));
+                        (roundRadius), 0));
             }
         }
 

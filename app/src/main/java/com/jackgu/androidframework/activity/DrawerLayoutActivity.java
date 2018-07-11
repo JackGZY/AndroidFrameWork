@@ -27,18 +27,16 @@ public class DrawerLayoutActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        open.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.RIGHT));
+        open.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
     }
 
     @Override
     protected int drawerFromGravity() {
-        return Gravity.RIGHT;
+        return Gravity.LEFT;
     }
 
     @Override
     protected Object getContentView() {
-//        LinearLayout linearLayout1 = new LinearLayout(mContext);
-//        linearLayout1.setBackgroundColor(getResources().getColor(R.color.theme));
         return R.layout.activity_drawer_layout;
     }
 

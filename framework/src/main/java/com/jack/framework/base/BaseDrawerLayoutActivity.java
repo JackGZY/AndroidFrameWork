@@ -126,7 +126,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
             DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup
                     .LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = drawerFromGravity();//不设置这个不得行，因为源码是根据左右判断的
-            layoutParams.width = DensityUtil.dip2px(mContext, getDrawerWidth());
+            layoutParams.width = DensityUtil.dip2px( getDrawerWidth());
             drawerView.setLayoutParams(layoutParams);
             drawerLayout.addView(drawerView, 1);
         }

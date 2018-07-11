@@ -8,14 +8,11 @@ import com.jack.framework.entity.BaseEntity;
 import com.jack.framework.util.RefreshHelper;
 import com.jack.framework.util.network.CodeException;
 
-import java.util.Map;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * @Author: JACK-GU
@@ -43,7 +40,7 @@ public class BaseRepository {
                     } else {
                         if (tBaseEntity.getCode() == AppConfig.DATA_SUCCESS_CODE) {
                             Observable<T> tObservable = Observable.create(emitter -> {
-                                if (emitter.isDisposed()) {
+                                if (!emitter.isDisposed()) {
                                     emitter.onNext(tBaseEntity.getData());
                                 }
                             });
@@ -70,7 +67,7 @@ public class BaseRepository {
                     } else {
                         if (tBaseEntity.getCode() == AppConfig.DATA_SUCCESS_CODE) {
                             Observable<T> tObservable = Observable.create(emitter -> {
-                                if (emitter.isDisposed()) {
+                                if (!emitter.isDisposed()) {
                                     emitter.onNext(tBaseEntity.getData());
                                 }
                             });
@@ -83,24 +80,4 @@ public class BaseRepository {
                     }
                 }));
     }
-
-
-    /**
-     * 添加固定参数
-     *
-     * @Author: JACK-GU
-     * @E-Mail: 528489389@qq.com
-     */
-    protected void addParams(Map<String, Object> hashMap) {
-    }
-
-    /**
-     * 添加固定参数
-     *
-     * @Author: JACK-GU
-     * @E-Mail: 528489389@qq.com
-     */
-    protected void addParamsRequestBody(Map<String, RequestBody> hashMap) {
-    }
-
 }

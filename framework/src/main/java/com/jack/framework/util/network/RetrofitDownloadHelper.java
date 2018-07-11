@@ -25,10 +25,6 @@ public class RetrofitDownloadHelper {
         return sRetrofit;
     }
 
-    public void setsRetrofit(Retrofit sRetrofit) {
-        this.sRetrofit = sRetrofit;
-    }
-
     public RetrofitDownloadHelper(CallBack callBack) {
         builder = new OkHttpClient.Builder().addInterceptor(new
                 DownloadProgressInterceptor((bytesRead, contentLength, done) -> {
@@ -36,6 +32,7 @@ public class RetrofitDownloadHelper {
                 callBack.callBack(bytesRead, contentLength, done);
             }
         }));
+
 
         OkHttpClient client = builder
                 .retryOnConnectionFailure(true)

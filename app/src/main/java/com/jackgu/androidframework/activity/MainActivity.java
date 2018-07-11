@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.widget.ImageView;
 
 import com.jack.framework.base.BaseTitleActivity;
@@ -19,11 +20,11 @@ import com.jack.framework.util.UriUtil;
 import com.jack.framework.util.compress.CompressUtil;
 import com.jack.framework.util.db.GreenDaoUtil;
 import com.jack.framework.util.network.DefaultSubscriber;
-import com.jack.framework.util.network.RetrofitHelper;
+import com.jack.framework.util.network.MultipartBodyHelper;
 import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
-import com.jack.framework.view.dialog.MessageDialog;
+import com.jack.framework.view.dialog.SelectDialog;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.entity.TestEntity;
 import com.jackgu.androidframework.retrofit.service.TestService;
@@ -34,16 +35,17 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class MainActivity extends BaseTitleActivity {
     @BindView(R.id.imageView1)
@@ -78,6 +80,8 @@ public class MainActivity extends BaseTitleActivity {
     ButtonHaveSelect buttonHaveSelect3;
     @BindView(R.id.buttonHaveSelect4)
     ButtonHaveSelect buttonHaveSelect4;
+    @BindView(R.id.buttonHaveSelect5)
+    ButtonHaveSelect buttonHaveSelect5;
     @BindView(R.id.timerTextView)
     TimerTextView timerTextView;
 
@@ -93,7 +97,6 @@ public class MainActivity extends BaseTitleActivity {
     protected void initView(Bundle savedInstanceState) {
         //请求权限
         checkPermission((success, strings) ->
-
         {
             if (success) {
                 //创建文件
@@ -145,27 +148,27 @@ public class MainActivity extends BaseTitleActivity {
         myButton.setOnClickListener(v ->
 
         {
-//            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
-//            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
-//            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
-//                    .theme)));
-//            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
-//                    .red), R.mipmap.ic_launcher_round));
-//            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
-//                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
-//            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
-//                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
-//
-//            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
-//            selectDialog.show();
-//            selectDialog.setTitle("测试的标题");
-//            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
-//            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
+            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
+            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
+                    .theme)));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
 
-            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog
-                    .TYPE_THREE_BUTTON);
-            messageDialog.show();
-            messageDialog.setButtonTexts("取消1", "好的1", "确定1");
+            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
+            selectDialog.show();
+            selectDialog.setTitle("测试的标题");
+            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
+            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
+
+//            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog
+//                    .TYPE_THREE_BUTTON);
+//            messageDialog.show();
+//            messageDialog.setButtonTexts("取消1", "好的1", "确定1");
         });
 
 
@@ -270,27 +273,59 @@ public class MainActivity extends BaseTitleActivity {
 
                     @Override
                     public void _onError(String msg) {
-
+                        LoggerUtil.e(msg);
                     }
                 });
+        MultipartBody.Part part = MultipartBodyHelper.transform("", "header");
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM) //设置为表单格式
+                .addPart(part) //添加文件参数
+                .addFormDataPart("name", "王麻子") //添加普通参数
+                .build();
 
-        RetrofitHelper.getInstance().createService(TestService.class).getTest(hashMap)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            String s = response.body().string();
-                            LoggerUtil.e(s);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+        HashMap<String, RequestBody> hashMap2 = new HashMap<>();
+        hashMap2.put("type", MultipartBodyHelper.transform("", "").body());
 
-                    }
-                });
+
+//        RetrofitHelper.getInstance().createService(TestService.class).getTest(hashMap)
+//                .enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        try {
+//                            String s = response.body().string();
+//                            LoggerUtil.e(s);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                    }
+//                });
+
+        buttonHaveSelect5.setOnClickListener(v -> {
+            String url = "https://github.com/traex/RippleEffect/blob" +
+                    "/master/demo.gif?raw=true";
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+            Request request = new Request.Builder().url(url).build();
+
+            okHttpClient.newCall(request).enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(okhttp3.Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(okhttp3.Call call, okhttp3.Response response)
+                        throws IOException {
+                    response.body().byteStream();
+                }
+            });
+        });
     }
 
     @Override

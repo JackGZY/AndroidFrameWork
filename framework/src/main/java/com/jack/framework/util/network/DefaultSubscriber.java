@@ -51,7 +51,6 @@ public abstract class DefaultSubscriber<T> implements Observer<T> {
 
     @Override
     public void onSubscribe(Disposable d) {
-
     }
 
     @Override

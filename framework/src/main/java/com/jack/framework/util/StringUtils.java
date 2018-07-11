@@ -6,9 +6,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 
-
-import com.jack.framework.FrameWorkApplication;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
@@ -359,8 +356,7 @@ public class StringUtils {
      */
     public static SpannableString textSizeMore(SpannableString spannableString, int start, int
             end, int size) {
-        spannableString.setSpan(new AbsoluteSizeSpan(DensityUtil.sp2px(FrameWorkApplication
-                        .getApplication(), size)), start, end,
+        spannableString.setSpan(new AbsoluteSizeSpan(DensityUtil.sp2px(size)), start, end,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
         return spannableString;
@@ -379,8 +375,7 @@ public class StringUtils {
      */
     public static SpannableString textSizeMore(String str, int start, int end, int size) {
         SpannableString spannableString = new SpannableString(str);
-        spannableString.setSpan(new AbsoluteSizeSpan(DensityUtil.sp2px(FrameWorkApplication.getApplication
-                        (), size)), start, end,
+        spannableString.setSpan(new AbsoluteSizeSpan(DensityUtil.sp2px(size)), start, end,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
         return spannableString;

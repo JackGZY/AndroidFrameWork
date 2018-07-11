@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="buttonLayoutRippleRoundedCorners"
-        format="dimension" localization="suggested"/>
-    <attr name="buttonLayoutRippleRoundedCornersLeftTop"
-        format="dimension" localization="suggested"/>
-    <attr name="buttonLayoutRippleRoundedCornersRightTop"
-        format="dimension" localization="suggested"/>
-    <attr name="buttonLayoutRippleRoundedCornersLeftBottom"
-        format="dimension" localization="suggested"/>
-    <attr name="buttonLayoutRippleRoundedCornersRightBottom"
-        format="dimension" localization="suggested"/>
+    <attr name="buttonLayoutRippleRoundedCorners" format="dimension" localization="suggested" />
+    <attr name="buttonLayoutRippleRoundedCornersLeftTop" format="dimension" localization="suggested" />
+    <attr name="buttonLayoutRippleRoundedCornersRightTop" format="dimension" localization="suggested" />
+    <attr name="buttonLayoutRippleRoundedCornersLeftBottom" format="dimension" localization="suggested" />
+    <attr name="buttonLayoutRippleRoundedCornersRightBottom" format="dimension" localization="suggested" />
 
     <declare-styleable name="ButtonLayout">
-        <attr name="buttonLayoutRippleRoundedCorners"/>
-        <attr name="buttonLayoutRippleRoundedCornersLeftTop"/>
-        <attr name="buttonLayoutRippleRoundedCornersRightTop"/>
-        <attr name="buttonLayoutRippleRoundedCornersLeftBottom"/>
-        <attr name="buttonLayoutRippleRoundedCornersRightBottom"/>
+        <attr name="buttonLayoutRippleRoundedCorners" />
+        <attr name="buttonLayoutRippleRoundedCornersLeftTop" />
+        <attr name="buttonLayoutRippleRoundedCornersRightTop" />
+        <attr name="buttonLayoutRippleRoundedCornersLeftBottom" />
+        <attr name="buttonLayoutRippleRoundedCornersRightBottom" />
     </declare-styleable>
 
     <declare-styleable name="ButtonHaveSelect">
-        <attr name="buttonLayoutRippleRoundedCorners"/>
-        <attr name="buttonLayoutRippleRoundedCornersLeftTop"/>
-        <attr name="buttonLayoutRippleRoundedCornersRightTop"/>
-        <attr name="buttonLayoutRippleRoundedCornersLeftBottom"/>
-        <attr name="buttonLayoutRippleRoundedCornersRightBottom"/>
-        <attr name="android:textColor"/>
-        <attr name="android:textSize"/>
-        <attr name="android:text"/>
+        <attr name="buttonLayoutRippleRoundedCorners" />
+        <attr name="buttonLayoutRippleRoundedCornersLeftTop" />
+        <attr name="buttonLayoutRippleRoundedCornersRightTop" />
+        <attr name="buttonLayoutRippleRoundedCornersLeftBottom" />
+        <attr name="buttonLayoutRippleRoundedCornersRightBottom" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:text" />
+    </declare-styleable>
+
+    <declare-styleable name="MyEditText">
+        <attr name="myEditTextShowClear" format="boolean"/>
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:text" />
+        <attr name="android:hint"/>
+        <attr name="android:textColorHint"/>
     </declare-styleable>
 
 </resources>

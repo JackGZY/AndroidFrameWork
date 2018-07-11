@@ -25,7 +25,8 @@
             <ImageView
                 android:layout_width="@dimen/title_back_img_height"
                 android:layout_height="@dimen/title_back_img_height"
-                android:src="@mipmap/title_back"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/title_back"/>
 
 
             <TextView

@@ -56,8 +56,8 @@ public class LoadingDialog extends Dialog {
         root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setPadding(DensityUtil.dip2px(context, 30), (int) context.getResources()
-                        .getDimension(R.dimen.activity_margin), DensityUtil.dip2px(context, 30),
+        root.setPadding(DensityUtil.dip2px(30), (int) context.getResources()
+                        .getDimension(R.dimen.activity_margin), DensityUtil.dip2px(30),
                 (int) context.getResources().getDimension(R.dimen.activity_margin));
 
         root.setBackgroundResource(R.drawable.dialog_blank_shape);
@@ -65,7 +65,7 @@ public class LoadingDialog extends Dialog {
         imageView = new ImageView(context);
         LinearLayout.LayoutParams imageViewLayoutParams = new LinearLayout.LayoutParams
                 (DensityUtil.dip2px
-                        (context, 30), DensityUtil.dip2px(context, 30));
+                        (30), DensityUtil.dip2px(30));
         imageView.setLayoutParams(imageViewLayoutParams);
 
         textView = new TextView(context);
@@ -75,9 +75,9 @@ public class LoadingDialog extends Dialog {
                 .activity_margin);
         textView.setLayoutParams(textLayoutParams);
         textView.setTextColor(getContext().getResources().getColor(R.color.white));
-        textView.setTextSize(DensityUtil.px2sp(context, getContext().getResources().getDimension
+        textView.setTextSize(DensityUtil.px2sp(getContext().getResources().getDimension
                 (R.dimen.text_size_small)));
-        textView.setMaxWidth(DensityUtil.getWidth(context) /2);
+        textView.setMaxWidth(DensityUtil.getWidth(context) / 2);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setSingleLine(true);
 

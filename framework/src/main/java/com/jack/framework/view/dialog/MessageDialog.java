@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jack.framework.R;
 import com.jack.framework.util.DensityUtil;
+import com.jack.framework.util.ResourcesUtil;
 import com.jack.framework.view.ButtonHaveSelect;
 
 /**
@@ -357,8 +358,7 @@ public class MessageDialog extends Dialog {
         rootLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
         //设置布局
-        int width = DensityUtil.getDeviceWidth() - 2 * DensityUtil.dip2px(context,
-                MARGIN_DEVICE);
+        int width = DensityUtil.getDeviceWidth() - 2 * DensityUtil.dip2px(MARGIN_DEVICE);
         LinearLayout.LayoutParams rootLayoutParams = new LinearLayout.LayoutParams(width,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         rootLayoutParams.width = width;
@@ -374,8 +374,7 @@ public class MessageDialog extends Dialog {
         textViewTitle.setLayoutParams(titleLayoutParams);
 
         textViewTitle.setText(context.getResources().getText(R.string.message_dialog_title));
-        textViewTitle.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.text_size_big)));
+        textViewTitle.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_big)));
         textViewTitle.setGravity(Gravity.CENTER);
         textViewTitle.setPadding(padding, padding, padding, padding);
         textViewTitle.setTextColor(context.getResources().getColor(R.color.theme));
@@ -389,8 +388,7 @@ public class MessageDialog extends Dialog {
         textViewContent.setLayoutParams(contentLayoutParams);
 //        textViewContent.setGravity(Gravity.CENTER);
         textViewContent.setText(context.getResources().getText(R.string.message_dialog_content));
-        textViewContent.setTextSize(DensityUtil.px2sp(context, context.getResources().getDimension
-                (R.dimen.text_size_normal)));
+        textViewContent.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_normal)));
         textViewContent.setPadding(padding, 0, padding, padding);
         textViewContent.setTextColor(context.getResources().getColor(R.color.text_color));
         rootLinearLayout.addView(textViewContent);
@@ -442,15 +440,15 @@ public class MessageDialog extends Dialog {
 
             leftButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_left_button));
-            leftButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.text_size_normal)));
+            leftButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
+                    R.dimen.text_size_normal)));
             leftButton.getTextView().setTextColor(context.getResources().getColor(R.color.gray));
             leftButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
                             .WRAP_CONTENT, 1);
             leftButton.setLayoutParams(centerButtonLayoutParams);
-            leftButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(context, 5));
+            leftButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(5));
             buttonLinearLayout.addView(leftButton);
         }
 
@@ -470,8 +468,8 @@ public class MessageDialog extends Dialog {
             centerButton = new ButtonHaveSelect(context);
             centerButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_center_button));
-            centerButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.text_size_normal)));
+            centerButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
+                    R.dimen.text_size_normal)));
             centerButton.getTextView().setTextColor(context.getResources().getColor(R.color.black));
             centerButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
@@ -483,8 +481,8 @@ public class MessageDialog extends Dialog {
                 //设置圆角
                 centerButton.getTextView().setTextColor(context.getResources().getColor(R.color
                         .theme));
-                centerButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(context, 5));
-                centerButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(context, 5));
+                centerButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(5));
+                centerButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(5));
             }
             buttonLinearLayout.addView(centerButton);
         }
@@ -508,15 +506,15 @@ public class MessageDialog extends Dialog {
 
             rightButton.getTextView().setText(context.getResources().getText(R.string
                     .message_dialog_right_button));
-            rightButton.getTextView().setTextSize(DensityUtil.px2sp(context, context.getResources()
-                    .getDimension(R.dimen.text_size_normal)));
+            rightButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
+                    R.dimen.text_size_normal)));
             rightButton.getTextView().setTextColor(context.getResources().getColor(R.color.theme));
             rightButton.setPaddingCode(0, padding, 0, padding);
             LinearLayout.LayoutParams centerButtonLayoutParams = new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
                             .WRAP_CONTENT, 1);
             rightButton.setLayoutParams(centerButtonLayoutParams);
-            rightButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(context, 5));
+            rightButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(5));
 
             buttonLinearLayout.addView(rightButton);
         }

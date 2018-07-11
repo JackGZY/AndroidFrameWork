@@ -9,7 +9,8 @@
     <com.jack.framework.view.TitleBarLayout
         android:id="@+id/titleBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevation" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,6 +22,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <com.jack.framework.view.MyEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="请输入类容，输入后会出现清除按钮"
+                android:padding="@dimen/half_activity_margin"
+                android:textColor="@color/text_color"
+                app:myEditTextShowClear="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="123123" />
 
             <com.jack.framework.view.TimerTextView
                 android:id="@+id/timerTextView"
@@ -97,6 +112,16 @@
                 android:textColor="@color/white"
                 app:buttonLayoutRippleRoundedCorners="5dp" />
 
+            <com.jack.framework.view.ButtonHaveSelect
+                android:id="@+id/buttonHaveSelect5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/theme_shape"
+                android:padding="10dp"
+                android:text="okHttp下载文件"
+                android:textColor="@color/white"
+                app:buttonLayoutRippleRoundedCorners="5dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
