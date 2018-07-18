@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2014 Balys Valentukevicius
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.jack.framework.view;
 
 import android.content.Context;
@@ -29,7 +13,6 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Looper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -126,8 +109,10 @@ public class ButtonLayout extends FrameLayout {
             e.printStackTrace();
         }
 
+        /**************************************************************************************
+         *  页面绘制完成后，如果是圆形的水波纹，需要始终drawable的幅度达到效果 by JACK-GU 2018-07-18 10:55
+         **************************************************************************************/
         Looper.myQueue().addIdleHandler(() -> {
-            Log.e("-->", "w = " + getWidth() + " , h = " + getHeight());
             if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                     && rippleDrawable != null && rippleType == RIPPLE_TYPE_CIRCLE
                     && childView != null) {
@@ -149,7 +134,6 @@ public class ButtonLayout extends FrameLayout {
             }
             return false;
         });
-
     }
 
     private void setFourCorners(float r) {
@@ -221,23 +205,6 @@ public class ButtonLayout extends FrameLayout {
             e.printStackTrace();
         }
     }
-
-    /**
-     * 设置选这期,一般是按钮的布局大小发生变化后需要调用
-     *
-     * @Author: JACK-GU
-     * @E-Mail: 528489389@qq.com
-     */
-    public void setSelectorAgain() {
-        try {
-            setSelector();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void setSelector() throws NoSuchFieldException, IllegalAccessException {
         if (childView == null) {

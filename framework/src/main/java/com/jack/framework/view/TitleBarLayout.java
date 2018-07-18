@@ -27,6 +27,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * google的状态栏，好处就是方便以后实现效果
  * <p>
  * 自动计算高度，适配变色状态栏
+ * <p>
+ * 和leftButtonText相关的暂时不实现，因为发现加了那个text后效果不是很好了
+ * @see #setBackButton(String, OnClickListener)
  *
  * @Author: JACK-GU
  * @Date: 2018-07-13 13:52
@@ -160,7 +163,7 @@ public class TitleBarLayout extends RelativeLayout {
 
         linearLayoutLeft.addView(buttonLayoutBack, layoutParams);
 
-        //不添加左侧的返回，不好看
+        //不添加左侧的返回，不好看，展示不添加，寻找方案
 //        linearLayoutLeft.addView(textViewBack,
 //                new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
 
