@@ -17,14 +17,19 @@
 package com.jack.framework.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
+import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,8 +41,12 @@ import java.lang.reflect.Field;
 /**
  * 要加在按钮外面，就可以不写选择器了，但是子view一定要有背景色,不然默认白色
  * 默认圆角0dp，如果设置了圆角，优先，如果设置了四个角的，四个角的值优先，如果都没设置，会自动读取子控件的圆角
+ * <p>
+ * 5.0默认开启水波纹 ,RADIUS对其无效果,会自动适应的
  */
 public class ButtonLayout extends FrameLayout {
+    public static final int RIPPLE_TYPE_CIRCLE = 0; //圆形
+    public static final int RIPPLE_TYPE_RECTANGLE = 1; //矩形
     private View childView;
     private int DEFAULT_RADIUS = 0;
     private int DEFAULT_RADIUS_LEFT_TOP = -1;
@@ -45,6 +54,18 @@ public class ButtonLayout extends FrameLayout {
     private int DEFAULT_RADIUS_RIGHT_BOTTOM = -1;
     private int DEFAULT_RADIUS_RIGHT_TOP = -1;
     private float REDUCE = 1.3f;
+    //是否开启水波纹效果
+    private boolean enableRipple = false;
+    private int rippleType = RIPPLE_TYPE_RECTANGLE;
+    private RippleDrawable rippleDrawable; //全局的ripple，如果是圆形的需要设置一下绘制完成了
+
+    public void setEnableRipple(boolean enableRipple) {
+        this.enableRipple = enableRipple;
+    }
+
+    public void setRippleType(int rippleType) {
+        this.rippleType = rippleType;
+    }
 
     public ButtonLayout(Context context) {
         this(context, null, 0);
@@ -63,9 +84,12 @@ public class ButtonLayout extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
+        enableRipple = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
         if (attrs == null) {
             return;
         }
+
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ButtonLayout);
         DEFAULT_RADIUS = a.getDimensionPixelSize(R.styleable
                 .ButtonLayout_buttonLayoutRippleRoundedCorners, -1);
@@ -78,6 +102,10 @@ public class ButtonLayout extends FrameLayout {
                 .ButtonLayout_buttonLayoutRippleRoundedCornersRightTop, -1);
         DEFAULT_RADIUS_RIGHT_BOTTOM = a.getDimensionPixelSize(R.styleable
                 .ButtonLayout_buttonLayoutRippleRoundedCornersRightBottom, -1);
+        enableRipple = a.getBoolean(R.styleable.ButtonLayout_buttonLayoutEnableRipple,
+                enableRipple);
+        rippleType = a.getInt(R.styleable.ButtonLayout_buttonLayoutRippleType,
+                rippleType);
         a.recycle();
     }
 
@@ -85,8 +113,9 @@ public class ButtonLayout extends FrameLayout {
     @Override
     public final void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (getChildCount() > 0) {
-            throw new IllegalStateException("MaterialRippleLayout can host only one child");
+            throw new IllegalStateException("ButtonLayout can host only one child");
         }
+        super.addView(child, index, params);
 
         childView = child;
         try {
@@ -97,7 +126,30 @@ public class ButtonLayout extends FrameLayout {
             e.printStackTrace();
         }
 
-        super.addView(child, index, params);
+        Looper.myQueue().addIdleHandler(() -> {
+            Log.e("-->", "w = " + getWidth() + " , h = " + getHeight());
+            if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                    && rippleDrawable != null && rippleType == RIPPLE_TYPE_CIRCLE
+                    && childView != null) {
+                //获取view的宽度高度
+                final int w = getWidth();
+                final int h = getHeight();
+
+                int r = w > h ? h : w;
+                r = r / 2;
+                r = (int) (r - r * 0.2);
+                try {
+                    setRadius(rippleDrawable, r);
+                    childView.setBackground(rippleDrawable);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        });
+
     }
 
     private void setFourCorners(float r) {
@@ -170,34 +222,57 @@ public class ButtonLayout extends FrameLayout {
         }
     }
 
+    /**
+     * 设置选这期,一般是按钮的布局大小发生变化后需要调用
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setSelectorAgain() {
+        try {
+            setSelector();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public void setSelector() throws NoSuchFieldException, IllegalAccessException {
+
+    private void setSelector() throws NoSuchFieldException, IllegalAccessException {
         if (childView == null) {
             return;
         }
+
+        setDefault();
+    }
+
+    private void setRipple() throws NoSuchFieldException, IllegalAccessException {
+    }
+
+    private void setRadiusFromXml() {
         //如果默认的有，那就需要设置为默认的
         if (DEFAULT_RADIUS >= 0) {
             //说明xml中设置了的，所以要为四个角判断一波
             setFourCorners(DEFAULT_RADIUS);
         }
+    }
 
-
+    private void setDefault() throws NoSuchFieldException, IllegalAccessException {
+        setRadiusFromXml();
         StateListDrawable sd = new StateListDrawable();
 
-        int color = getContext().getResources().getColor(R.color.white);
+        int color = 0;
         //获取背景色
         Drawable drawable = childView.getBackground();
 
         if (drawable instanceof GradientDrawable) {
             GradientDrawable gradientDrawable = (GradientDrawable) drawable;
             Class gradientDrawableClass = (Class) gradientDrawable.getClass();
-            Field field = gradientDrawableClass.getDeclaredField("mFillPaint");
-            field.setAccessible(true);
-            Paint paint = (Paint) field.get(gradientDrawable);
-            color = paint.getColor();
 
             //这个说明可能有度数哦，我们拿到四个角的度数，然后设置，当然优先级别没有在xml中高
-            Field mGradientStateField = gradientDrawableClass.getDeclaredField("mGradientState");
+            Field mGradientStateField = gradientDrawableClass.getDeclaredField
+                    ("mGradientState");
             mGradientStateField.setAccessible(true);
             Object object = mGradientStateField.get(gradientDrawable);//这个是内部的类，所以没法，先用这个存着
 
@@ -233,7 +308,24 @@ public class ButtonLayout extends FrameLayout {
                     setFourCorners(mRadius);
                 }
             }
-
+            try {
+                //拿到颜色数组
+                Field mSolidColors = object.getClass()
+                        .getDeclaredField("mSolidColors");
+                ColorStateList colorStateList = (ColorStateList) mSolidColors.get(object);
+                if (colorStateList == null) {
+                    color = Color.parseColor("#FFFFFF");
+                } else {
+                    color = getColor(colorStateList);
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+                //说明是5.0的，拿颜色换个方法
+                Field field = gradientDrawableClass.getDeclaredField("mFillPaint");
+                field.setAccessible(true);
+                Paint paint = (Paint) field.get(gradientDrawable);
+                color = paint.getColor();
+            }
         } else if (drawable instanceof ColorDrawable) {
             ColorDrawable colorDrawable = (ColorDrawable) drawable;
             color = colorDrawable.getColor();
@@ -241,18 +333,23 @@ public class ButtonLayout extends FrameLayout {
             StateListDrawable stateListDrawable = (StateListDrawable) drawable;
         }
 
-        int red1 = Color.red(color);
-        int green1 = Color.green(color);
-        int blue1 = Color.blue(color);
+        if (color == 0) {
+            color = Color.parseColor("#33000000");
+        } else {
+            int red1 = Color.red(color);
+            int green1 = Color.green(color);
+            int blue1 = Color.blue(color);
 
-        int newColor = Color.parseColor("#000000");
-        int red2 = Color.red(newColor);
-        int green2 = Color.green(newColor);
-        int blue2 = Color.blue(newColor);
+            int newColor = Color.parseColor("#000000");
+            int red2 = Color.red(newColor);
+            int green2 = Color.green(newColor);
+            int blue2 = Color.blue(newColor);
 
-        //颜色合成
-        color = Color.rgb((int) ((red1 + red2) / REDUCE), (int) ((green1 + green2) / REDUCE),
-                (int) ((blue1 + blue2) / REDUCE));
+            //颜色合成
+            color = Color.rgb((int) ((red1 + red2) / REDUCE), (int) ((green1 + green2) / REDUCE),
+                    (int) ((blue1 + blue2) / REDUCE));
+        }
+
 
         //防止没有，设置为了-1.设置为默认的
         if (DEFAULT_RADIUS < 0) {
@@ -272,6 +369,7 @@ public class ButtonLayout extends FrameLayout {
             DEFAULT_RADIUS_LEFT_BOTTOM = DEFAULT_RADIUS;
         }
 
+
         GradientDrawable drawablePressed = new GradientDrawable();
         drawablePressed.setCornerRadius(DEFAULT_RADIUS);
         //左上右上右下左下,两个一起
@@ -289,7 +387,7 @@ public class ButtonLayout extends FrameLayout {
         GradientDrawable drawableFocus = new GradientDrawable();
         drawableFocus.setCornerRadius(DEFAULT_RADIUS);
         //左上右上右下左下,两个一起
-        drawablePressed.setCornerRadii(new float[]{
+        drawableFocus.setCornerRadii(new float[]{
                 DEFAULT_RADIUS_LEFT_TOP,
                 DEFAULT_RADIUS_LEFT_TOP,
                 DEFAULT_RADIUS_RIGHT_TOP,
@@ -301,17 +399,65 @@ public class ButtonLayout extends FrameLayout {
         drawableFocus.setColor(color);
 
 
-        sd.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused},
-                drawableFocus);
-        sd.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled},
-                drawablePressed);
-        sd.addState(new int[]{android.R.attr.state_focused}, drawableFocus);
-        sd.addState(new int[]{android.R.attr.state_pressed}, drawablePressed);
-        sd.addState(new int[]{android.R.attr.state_enabled}, drawable);
-        sd.addState(new int[]{}, drawable);
+        if (enableRipple && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rippleDrawable = new
+                    RippleDrawable(ColorStateList.valueOf(Color.parseColor
+                    ("#33000000"))
+                    , drawable, null);
+            childView.setFocusableInTouchMode(false);
+            childView.setBackground(rippleDrawable);
+        } else {
+            sd.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused},
+                    drawableFocus);
+            sd.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled},
+                    drawablePressed);
+            sd.addState(new int[]{android.R.attr.state_focused}, drawableFocus);
+            sd.addState(new int[]{android.R.attr.state_pressed}, drawablePressed);
+            sd.addState(new int[]{android.R.attr.state_enabled}, drawable);
+            sd.addState(new int[]{}, drawable);
 
-        childView.setFocusableInTouchMode(false);
-        childView.setBackground(sd);
+            childView.setFocusableInTouchMode(false);
+            childView.setBackground(sd);
+        }
+
+    }
+
+    private void setRadius(RippleDrawable rippleDrawable, int r)
+            throws NoSuchFieldException, IllegalAccessException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rippleDrawable.setRadius(r);
+        } else {
+            //反射
+            Class aClass = rippleDrawable.getClass();
+            Field field = aClass.getDeclaredField
+                    ("mState");
+            field.setAccessible(true);
+            Object object = field.get(rippleDrawable);
+
+            Field mMaxRadius = object.getClass().getDeclaredField("mMaxRadius");
+            mMaxRadius.setAccessible(true);
+            mMaxRadius.set(object, r);
+        }
+    }
+
+    private int getColor(ColorStateList colorStateList) {
+        int color = Color.parseColor("#FFFFFF");
+        Field field = null;
+        try {
+            field = colorStateList.getClass().getDeclaredField("mColors");
+            field.setAccessible(true);
+            int[] colors = (int[]) field.get(colorStateList);
+            if (colors != null && colors.length > 0) {
+                color = colors[0];
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+        return color;
     }
 }
 

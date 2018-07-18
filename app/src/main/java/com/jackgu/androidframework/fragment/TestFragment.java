@@ -8,6 +8,7 @@ import android.view.View;
 import com.jack.framework.base.BaseTitleFragment;
 import com.jack.framework.util.ItemDecorationUtil;
 import com.jack.framework.util.RefreshHelper;
+import com.jack.framework.util.ToastUtil;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.adapter.MainAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -101,5 +102,7 @@ public class TestFragment extends BaseTitleFragment {
                 }, 3 * 1000);
             }
         });
+
+        addRightButton(R.drawable.menu_add, v -> ToastUtil.showShortMessage("add"));
     }
 }

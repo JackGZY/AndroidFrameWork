@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.jack.framework.view.TitleBarLayout
+        android:id="@+id/titleBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.jack.framework.view.ButtonHaveSelect
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/theme_shape"
+                android:text="123"
+                android:textColor="@color/white"
+                app:buttonLayoutEnableRipple="true"
+                app:buttonLayoutRippleType="circle" />
+
+
+            <com.jack.framework.view.ButtonHaveSelect
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/theme_shape"
+                android:text="123"
+                android:textColor="@color/white"
+                app:buttonLayoutEnableRipple="true"
+                app:buttonLayoutRippleType="rectangle" />
+
+
+            <com.jack.framework.view.ButtonHaveSelect
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/theme_shape"
+                android:text="123"
+                android:textColor="@color/white"
+                app:buttonLayoutEnableRipple="false"
+                app:buttonLayoutRippleType="circle" />
+
+
+            <com.jack.framework.view.ButtonHaveSelect
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/theme_shape"
+                android:text="123"
+                android:textColor="@color/white"
+                app:buttonLayoutEnableRipple="false"
+                app:buttonLayoutRippleType="rectangle" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

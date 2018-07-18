@@ -6,9 +6,10 @@
     <dimen name="activity_margin">10dp</dimen>
     <dimen name="half_activity_margin">5dp</dimen>
     <dimen name="view_driver">1px</dimen>
-    <dimen name="title_height">48dp</dimen>
-    <dimen name="title_back_img_height">23dp</dimen>
+    <dimen name="title_height">56dp</dimen>
     <dimen name="select_item_img_wh">30dp</dimen>
     <dimen name="item_main">58dp</dimen>
     <dimen name="elevation">5dp</dimen>
+    <dimen name="title_search_height">40dp</dimen>
+    <dimen name="radius">5dp</dimen>
 </resources>

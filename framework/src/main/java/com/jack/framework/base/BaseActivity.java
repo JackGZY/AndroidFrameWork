@@ -419,8 +419,7 @@ public abstract class BaseActivity extends RxActivity {
     }
 
 
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
+    protected void setTranslucentStatus(boolean on) {
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;

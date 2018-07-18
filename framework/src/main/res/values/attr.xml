@@ -6,6 +6,11 @@
     <attr name="buttonLayoutRippleRoundedCornersRightTop" format="dimension" localization="suggested" />
     <attr name="buttonLayoutRippleRoundedCornersLeftBottom" format="dimension" localization="suggested" />
     <attr name="buttonLayoutRippleRoundedCornersRightBottom" format="dimension" localization="suggested" />
+    <attr name="buttonLayoutEnableRipple" format="boolean" localization="suggested" />
+    <attr name="buttonLayoutRippleType" format="enum" localization="suggested">
+        <enum name="circle" value="0" />
+        <enum name="rectangle" value="1" />
+    </attr>
 
     <declare-styleable name="ButtonLayout">
         <attr name="buttonLayoutRippleRoundedCorners" />
@@ -13,6 +18,8 @@
         <attr name="buttonLayoutRippleRoundedCornersRightTop" />
         <attr name="buttonLayoutRippleRoundedCornersLeftBottom" />
         <attr name="buttonLayoutRippleRoundedCornersRightBottom" />
+        <attr name="buttonLayoutEnableRipple" />
+        <attr name="buttonLayoutRippleType" />
     </declare-styleable>
 
     <declare-styleable name="ButtonHaveSelect">
@@ -21,18 +28,19 @@
         <attr name="buttonLayoutRippleRoundedCornersRightTop" />
         <attr name="buttonLayoutRippleRoundedCornersLeftBottom" />
         <attr name="buttonLayoutRippleRoundedCornersRightBottom" />
+        <attr name="buttonLayoutEnableRipple" />
+        <attr name="buttonLayoutRippleType" />
         <attr name="android:textColor" />
         <attr name="android:textSize" />
         <attr name="android:text" />
     </declare-styleable>
 
     <declare-styleable name="MyEditText">
-        <attr name="myEditTextShowClear" format="boolean"/>
+        <attr name="myEditTextShowClear" format="boolean" />
         <attr name="android:textColor" />
         <attr name="android:textSize" />
         <attr name="android:text" />
-        <attr name="android:hint"/>
-        <attr name="android:textColorHint"/>
+        <attr name="android:hint" />
+        <attr name="android:textColorHint" />
     </declare-styleable>
-
 </resources>

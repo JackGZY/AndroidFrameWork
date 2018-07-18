@@ -106,6 +106,46 @@ public class MultipartBodyHelper {
 
 
     /**
+     * 上传文件,多个
+     *
+     * @param maps ，map的key是这个文件与服务器约定的key，value是文件的地址
+     * @return MultipartBody 上传的文件，包含多个Part,使用(service)：@Body MultipartBody multipartBody
+     * @Author: JACK-GU
+     * @Date: 2018/4/9 11:24
+     * @E-Mail: 528489389@qq.com
+     */
+    public static List<MultipartBody.Part> mapPathToMultipartBodyPart(Map<String, String> maps) {
+        List<MultipartBody.Part> parts = new ArrayList<>();
+        for (Map.Entry<String, String> map : maps.entrySet()) {
+            String file = map.getValue();
+            parts.add(transform(file, map.getKey()));
+        }
+
+        return parts;
+    }
+
+
+    /**
+     * 上传文件,多个
+     *
+     * @param maps ，map的key是这个文件与服务器约定的key，value是文件
+     * @return MultipartBody 上传的文件，包含多个Part,使用(service)：@Body MultipartBody multipartBody
+     * @Author: JACK-GU
+     * @Date: 2018/4/9 11:24
+     * @E-Mail: 528489389@qq.com
+     */
+    public static List<MultipartBody.Part> mapFileToMultipartBodyPart(Map<String, File> maps) {
+        List<MultipartBody.Part> parts = new ArrayList<>();
+        for (Map.Entry<String, File> map : maps.entrySet()) {
+            File file = map.getValue();
+            parts.add(transform(file, map.getKey()));
+        }
+
+
+        return parts;
+    }
+
+    /**
      * 使用MultipartBody传送多个文件，数组方式
      *
      * @param files 文件数组

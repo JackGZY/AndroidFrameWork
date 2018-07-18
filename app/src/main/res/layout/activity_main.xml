@@ -9,8 +9,7 @@
     <com.jack.framework.view.TitleBarLayout
         android:id="@+id/titleBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation" />
+        android:layout_height="@dimen/title_height" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,10 +31,12 @@
                 android:textColor="@color/text_color"
                 app:myEditTextShowClear="true" />
 
-            <EditText
+            <TextView
+                android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="123123" />
+                android:hint="123123"
+                android:padding="20dp" />
 
             <com.jack.framework.view.TimerTextView
                 android:id="@+id/timerTextView"

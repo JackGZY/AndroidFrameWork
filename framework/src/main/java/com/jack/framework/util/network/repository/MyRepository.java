@@ -13,7 +13,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
- * 响应,T表示最后需要的数据，不用创建那么多的repository
+ * 响应,T表示最后需要的数据，不用创建那么多的repository，T为需要获取的实体类，不需要包装BaseEntity
  * <p>
  * 建议使用这个来进行网络请求，上次文件，已经完成封装了
  * <p>
@@ -27,7 +27,7 @@ import okhttp3.RequestBody;
  * @Date: 2018-06-12 10:21
  * @E-Mail: 528489389@qq.com
  */
-public class MyRepository<T> extends BaseRepository {
+public class MyRepository<T> extends BaseRepository<T> {
     //默认的方法名字,可以少传一个参数，最好是保持一致的
     private final static String DEFAULT_METHOD_NAME = "get";
 

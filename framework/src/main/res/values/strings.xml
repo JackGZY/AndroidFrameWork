@@ -25,4 +25,7 @@
     <string name="footer_failed">加载失败</string>
     <string name="footer_nothing">- 我也是有底线的 -</string>
 
+
+    <string name="title_back">返回</string>
+
 </resources>

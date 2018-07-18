@@ -383,8 +383,9 @@ public class MessageDialog extends Dialog {
 
         //内容
         textViewContent = new TextView(context);
-        LinearLayout.LayoutParams contentLayoutParams = new LinearLayout.LayoutParams(LinearLayout
-                .LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams contentLayoutParams = new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
         textViewContent.setLayoutParams(contentLayoutParams);
 //        textViewContent.setGravity(Gravity.CENTER);
         textViewContent.setText(context.getResources().getText(R.string.message_dialog_content));
@@ -448,7 +449,7 @@ public class MessageDialog extends Dialog {
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
                             .WRAP_CONTENT, 1);
             leftButton.setLayoutParams(centerButtonLayoutParams);
-            leftButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(5));
+            leftButton.getButtonLayout().setLeftBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
             buttonLinearLayout.addView(leftButton);
         }
 
@@ -481,8 +482,8 @@ public class MessageDialog extends Dialog {
                 //设置圆角
                 centerButton.getTextView().setTextColor(context.getResources().getColor(R.color
                         .theme));
-                centerButton.getButtonLayout().setLeftBottomRadius(DensityUtil.dip2px(5));
-                centerButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(5));
+                centerButton.getButtonLayout().setLeftBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
+                centerButton.getButtonLayout().setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
             }
             buttonLinearLayout.addView(centerButton);
         }
@@ -514,7 +515,7 @@ public class MessageDialog extends Dialog {
                     (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
                             .WRAP_CONTENT, 1);
             rightButton.setLayoutParams(centerButtonLayoutParams);
-            rightButton.getButtonLayout().setRightBottomRadius(DensityUtil.dip2px(5));
+            rightButton.getButtonLayout().setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
 
             buttonLinearLayout.addView(rightButton);
         }

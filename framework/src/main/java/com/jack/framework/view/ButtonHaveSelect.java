@@ -6,13 +6,18 @@ import android.support.annotation.Nullable;
 import android.support.annotation.Px;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 /**
  * 自己写的button,支持TextView和ButtonLayout的属性
+ * 可以设置为水波纹
  * 不用写选择器，但是要设置背景色哦,不然选择器默认使用白色的加深色
+ * <p>
+ * <p>
+ * 目前，圆形的水波纹，还有点小问题
  *
  * @Author: JACK-GU
  * @Date: 2018/1/17
@@ -21,6 +26,19 @@ import android.widget.TextView;
 public class ButtonHaveSelect extends LinearLayout {
     private TextView textView;
     private ButtonLayout buttonLayout;
+
+    public void setEnableRipple(boolean enableRipple) {
+        this.buttonLayout.setEnableRipple(enableRipple);
+    }
+
+    public void setRippleType(int rippleType) {
+        this.buttonLayout.setRippleType(rippleType);
+    }
+
+    @Override
+    public void focusableViewAvailable(View v) {
+        super.focusableViewAvailable(v);
+    }
 
     public ButtonHaveSelect(Context context) {
         super(context);
@@ -45,7 +63,6 @@ public class ButtonHaveSelect extends LinearLayout {
         //屏蔽本层的padding
         setPadding(0, 0, 0, 0);
     }
-
 
     /**
      * 添加view
@@ -123,10 +140,13 @@ public class ButtonHaveSelect extends LinearLayout {
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener onClickListener) {
-        buttonLayout.setOnClickListener(v -> {
-            if (onClickListener != null) {
-                onClickListener.onClick(v);
-            }
-        });
+        if (buttonLayout != null) {
+            buttonLayout.setOnClickListener(v -> {
+                if (onClickListener != null) {
+                    onClickListener.onClick(v);
+                }
+            });
+        }
+
     }
 }

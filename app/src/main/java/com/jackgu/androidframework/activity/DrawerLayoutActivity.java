@@ -1,14 +1,12 @@
 package com.jackgu.androidframework.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.jack.framework.base.BaseDrawerLayoutActivity;
-import com.jack.framework.view.ButtonHaveSelect;
 import com.jackgu.androidframework.R;
-
-import butterknife.BindView;
 
 /**
  * @Author: JACK-GU
@@ -17,9 +15,6 @@ import butterknife.BindView;
  */
 public class DrawerLayoutActivity extends BaseDrawerLayoutActivity {
 
-    @BindView(R.id.open)
-    ButtonHaveSelect open;
-
     @Override
     protected void viewDrawFinished() {
         super.viewDrawFinished();
@@ -27,7 +22,8 @@ public class DrawerLayoutActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        open.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
+        super.initView(savedInstanceState);
+        setTitle("测试的侧边栏");
     }
 
     @Override
@@ -43,7 +39,7 @@ public class DrawerLayoutActivity extends BaseDrawerLayoutActivity {
     @Override
     protected Object getDrawerView() {
         LinearLayout linearLayout1 = new LinearLayout(mContext);
-        linearLayout1.setBackgroundColor(getResources().getColor(R.color.orange));
+        linearLayout1.setBackgroundColor(Color.parseColor("#55000000"));
         return linearLayout1;
     }
 

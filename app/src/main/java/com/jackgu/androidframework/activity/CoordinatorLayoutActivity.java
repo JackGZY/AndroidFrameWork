@@ -2,7 +2,7 @@ package com.jackgu.androidframework.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 
 import com.jack.framework.base.BaseActivity;
 import com.jackgu.androidframework.R;
@@ -15,6 +15,7 @@ import com.jackgu.androidframework.R;
  * @E-Mail: 528489389@qq.com
  */
 public class CoordinatorLayoutActivity extends BaseActivity {
+
     @Override
     protected int getLayout() {
         return R.layout.activity_coordinator_layout;
@@ -22,18 +23,17 @@ public class CoordinatorLayoutActivity extends BaseActivity {
 
     @Override
     public boolean isTranslucentStatus() {
-        return false;
+        return true;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("123");
+        collapsingToolbar.setTitle("测试");
+        collapsingToolbar.setCollapsedTitleGravity(Gravity.CENTER);
+        collapsingToolbar.setExpandedTitleGravity(Gravity.CENTER);
 
+        setTitle("测试");
     }
 }

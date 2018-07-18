@@ -1,14 +1,14 @@
 package com.jack.framework.base;
 
-import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.jack.framework.util.DensityUtil;
@@ -22,7 +22,7 @@ import com.jack.framework.util.DensityUtil;
  * @E-Mail: 528489389@qq.com
  */
 
-public abstract class BaseDrawerLayoutActivity extends BaseActivity {
+public abstract class BaseDrawerLayoutActivity extends BaseTitleActivity {
     protected DrawerLayout drawerLayout;
 
     @Override
@@ -34,6 +34,32 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
     protected View getLayoutView() {
         //创建view
         return createRootView();
+    }
+
+    /**
+     * 获得DrawerArrowDrawable的颜色，默认白色
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    protected int getDrawerArrowDrawableColor() {
+        return Color.WHITE;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+        setBackOnClickListener(v -> drawerLayout.openDrawer(Gravity.LEFT));
+
+        DrawerArrowDrawable drawerArrowDrawable = new DrawerArrowDrawable(mContext);
+        drawerArrowDrawable.setColor(getDrawerArrowDrawableColor());
+        setBackImageDrawable(drawerArrowDrawable);
+        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                drawerArrowDrawable.setProgress(slideOffset);
+            }
+        });
     }
 
     /**
@@ -126,24 +152,15 @@ public abstract class BaseDrawerLayoutActivity extends BaseActivity {
             DrawerLayout.LayoutParams layoutParams = new DrawerLayout.LayoutParams(ViewGroup
                     .LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.gravity = drawerFromGravity();//不设置这个不得行，因为源码是根据左右判断的
-            layoutParams.width = DensityUtil.dip2px( getDrawerWidth());
+            layoutParams.width = DensityUtil.dip2px(getDrawerWidth());
             drawerView.setLayoutParams(layoutParams);
             drawerLayout.addView(drawerView, 1);
+
+            //什么都不做，防止覆盖了没写点击事件，响应覆盖层下面的事件
+            drawerView.setOnClickListener(v -> {
+            });
         }
 
         return drawerLayout;
-    }
-
-    @TargetApi(19)
-    private void setTranslucentStatus(boolean on) {
-        Window win = getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
     }
 }

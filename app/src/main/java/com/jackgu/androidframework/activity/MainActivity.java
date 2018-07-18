@@ -1,12 +1,12 @@
 package com.jackgu.androidframework.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jack.framework.base.BaseTitleActivity;
 import com.jack.framework.config.AppConfig;
@@ -18,9 +18,8 @@ import com.jack.framework.util.LoggerUtil;
 import com.jack.framework.util.ToastUtil;
 import com.jack.framework.util.UriUtil;
 import com.jack.framework.util.compress.CompressUtil;
-import com.jack.framework.util.db.GreenDaoUtil;
 import com.jack.framework.util.network.DefaultSubscriber;
-import com.jack.framework.util.network.MultipartBodyHelper;
+import com.jack.framework.util.network.repository.MyJsonRepository;
 import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
@@ -42,10 +41,8 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 
 public class MainActivity extends BaseTitleActivity {
     @BindView(R.id.imageView1)
@@ -84,6 +81,8 @@ public class MainActivity extends BaseTitleActivity {
     ButtonHaveSelect buttonHaveSelect5;
     @BindView(R.id.timerTextView)
     TimerTextView timerTextView;
+    @BindView(R.id.textView1)
+    TextView textView1;
 
 
     private static final String PATH = "https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=9fc27aa361224f4a4899751339f69044/b3b7d0a20cf431ade6d64fbc4736acaf2edd982a.jpg";
@@ -95,34 +94,39 @@ public class MainActivity extends BaseTitleActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         //请求权限
         checkPermission((success, strings) ->
         {
-            if (success) {
-                //创建文件
-                File file = new File(AppConfig.DATA_BASE_FILE);
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-
-                //初始化数据库
-                GreenDaoUtil.init();
-            } else {
-                if (!strings.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    //创建文件
-                    File file = new File(AppConfig.DATA_BASE_FILE);
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-
-                    //初始化数据库
-                    GreenDaoUtil.init();
-                }
-            }
+//            if (success) {
+//                //创建文件
+//                File file = new File(AppConfig.DATA_BASE_FILE);
+//                if (!file.exists()) {
+//                    file.mkdirs();
+//                }
+//
+//                //初始化数据库
+//                //GreenDaoUtil.init();
+//            } else {
+//                if (!strings.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                    //创建文件
+//                    File file = new File(AppConfig.DATA_BASE_FILE);
+//                    if (!file.exists()) {
+//                        file.mkdirs();
+//                    }
+//
+//                    //初始化数据库
+//                   // GreenDaoUtil.init();
+//                }
+//            }
         });
 
-        setBackVisibility(true);
-        setTitle("测试的标题这里是主页");
+      //  setBackVisibility(false);
+        setTitle("测试的标题这里是主页123231231231231212312312");
+
+        addRightButton(R.drawable.menu_add, v -> {
+            ToastUtil.showShortMessage("add");
+        });
 
         /***** 伟大的分割线 ***** 计时器 ***** start *****/
         // timerTextView.setSecondFormat("重新发送(%)");
@@ -139,31 +143,31 @@ public class MainActivity extends BaseTitleActivity {
         });
         /***** 伟大的分割线 ***** 计时器 ***** end *****/
 
-
         buttonHaveSelect1.setOnClickListener(v ->
-
                 turnActivity(DrawerLayoutActivity.class, false,
-                        null));
+                        null)
+        );
 
         myButton.setOnClickListener(v ->
 
         {
-            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
-            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
-                    .theme)));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
-
-            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
-            selectDialog.show();
-            selectDialog.setTitle("测试的标题");
-            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
-            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
+            turnActivity(TestActivity.class, false, null);
+//            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
+//                    .theme)));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+//
+//            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
+//            selectDialog.show();
+//            selectDialog.setTitle("测试的标题");
+//            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
+//            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
 
 //            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog
 //                    .TYPE_THREE_BUTTON);
@@ -189,10 +193,26 @@ public class MainActivity extends BaseTitleActivity {
 //                }
 //            }, 3000);
 
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(intent, 1);
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("*/*");
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            startActivityForResult(intent, 1);
+            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
+            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
+                    .theme)));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
+            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
+                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+
+            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
+            selectDialog.show();
+            selectDialog.setTitle("测试的标题");
+            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
+            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
         });
 
         buttonHaveSelect3.setOnClickListener(v -> {
@@ -260,8 +280,8 @@ public class MainActivity extends BaseTitleActivity {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("type", 1);
         hashMap.put("page", 1);
-        MyRepository<List<TestEntity>> testMyRepository = new MyRepository<>();
-        testMyRepository.get(TestService.class, hashMap)
+        MyRepository<List<TestEntity>> myRepository = new MyRepository<>();
+        myRepository.get(TestService.class, hashMap)
                 .compose(bindUntilEvent(RxLifeEvent.DESTROY))
                 .subscribe(new DefaultSubscriber<List<TestEntity>>() {
                     @Override
@@ -276,16 +296,25 @@ public class MainActivity extends BaseTitleActivity {
                         LoggerUtil.e(msg);
                     }
                 });
-        MultipartBody.Part part = MultipartBodyHelper.transform("", "header");
-        MultipartBody multipartBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM) //设置为表单格式
-                .addPart(part) //添加文件参数
-                .addFormDataPart("name", "王麻子") //添加普通参数
-                .build();
 
 
-        HashMap<String, RequestBody> hashMap2 = new HashMap<>();
-        hashMap2.put("type", MultipartBodyHelper.transform("", "").body());
+        MyJsonRepository<TestEntity> myJsonObjectRepository =
+                new MyJsonRepository<>(TestEntity.class);
+        myJsonObjectRepository.postReturnArray(hashMap)
+                .compose(bindUntilEvent(RxLifeEvent.DESTROY))
+                .subscribe(new DefaultSubscriber<List<TestEntity>>() {
+                    @Override
+                    public void _onNext(List<TestEntity> entity) {
+                        for (TestEntity testEntity : entity) {
+                            LoggerUtil.e(testEntity.toString());
+                        }
+                    }
+
+                    @Override
+                    public void _onError(String msg) {
+                        LoggerUtil.e(msg);
+                    }
+                });
 
 
 //        RetrofitHelper.getInstance().createService(TestService.class).getTest(hashMap)

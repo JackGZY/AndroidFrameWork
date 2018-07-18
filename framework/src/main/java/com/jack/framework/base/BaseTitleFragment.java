@@ -1,80 +1,133 @@
 package com.jack.framework.base;
 
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
 import com.jack.framework.R;
+import com.jack.framework.util.ResourcesUtil;
 import com.jack.framework.view.TitleBarLayout;
 
 /**
- * 有title的fragment
- * xml中必须有com.jackgu.androidframework.view.TitleBarLayout,并且ID是titleBarLayout
+ * -
  *
  * @Author: JACK-GU
- * @Date: 2018/3/19 14:21
+ * @Date: 2018-07-13 15:44
  * @E-Mail: 528489389@qq.com
  */
-
 public abstract class BaseTitleFragment extends BaseFragment {
-    protected TitleBarLayout titleBarLayout;
-
-    @Override
-    protected void beforeInitView() {
-        super.beforeInitView();
-    }
+    private TitleBarLayout titleBarLayout;
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         titleBarLayout = view.findViewById(R.id.titleBarLayout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isTranslucentStatus()) {
+        if (isTranslucentStatus()) {
             titleBarLayout.setTranslucentStatus();
         }
-        titleBarLayout.getButtonLayout_more().setVisibility(View.GONE);
-        titleBarLayout.getButtonLayout_back().setOnClickListener(v -> {
-            getActivity().finish();
-        });
+        //设置默认返回
+        titleBarLayout.setBackButton(ResourcesUtil.getString(R.string.title_back),
+                v -> getActivity().finish());
     }
 
-
-    public void setTitle(String title) {
-        titleBarLayout.getTitle().setText(title);
-    }
-
-    public void setleftTitle(String title) {
-        titleBarLayout.getLeftText().setText(title);
-    }
-
-
-    /**
-     * 设置左边的返回不可见
-     *
-     * @Author: JACK-GU
-     * @Date: 2018/1/19
-     * @E-Mail: 528489389@qq.com
-     */
-    public void setBackVisibility(boolean backVisibility) {
-        titleBarLayout.getButtonLayout_back().setVisibility(backVisibility ? View.INVISIBLE :
-                View.VISIBLE);
-    }
-
-    public void setRightTitle(String title, View.OnClickListener onClickListener) {
-        titleBarLayout.getMoreText().setText(title);
-        titleBarLayout.getButtonLayout_more().setVisibility(View.VISIBLE);
-        if (onClickListener != null) {
-            titleBarLayout.getButtonLayout_more().setOnClickListener(onClickListener);
-        }
-    }
-
-    /**
-     * 是否开启透明状态栏
-     *
-     * @Author: JACK-GU
-     * @Date: 2018/1/19
-     * @E-Mail: 528489389@qq.com
-     */
-    public boolean isTranslucentStatus() {
+    protected boolean isTranslucentStatus() {
         return true;
     }
 
+
+    /**
+     * 设置返回键的图片
+     *
+     * @Author: JACK-GU
+     * @Date: 2018-07-17 09:37
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void setBackImageRes(int res) {
+        titleBarLayout.setBackImageRes(res);
+    }
+    /**
+     * 设置返回键的图片
+     *
+     * @Author: JACK-GU
+     * @Date: 2018-07-17 09:37
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setBackImageDrawable(Drawable drawable) {
+        titleBarLayout.setBackImageDrawable(drawable);
+    }
+    /**
+     * 设置返回监听
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void setBackOnClickListener(View.OnClickListener onClickListener) {
+        titleBarLayout.setBackOnClickListener(onClickListener);
+    }
+
+    /**
+     * 设置左边按钮文字
+     */
+    protected void setBackButtonText(int res) {
+        titleBarLayout.setBackButtonText(res);
+    }
+
+    /**
+     * 设置左边按钮文字
+     */
+    protected void setBackButtonText(CharSequence left) {
+        titleBarLayout.setBackButtonText(left);
+    }
+
+
+    /**
+     * 设置返回按钮可见不
+     */
+    protected void setBackVisibility(boolean backVisibility) {
+        titleBarLayout.setBackVisibility(backVisibility);
+    }
+
+
+    /**
+     * 添加标题
+     */
+    protected void setTitle(int res) {
+        titleBarLayout.setTitle(res);
+    }
+
+    /**
+     * 添加标题
+     */
+    protected void setTitle(CharSequence title) {
+        titleBarLayout.setTitle(title);
+    }
+
+
+    /**
+     * 在右边添加按钮
+     */
+    protected void addRightButton(int res, View.OnClickListener onClickListener) {
+        titleBarLayout.addRightButton(res, onClickListener);
+    }
+
+
+    /**
+     * 设置背景
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void setTitleBackground(int res) {
+        titleBarLayout.setBackgroundResource(res);
+    }
+
+
+    /**
+     * 自定义中间的view，如果开启自定义的话，自动设置为不相等左右距离，比如搜索的bar
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setTitleCenterView(View view) {
+        titleBarLayout.setCenterView(view);
+    }
 }

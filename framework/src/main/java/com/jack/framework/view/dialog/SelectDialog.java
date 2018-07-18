@@ -216,8 +216,8 @@ public class SelectDialog extends Dialog {
         });
 
         if (selectItems.indexOf(selectItem) == selectItems.size() - 1) {
-            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(5));
-            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(5));
+            buttonLayout.setLeftBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
+            buttonLayout.setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
         } else {
             buttonLayout.setRadius(DensityUtil.dip2px(0));
         }
@@ -280,8 +280,8 @@ public class SelectDialog extends Dialog {
         });
 
         if (selectItems.indexOf(selectItem) == selectItems.size() - 1) {
-            buttonLayout.setLeftBottomRadius(DensityUtil.dip2px(5));
-            buttonLayout.setRightBottomRadius(DensityUtil.dip2px(5));
+            buttonLayout.setLeftBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
+            buttonLayout.setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
         } else {
             buttonLayout.setRadius(DensityUtil.dip2px(0));
         }
