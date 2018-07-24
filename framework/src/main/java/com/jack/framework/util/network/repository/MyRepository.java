@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
@@ -22,6 +21,8 @@ import okhttp3.RequestBody;
  * 上传文件：uploadFile
  * <p>
  * 列表操作：getList
+ * <p>
+ * 弃用：2018年7月24日
  *
  * @Author: JACK-GU
  * @Date: 2018-06-12 10:21
@@ -173,46 +174,6 @@ public class MyRepository<T> extends BaseRepository<T> {
             Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
                     declaredMethod.invoke(o, params);
             rObservable = transformResult(baseEntityObservable, refreshHelper);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } finally {
-            return rObservable;
-        }
-    }
-
-
-    /**
-     * 开始请求,返回必须是BaseEntity<T>,默认的service方法：请看DEFAULT_METHOD_NAME
-     * <p>
-     * 1. 放入一个普通参数
-     * <p>
-     * map.put("mobile", RequestBody.create(MediaType.parse("multipart/form-data"),
-     * AppConfig.userInfo.getUsername()));
-     * <p>
-     * 2. 放入一个文件参数
-     * <p>
-     * MultipartBody.Part part = MultipartBodyHelper.transform(path, "header");
-     * <p>
-     * 定义service的时候
-     * <p>
-     * \ @POST("one")
-     * Call<ResponseBody> upload(@Body MultipartBody multipartBody);
-     * </p>
-     *
-     * @param serviceClass  service的class
-     * @param multipartBody body
-     * @Author: JACK-GU
-     * @E-Mail: 528489389@qq.com
-     */
-    public Observable<T> uploadFile(Class serviceClass, MultipartBody multipartBody) {
-        Observable<T> rObservable = null;
-        try {
-            Object o = RetrofitHelper.getInstance().createService(serviceClass);
-            Method declaredMethod = o.getClass().getDeclaredMethod(DEFAULT_METHOD_NAME,
-                    HashMap.class);
-            Observable<BaseEntity<T>> baseEntityObservable = (Observable<BaseEntity<T>>)
-                    declaredMethod.invoke(o, multipartBody);
-            rObservable = transformResult(baseEntityObservable);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } finally {

@@ -13,7 +13,7 @@ import okhttp3.RequestBody;
 
 /**
  * 传入需要实体，配合ApiService，T为需要获取的实体类，不需要包装BaseEntity,如果返回直接是数组，
- * 请使用带ReturnArray的方法，返回List< T >意思是不需要泛型传入T
+ * 请使用带ReturnArray的方法，返回List< T >意思是不需要，泛型传入T
  *
  * @Author: JACK-GU
  * @Date: 2018-07-11 17:11
