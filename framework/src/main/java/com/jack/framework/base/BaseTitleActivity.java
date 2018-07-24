@@ -1,8 +1,10 @@
 package com.jack.framework.base;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.jack.framework.R;
 import com.jack.framework.util.ResourcesUtil;
@@ -42,6 +44,28 @@ public abstract class BaseTitleActivity extends BaseActivity {
     }
 
 
+    /**
+     * 设置左右标题是否相等
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void setNeedLREqual(boolean needLREqual) {
+        titleBarLayout.setNeedLREqual(needLREqual);
+    }
+
+
+    /**
+     * 设置阴影
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    protected void setTitleElevation(int e) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            titleBarLayout.setElevation(e);
+        }
+    }
 
     /**
      * 设置返回键的图片
@@ -130,5 +154,15 @@ public abstract class BaseTitleActivity extends BaseActivity {
      */
     public void setTitleCenterView(View view) {
         titleBarLayout.setCenterView(view);
+    }
+
+    /**
+     * 自定义中间的view，如果开启自定义的话，自动设置为不相等左右距离，比如搜索的bar
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setTitleCenterView(View view, RelativeLayout.LayoutParams layoutParams) {
+        titleBarLayout.setCenterView(view, layoutParams);
     }
 }

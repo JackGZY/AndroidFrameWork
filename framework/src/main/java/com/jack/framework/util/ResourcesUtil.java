@@ -1,6 +1,7 @@
 package com.jack.framework.util;
 
 import android.content.res.Resources;
+import android.util.TypedValue;
 
 import com.jack.framework.FrameWorkApplication;
 
@@ -67,15 +68,30 @@ public class ResourcesUtil {
     }
 
     /**
-     * 获得像素
+     * 获得像素，如果是sp不建议这个获取有问题，sp使用#getDimensionValue(int)
      *
      * @param id 资源ID
      * @return px 返回像素,如果xml中单位是px，返回是px，如果是dp或者sp都会转成px
      * @Author: JACK-GU
      * @Date: 2018/4/9 10:17
      * @E-Mail: 528489389@qq.com
+     * @see #getDimensionValue(int)
      */
     public static float getPx(int id) {
         return resources.getDimension(id);
+    }
+
+    /**
+     * 获取Dimension的值，单位不变，值不变，自己转换
+     *
+     * @return
+     * @Author: JACK-GU
+     * @Date: 2018-07-19 09:11
+     * @E-Mail: 528489389@qq.com
+     */
+    public static float getDimensionValue(int id) {
+        TypedValue mTmpValue = new TypedValue();
+        resources.getValue(id, mTmpValue, true);
+        return TypedValue.complexToFloat(mTmpValue.data);
     }
 }

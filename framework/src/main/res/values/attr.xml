@@ -11,6 +11,7 @@
         <enum name="circle" value="0" />
         <enum name="rectangle" value="1" />
     </attr>
+    <attr name="buttonLayoutDefaultColor" format="color" />
 
     <declare-styleable name="ButtonLayout">
         <attr name="buttonLayoutRippleRoundedCorners" />
@@ -20,6 +21,7 @@
         <attr name="buttonLayoutRippleRoundedCornersRightBottom" />
         <attr name="buttonLayoutEnableRipple" />
         <attr name="buttonLayoutRippleType" />
+        <attr name="buttonLayoutDefaultColor" />
     </declare-styleable>
 
     <declare-styleable name="ButtonHaveSelect">
@@ -33,6 +35,7 @@
         <attr name="android:textColor" />
         <attr name="android:textSize" />
         <attr name="android:text" />
+        <attr name="buttonLayoutDefaultColor" />
     </declare-styleable>
 
     <declare-styleable name="MyEditText">

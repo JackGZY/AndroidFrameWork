@@ -123,6 +123,9 @@ public class MainActivity extends BaseTitleActivity {
 
       //  setBackVisibility(false);
         setTitle("测试的标题这里是主页123231231231231212312312");
+        setBackOnClickListener(v -> {
+
+        });
 
         addRightButton(R.drawable.menu_add, v -> {
             ToastUtil.showShortMessage("add");

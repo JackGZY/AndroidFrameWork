@@ -29,11 +29,11 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * 自动计算高度，适配变色状态栏
  * <p>
  * 和leftButtonText相关的暂时不实现，因为发现加了那个text后效果不是很好了
- * @see #setBackButton(String, OnClickListener)
  *
  * @Author: JACK-GU
  * @Date: 2018-07-13 13:52
  * @E-Mail: 528489389@qq.com
+ * @see #setBackButton(String, OnClickListener)
  */
 public class TitleBarLayout extends RelativeLayout {
     ImageView imageViewBack;
@@ -46,8 +46,12 @@ public class TitleBarLayout extends RelativeLayout {
     boolean needLREqual = true; //默认左右是相等的距离
     int padding = 0;//默认的按钮的左右边距
     //默认屏幕的0.3，左右的按钮最多占有，两个字符
-    public static int MAX_WIDTH = -1;
+    private int MAX_WIDTH = -1;
     private ButtonLayout buttonLayoutBack;
+    int ripplePadding = DensityUtil.dip2px(5);
+    int materialHeight = (int) ResourcesUtil.getPx(android.support.v7
+            .appcompat.R.dimen.abc_action_bar_default_height_material);
+
 
     public TitleBarLayout(Context context) {
         super(context);
@@ -95,20 +99,20 @@ public class TitleBarLayout extends RelativeLayout {
         //左边得
         linearLayoutLeft = new LinearLayout(mContext);
         linearLayoutLeft.setOrientation(LinearLayout.HORIZONTAL);
-        LayoutParams leftRootLayoutParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        LayoutParams leftRootLayoutParams = new LayoutParams(WRAP_CONTENT, materialHeight);
         addView(linearLayoutLeft, leftRootLayoutParams);
 
 
         linearLayoutRight = new LinearLayout(context);
         linearLayoutRight.setOrientation(LinearLayout.HORIZONTAL);
-        LayoutParams rightRootLayoutParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        LayoutParams rightRootLayoutParams = new LayoutParams(WRAP_CONTENT, materialHeight);
         rightRootLayoutParams.addRule(ALIGN_PARENT_RIGHT);
         addView(linearLayoutRight, rightRootLayoutParams);
 
 
         linearLayoutCenter = new LinearLayout(mContext);
         LayoutParams rightCenterLayoutParams = new LayoutParams(
-                MATCH_PARENT, MATCH_PARENT);
+                MATCH_PARENT, materialHeight);
         linearLayoutCenter.setLayoutParams(rightCenterLayoutParams);
         linearLayoutCenter.setOrientation(LinearLayout.HORIZONTAL);
         addView(linearLayoutCenter);
@@ -123,8 +127,7 @@ public class TitleBarLayout extends RelativeLayout {
 
         ViewGroup.LayoutParams layoutParamsRoot = new ViewGroup.LayoutParams(
                 MATCH_PARENT,
-                (int) ResourcesUtil.getPx(android.support.v7
-                        .appcompat.R.dimen.abc_action_bar_default_height_material));
+                materialHeight);
         setLayoutParams(layoutParamsRoot);
     }
 
@@ -155,7 +158,7 @@ public class TitleBarLayout extends RelativeLayout {
      */
     public void setBackButton(String text, OnClickListener onClickListener) {
         LayoutParams layoutParams = new LayoutParams(
-                WRAP_CONTENT,
+                materialHeight,
                 MATCH_PARENT);
         linearLayoutLeft.removeAllViews();
 
@@ -210,10 +213,11 @@ public class TitleBarLayout extends RelativeLayout {
      */
     public void addRightButton(int res, OnClickListener onClickListener) {
         LayoutParams layoutParamsRightButton = new LayoutParams(
-                WRAP_CONTENT,
+                materialHeight,
                 MATCH_PARENT);
         ButtonLayout buttonLayoutRight = getRightButton(mContext, res);
-        linearLayoutRight.addView(buttonLayoutRight, layoutParamsRightButton);
+        buttonLayoutRight.setLayoutParams(layoutParamsRightButton);
+        linearLayoutRight.addView(buttonLayoutRight);
         buttonLayoutRight.setOnClickListener(onClickListener);
 
         deal();
@@ -226,23 +230,25 @@ public class TitleBarLayout extends RelativeLayout {
      * @E-Mail: 528489389@qq.com
      */
     private ButtonLayout getBackButton(Context context, String text) {
-        int wh = (int) ResourcesUtil.getPx(android.support.v7
-                .appcompat.R.dimen.abc_action_bar_default_height_material);
         ButtonLayout buttonLayout = new ButtonLayout(context);
         buttonLayout.setRippleType(ButtonLayout.RIPPLE_TYPE_CIRCLE);
 
 
         //开始布局
         RelativeLayout relativeLayoutBack = new RelativeLayout(context);
+        //减去安全距离
+        int w = materialHeight - (Build.VERSION.SDK_INT >=
+                Build.VERSION_CODES.LOLLIPOP ? ripplePadding * 2 : 0);// 5.0水波纹需要减去
         FrameLayout.LayoutParams linearLayoutLayoutParams = new FrameLayout.LayoutParams(
-                wh, wh);
+                w, w);
+        linearLayoutLayoutParams.gravity = Gravity.CENTER;
         relativeLayoutBack.setLayoutParams(linearLayoutLayoutParams);
 
         //按钮
         imageViewBack = new ImageView(context);
         imageViewBack.setImageResource(R.drawable.title_back_white);
         RelativeLayout.LayoutParams imageLayoutParams = new RelativeLayout.LayoutParams(
-                (int) (wh * 0.5), (int) (wh * 0.5));
+                (int) (materialHeight * 0.5), (int) (materialHeight * 0.5));
         imageLayoutParams.addRule(CENTER_IN_PARENT);
         relativeLayoutBack.addView(imageViewBack, imageLayoutParams);
 
@@ -326,23 +332,25 @@ public class TitleBarLayout extends RelativeLayout {
      * @E-Mail: 528489389@qq.com
      */
     private ButtonLayout getRightButton(Context context, int resIcon) {
-        int wh = (int) ResourcesUtil.getPx(android.support.v7
-                .appcompat.R.dimen.abc_action_bar_default_height_material);
         ButtonLayout buttonLayout = new ButtonLayout(context);
         buttonLayout.setRippleType(ButtonLayout.RIPPLE_TYPE_CIRCLE);
 
 
         //开始布局
         RelativeLayout relativeLayout = new RelativeLayout(context);
+        //减去安全距离
+        int w = materialHeight - (Build.VERSION.SDK_INT >=
+                Build.VERSION_CODES.LOLLIPOP ? ripplePadding * 2 : 0);// 5.0水波纹需要减去
         FrameLayout.LayoutParams linearLayoutLayoutParams = new FrameLayout.LayoutParams(
-                wh, MATCH_PARENT);
+                w, w);
+        linearLayoutLayoutParams.gravity = Gravity.CENTER;
         relativeLayout.setLayoutParams(linearLayoutLayoutParams);
 
         //按钮
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(resIcon);
         RelativeLayout.LayoutParams imageLayoutParams = new RelativeLayout.LayoutParams(
-                (int) (wh * 0.5), (int) (wh * 0.5));
+                (int) (materialHeight * 0.5), (int) (materialHeight * 0.5));
         imageLayoutParams.addRule(CENTER_IN_PARENT);
         relativeLayout.addView(imageView, imageLayoutParams);
 
@@ -372,8 +380,7 @@ public class TitleBarLayout extends RelativeLayout {
 
             //设置默认高度
             ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            layoutParams.height = (int) (statusBarHeight + ResourcesUtil.getPx(
-                    android.support.v7.appcompat.R.dimen.abc_action_bar_default_height_material));
+            layoutParams.height = statusBarHeight + materialHeight;
             setLayoutParams(layoutParams);
 
             setPadding(0, statusBarHeight, 0, 0);
@@ -447,9 +454,43 @@ public class TitleBarLayout extends RelativeLayout {
     public void setCenterView(View view) {
         setNeedLREqual(false);
         linearLayoutCenter.removeAllViews();
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
-                (MATCH_PARENT, MATCH_PARENT);
-        linearLayoutCenter.addView(view, layoutParams);
+
+        RelativeLayout relativeLayout = new RelativeLayout(mContext);
+
+
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams
+                (WRAP_CONTENT, WRAP_CONTENT);
+        layoutParams.addRule(CENTER_IN_PARENT);
+        relativeLayout.addView(view, layoutParams);
+
+
+        linearLayoutCenter.addView(relativeLayout, new
+                LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+
+        deal();
+    }
+
+    /**
+     * 自定义中间的view，如果开启自定义的话，自动设置为不相等左右距离
+     * 目前只提供这个，右边的不提供
+     *
+     * @Author: JACK-GU
+     * @E-Mail: 528489389@qq.com
+     */
+    public void setCenterView(View view, RelativeLayout.LayoutParams layoutParams) {
+        setNeedLREqual(false);
+        linearLayoutCenter.removeAllViews();
+
+        RelativeLayout relativeLayout = new RelativeLayout(mContext);
+
+
+        layoutParams.addRule(CENTER_IN_PARENT);
+        relativeLayout.addView(view, layoutParams);
+
+
+        linearLayoutCenter.addView(relativeLayout, new
+                LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+
 
         deal();
     }
