@@ -36,7 +36,6 @@ public abstract class BaseTitleFragment extends BaseFragment {
     }
 
 
-
     /**
      * 设置左右标题是否相等
      *
@@ -59,6 +58,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
             titleBarLayout.setElevation(e);
         }
     }
+
     /**
      * 设置返回键的图片
      *
@@ -69,6 +69,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
     protected void setBackImageRes(int res) {
         titleBarLayout.setBackImageRes(res);
     }
+
     /**
      * 设置返回键的图片
      *
@@ -79,6 +80,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
     public void setBackImageDrawable(Drawable drawable) {
         titleBarLayout.setBackImageDrawable(drawable);
     }
+
     /**
      * 设置返回监听
      *

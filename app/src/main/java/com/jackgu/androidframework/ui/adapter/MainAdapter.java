@@ -1,4 +1,4 @@
-package com.jackgu.androidframework.adapter;
+package com.jackgu.androidframework.ui.adapter;
 
 import android.support.annotation.Nullable;
 

@@ -405,7 +405,7 @@ public class MyJsonRepository<T> extends BaseRepository<T> {
      */
     public Observable<T> uploadFiles(List<MultipartBody.Part> parts
             , String path) {
-        Observable<T> rObservable = null;
+        Observable<T> rObservable;
         ApiService apiService = RetrofitHelper.getInstance().createService(ApiService.class);
         rObservable = transformResultJsonObject(apiService.uploadFiles(parts, path));
         return rObservable;

@@ -1,10 +1,11 @@
 package com.jack.framework.view.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,7 +27,7 @@ import com.jack.framework.view.ButtonHaveSelect;
  * @E-Mail: 528489389@qq.com
  */
 
-public class MessageDialog extends Dialog {
+public class MessageDialog extends BaseDialogFragment {
     //定义三种类型的dialog
     public static final int TYPE_ONE_BUTTON = 0;
     public static final int TYPE_TWO_BUTTON = 1;
@@ -47,43 +48,64 @@ public class MessageDialog extends Dialog {
 
     private int messageDialogType;
 
+    private final static String MESSAGE_DIALOG_TYPE = "MESSAGE_DIALOG_TYPE";
+
+
+    //定义那些操作
+    private View.OnClickListener leftOnClickListener;
+    private View.OnClickListener rightOnClickListener;
+    private View.OnClickListener centerOnClickListener;
+    private String strTitle;
+    private String strContent;
+    private String strLeftButtonText;
+    private String strCenterButtonText;
+    private String strRightButtonText;
+
 
     /**
-     * 构造方法
+     * 对话框按钮的个数
      *
-     * @param context           上下文
-     * @param messageDialogType 类型
      * @Author: JACK-GU
-     * @Date: 2018/4/12 09:47
      * @E-Mail: 528489389@qq.com
      */
-    public MessageDialog(@NonNull Context context, int messageDialogType) {
-        super(context, R.style.MyDialog);
-        this.context = context;
-        this.messageDialogType = messageDialogType;
+    public static MessageDialog newInstance(int messageDialogType) {
+        Bundle args = new Bundle();
+        args.putInt(MESSAGE_DIALOG_TYPE, messageDialogType);
+        MessageDialog fragment = new MessageDialog();
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    /**
-     * 构造方法，默认两个按钮
-     *
-     * @param context 上下文
-     * @Author: JACK-GU
-     * @Date: 2018/4/12 09:47
-     * @E-Mail: 528489389@qq.com
-     */
-    public MessageDialog(@NonNull Context context) {
-        super(context, R.style.MyDialog);
-        this.context = context;
-        this.messageDialogType = TYPE_TWO_BUTTON;
+
+    public static MessageDialog newInstance() {
+        return newInstance(TYPE_TWO_BUTTON);
+    }
+
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+        messageDialogType = args.getInt(MESSAGE_DIALOG_TYPE);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(getRootView());
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(R.style.MyDialog, R.style.MyDialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container
+            , @Nullable Bundle savedInstanceState) {
+        return getRootView();
+    }
 
     /**
      * 设置标题
@@ -93,6 +115,7 @@ public class MessageDialog extends Dialog {
      * @E-Mail: 528489389@qq.com
      */
     public void setTitle(String title) {
+        this.strTitle = title;
         if (textViewTitle != null) {
             textViewTitle.setText(title);
         }
@@ -106,6 +129,7 @@ public class MessageDialog extends Dialog {
      * @E-Mail: 528489389@qq.com
      */
     public void setContent(String content) {
+        this.strContent = content;
         if (textViewContent != null) {
             textViewContent.setText(content);
         }
@@ -126,10 +150,12 @@ public class MessageDialog extends Dialog {
                     if (centerButton != null) {
                         centerButton.setText(args[0]);
                     }
+                    strCenterButtonText = args[0];
                 } else {
                     if (leftButton == null) {
                         leftButton.setText(args[0]);
                     }
+                    strLeftButtonText = args[0];
                 }
                 break;
             }
@@ -140,24 +166,29 @@ public class MessageDialog extends Dialog {
                     if (centerButton != null) {
                         centerButton.setText(args[0]);
                     }
+                    strCenterButtonText = args[0];
                 } else if (messageDialogType == TYPE_TWO_BUTTON) {
                     //两个按钮设置左右
                     if (leftButton != null) {
                         leftButton.setText(args[0]);
                     }
+                    strLeftButtonText = args[0];
 
                     if (rightButton != null) {
                         rightButton.setText(args[1]);
                     }
+                    strRightButtonText = args[1];
                 } else if (messageDialogType == TYPE_THREE_BUTTON) {
                     //三个按钮，左中
                     if (leftButton != null) {
                         leftButton.setText(args[0]);
                     }
+                    strLeftButtonText = args[0];
 
                     if (centerButton != null) {
                         centerButton.setText(args[1]);
                     }
+                    strCenterButtonText = args[1];
                 }
 
                 break;
@@ -169,28 +200,34 @@ public class MessageDialog extends Dialog {
                     if (centerButton != null) {
                         centerButton.setText(args[1]);
                     }
+                    strCenterButtonText = args[1];
                 } else if (messageDialogType == TYPE_TWO_BUTTON) {
                     //两个按钮设置左右
                     if (leftButton != null) {
                         leftButton.setText(args[0]);
                     }
+                    strLeftButtonText = args[0];
 
                     if (rightButton != null) {
                         rightButton.setText(args[2]);
                     }
+                    strRightButtonText = args[2];
                 } else if (messageDialogType == TYPE_THREE_BUTTON) {
                     //三个按钮，左中
                     if (leftButton != null) {
                         leftButton.setText(args[0]);
                     }
+                    strLeftButtonText = args[0];
 
                     if (centerButton != null) {
                         centerButton.setText(args[1]);
                     }
+                    strCenterButtonText = args[1];
 
                     if (rightButton != null) {
                         rightButton.setText(args[2]);
                     }
+                    strRightButtonText = args[2];
                 }
 
 
@@ -213,6 +250,7 @@ public class MessageDialog extends Dialog {
         if (leftButton != null) {
             leftButton.getTextView().setText(text);
         }
+        strLeftButtonText = text;
     }
 
     /**
@@ -226,6 +264,7 @@ public class MessageDialog extends Dialog {
         if (centerButton != null) {
             centerButton.getTextView().setText(text);
         }
+        strCenterButtonText = text;
     }
 
 
@@ -240,6 +279,7 @@ public class MessageDialog extends Dialog {
         if (rightButton != null) {
             rightButton.getTextView().setText(text);
         }
+        strRightButtonText = text;
     }
 
     /**
@@ -257,6 +297,7 @@ public class MessageDialog extends Dialog {
                     oneButtonClickListener.onClick(v);
             });
         }
+        centerOnClickListener = oneButtonClickListener;
     }
 
     /**
@@ -276,12 +317,16 @@ public class MessageDialog extends Dialog {
             });
         }
 
+        this.leftOnClickListener = leftButtonClickListener;
+
         if (rightButton != null) {
             rightButton.setOnClickListener(v -> {
                 if (rightButtonClickListener != null)
                     rightButtonClickListener.onClick(v);
             });
         }
+
+        this.rightOnClickListener = rightButtonClickListener;
     }
 
     /**
@@ -301,13 +346,14 @@ public class MessageDialog extends Dialog {
                     leftButtonClickListener.onClick(v);
             });
         }
-
+        this.leftOnClickListener = leftButtonClickListener;
         if (centerButton != null) {
             centerButton.setOnClickListener(v -> {
                 if (centerButtonClickListener != null)
                     centerButtonClickListener.onClick(v);
             });
         }
+        this.centerOnClickListener = centerButtonClickListener;
 
         if (rightButton != null) {
             rightButton.setOnClickListener(v -> {
@@ -315,6 +361,7 @@ public class MessageDialog extends Dialog {
                     rightButtonClickListener.onClick(v);
             });
         }
+        this.rightOnClickListener = rightButtonClickListener;
     }
 
     public TextView getTextViewTitle() {
@@ -350,6 +397,9 @@ public class MessageDialog extends Dialog {
      * @E-Mail: 528489389@qq.com
      */
     private LinearLayout getRootView() {
+        if (rootLinearLayout != null) {
+            return rootLinearLayout;
+        }
         int padding = (int) context.getResources().getDimension(R.dimen.activity_margin);
 
 
@@ -373,7 +423,8 @@ public class MessageDialog extends Dialog {
                 .LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         textViewTitle.setLayoutParams(titleLayoutParams);
 
-        textViewTitle.setText(context.getResources().getText(R.string.message_dialog_title));
+        textViewTitle.setText(!TextUtils.isEmpty(strTitle) ? strTitle :
+                context.getResources().getText(R.string.message_dialog_title));
         textViewTitle.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_big)));
         textViewTitle.setGravity(Gravity.CENTER);
         textViewTitle.setPadding(padding, padding, padding, padding);
@@ -388,7 +439,8 @@ public class MessageDialog extends Dialog {
                         LinearLayout.LayoutParams.WRAP_CONTENT);
         textViewContent.setLayoutParams(contentLayoutParams);
 //        textViewContent.setGravity(Gravity.CENTER);
-        textViewContent.setText(context.getResources().getText(R.string.message_dialog_content));
+        textViewContent.setText(!TextUtils.isEmpty(strContent) ? strContent :
+                context.getResources().getText(R.string.message_dialog_content));
         textViewContent.setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(R.dimen.text_size_normal)));
         textViewContent.setPadding(padding, 0, padding, padding);
         textViewContent.setTextColor(context.getResources().getColor(R.color.text_color));
@@ -409,10 +461,8 @@ public class MessageDialog extends Dialog {
 
         //默认，一个按钮不可以取消
         if (messageDialogType == TYPE_ONE_BUTTON) {
-            setCanceledOnTouchOutside(false);
             setCancelable(false);
         } else {
-            setCanceledOnTouchOutside(true);
             setCancelable(true);
         }
         return rootLinearLayout;
@@ -439,8 +489,8 @@ public class MessageDialog extends Dialog {
                 TYPE_THREE_BUTTON) {
             leftButton = new ButtonHaveSelect(context);
 
-            leftButton.getTextView().setText(context.getResources().getText(R.string
-                    .message_dialog_left_button));
+            leftButton.getTextView().setText(!TextUtils.isEmpty(strLeftButtonText) ? strLeftButtonText :
+                    context.getResources().getText(R.string.message_dialog_left_button));
             leftButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
                     R.dimen.text_size_normal)));
             leftButton.getTextView().setTextColor(context.getResources().getColor(R.color.gray));
@@ -451,6 +501,8 @@ public class MessageDialog extends Dialog {
             leftButton.setLayoutParams(centerButtonLayoutParams);
             leftButton.getButtonLayout().setLeftBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
             buttonLinearLayout.addView(leftButton);
+
+            leftButton.setOnClickListener(leftOnClickListener);
         }
 
         if (messageDialogType == TYPE_THREE_BUTTON) {
@@ -467,8 +519,8 @@ public class MessageDialog extends Dialog {
         if (messageDialogType == TYPE_ONE_BUTTON || messageDialogType ==
                 TYPE_THREE_BUTTON) {
             centerButton = new ButtonHaveSelect(context);
-            centerButton.getTextView().setText(context.getResources().getText(R.string
-                    .message_dialog_center_button));
+            centerButton.getTextView().setText(!TextUtils.isEmpty(strCenterButtonText) ?
+                    strCenterButtonText : context.getResources().getText(R.string.message_dialog_center_button));
             centerButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
                     R.dimen.text_size_normal)));
             centerButton.getTextView().setTextColor(context.getResources().getColor(R.color.black));
@@ -486,6 +538,8 @@ public class MessageDialog extends Dialog {
                 centerButton.getButtonLayout().setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
             }
             buttonLinearLayout.addView(centerButton);
+
+            centerButton.setOnClickListener(centerOnClickListener);
         }
 
 
@@ -505,8 +559,8 @@ public class MessageDialog extends Dialog {
             rightButton = new ButtonHaveSelect(context);
 
 
-            rightButton.getTextView().setText(context.getResources().getText(R.string
-                    .message_dialog_right_button));
+            rightButton.getTextView().setText(!TextUtils.isEmpty(strRightButtonText) ? strRightButtonText :
+                    context.getResources().getText(R.string.message_dialog_right_button));
             rightButton.getTextView().setTextSize(DensityUtil.px2sp(ResourcesUtil.getPx(
                     R.dimen.text_size_normal)));
             rightButton.getTextView().setTextColor(context.getResources().getColor(R.color.theme));
@@ -518,9 +572,24 @@ public class MessageDialog extends Dialog {
             rightButton.getButtonLayout().setRightBottomRadius((int) ResourcesUtil.getPx(R.dimen.radius));
 
             buttonLinearLayout.addView(rightButton);
+
+            rightButton.setOnClickListener(rightOnClickListener);
         }
 
 
         return buttonLinearLayout;
+    }
+
+    @Override
+    public void onDestroyView() {
+        //销毁
+        rootLinearLayout = null;
+        buttonLinearLayout = null;
+        textViewTitle = null;
+        textViewContent = null;
+        leftButton = null;
+        centerButton = null;
+        rightButton = null;
+        super.onDestroyView();
     }
 }

@@ -3,6 +3,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'org.greenrobot.greendao'
 
 
+def gradleVersion = rootProject.ext.gradle_version
 def configInfo = rootProject.ext.config
 android {
     compileSdkVersion 26
@@ -35,7 +36,7 @@ greendao {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.+'
     testImplementation 'junit:junit:4.12'
@@ -58,6 +59,11 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-3'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-3'
     compile 'jp.wasabeef:glide-transformations:3.0.1'
+    compile "com.google.dagger:dagger:2.14.1"
+    compile "android.arch.lifecycle:extensions:$gradleVersion.LIFECYCLE_VRESION"
+    compile "android.arch.lifecycle:common-java8:$gradleVersion.LIFECYCLE_VRESION"
+    compile "android.arch.lifecycle:reactivestreams:$gradleVersion.LIFECYCLE_VRESION"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.14.1"
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 }

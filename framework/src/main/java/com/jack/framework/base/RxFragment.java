@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.jack.framework.enums.RxLifeEvent;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.subjects.PublishSubject;
@@ -109,7 +111,6 @@ abstract class RxFragment extends Fragment {
                     lifecycleSubject.filter(rxLifeEvent -> rxLifeEvent.equals(event)).take(1);
             return upstream.takeUntil(compareLifecycleObservable);
         };
-
 
 
         //这个是rx1的写法

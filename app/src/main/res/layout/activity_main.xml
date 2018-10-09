@@ -97,7 +97,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/theme_shape"
                 android:padding="10dp"
-                android:text="测试fragment"
+                android:text="MVP+Dagger2示列"
                 android:textColor="@color/white"
                 app:buttonLayoutRippleRoundedCorners="5dp" />
 

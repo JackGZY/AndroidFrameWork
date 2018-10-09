@@ -1,4 +1,4 @@
-package com.jackgu.androidframework.activity;
+package com.jackgu.androidframework.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;

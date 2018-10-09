@@ -1,13 +1,11 @@
-package com.jackgu.androidframework.activity;
+package com.jackgu.androidframework.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jack.camera.CameraActivity;
 import com.jack.framework.base.BaseTitleActivity;
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.enums.GlideType;
@@ -16,14 +14,12 @@ import com.jack.framework.eventAction.DownloadFileMessageEvent;
 import com.jack.framework.util.GlideUtil;
 import com.jack.framework.util.LoggerUtil;
 import com.jack.framework.util.ToastUtil;
-import com.jack.framework.util.UriUtil;
 import com.jack.framework.util.compress.CompressUtil;
 import com.jack.framework.util.network.DefaultSubscriber;
 import com.jack.framework.util.network.repository.MyJsonRepository;
 import com.jack.framework.util.network.repository.MyRepository;
 import com.jack.framework.view.ButtonHaveSelect;
 import com.jack.framework.view.TimerTextView;
-import com.jack.framework.view.dialog.SelectDialog;
 import com.jackgu.androidframework.R;
 import com.jackgu.androidframework.entity.TestEntity;
 import com.jackgu.androidframework.retrofit.service.TestService;
@@ -34,7 +30,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -121,7 +116,7 @@ public class MainActivity extends BaseTitleActivity {
 //            }
         });
 
-      //  setBackVisibility(false);
+        //  setBackVisibility(false);
         setTitle("测试的标题这里是主页123231231231231212312312");
         setBackOnClickListener(v -> {
 
@@ -154,7 +149,7 @@ public class MainActivity extends BaseTitleActivity {
         myButton.setOnClickListener(v ->
 
         {
-            turnActivity(TestActivity.class, false, null);
+            //  turnActivity(TestActivity.class, false, null);
 //            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
 //            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
 //            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
@@ -171,11 +166,21 @@ public class MainActivity extends BaseTitleActivity {
 //            selectDialog.setTitle("测试的标题");
 //            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
 //            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
-
-//            MessageDialog messageDialog = new MessageDialog(mContext, MessageDialog
-//                    .TYPE_THREE_BUTTON);
-//            messageDialog.show();
-//            messageDialog.setButtonTexts("取消1", "好的1", "确定1");
+//
+//            MessageDialog messageDialog = MessageDialog.newInstance(MessageDialog.TYPE_ONE_BUTTON);
+//            messageDialog.show(getSupportFragmentManager().beginTransaction(), "messageDialog");
+//            messageDialog.setButtonTexts("取消1", "确定1");
+//            messageDialog.setThreeButtonClickListener(
+//                    v1 -> {
+//                        ToastUtil.showShortMessage("取消1");
+//                        messageDialog.dismiss();
+//                    }, v12 -> {
+//                        ToastUtil.showShortMessage("好的1");
+//                        messageDialog.dismiss();
+//                    }, v13 -> {
+//                        ToastUtil.showShortMessage("确定1");
+//                        messageDialog.dismiss();
+//                    });
         });
 
 
@@ -200,22 +205,23 @@ public class MainActivity extends BaseTitleActivity {
 //            intent.setType("*/*");
 //            intent.addCategory(Intent.CATEGORY_OPENABLE);
 //            startActivityForResult(intent, 1);
-            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
-            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
-                    .theme)));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
-            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
-                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+//            List<SelectDialog.SelectItem> selectItems = new ArrayList<>();
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮1"));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮2", getResources().getColor(R.color
+//                    .theme)));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮3", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮4", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.LEFT));
+//            selectItems.add(new SelectDialog.SelectItem("测试按钮5", getResources().getColor(R.color
+//                    .red), R.mipmap.ic_launcher_round, Gravity.RIGHT));
+//
+//            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
+//            selectDialog.show();
+//            selectDialog.setTitle("测试的标题");
+//            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
+//            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
 
-            SelectDialog selectDialog = new SelectDialog(this, selectItems, true);
-            selectDialog.show();
-            selectDialog.setTitle("测试的标题");
-            selectDialog.setContent("*测试的提示类容，在这里如果有危险操作我们可以提醒用户");
-            selectDialog.setOnItemClick(index -> ToastUtil.showShortMessage("" + index));
         });
 
         buttonHaveSelect3.setOnClickListener(v -> {
@@ -223,14 +229,9 @@ public class MainActivity extends BaseTitleActivity {
         });
 
 
-        buttonHaveSelect4.setOnClickListener(v ->
-
-        {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File file = new File(AppConfig.DATA_BASE_FILE + "/1.jpg");
-            Uri uri = UriUtil.getUriFromFile(file, intent);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-            startActivityForResult(intent, 1);
+        buttonHaveSelect4.setOnClickListener(v -> {
+            CameraActivity.startActivityForResult(mContext, AppConfig.BASE_FILE,
+                    null, true, null);
         });
 
         buttonHaveSelect.setOnClickListener(v ->
@@ -269,9 +270,9 @@ public class MainActivity extends BaseTitleActivity {
         GlideUtil.loadCircle(PATH, imageView4);
         GlideUtil.loadCircle("", imageView7, (requestOptions, requestBuilder) -> {
             //我们在这里修改,加载失败显示的是空
-            requestOptions.placeholder(AppConfig.IMAGE_EMPTY);
-            requestOptions.error(AppConfig.IMAGE_EMPTY);
-            requestOptions.fallback(AppConfig.IMAGE_EMPTY);
+//            requestOptions.placeholder(AppConfig.IMAGE_EMPTY);
+//            requestOptions.error(AppConfig.IMAGE_EMPTY);
+//            requestOptions.fallback(AppConfig.IMAGE_EMPTY);
         });
 
         GlideUtil.loadRound(PATH, imageView5, 30);

@@ -1,10 +1,11 @@
 package com.jack.framework.view.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -24,35 +25,47 @@ import com.jack.framework.view.ProgressDrawable;
  * @version 1.0
  * @data 2016年5月18日 下午8:55:48
  */
-public class LoadingDialog extends Dialog {
+public class LoadingDialog extends BaseDialogFragment {
     private Context context;
     private ImageView imageView;
     private ProgressDrawable progressDrawable;
     private LinearLayout root;
     private TextView textView;
+    private String message;
 
-
-    public LoadingDialog(Context context) {
-        super(context, R.style.MyDialog);
-        this.context = context;
-        setCanceledOnTouchOutside(false);
-        setCancelable(false);
+    public static LoadingDialog newInstance() {
+        Bundle args = new Bundle();
+        LoadingDialog fragment = new LoadingDialog();
+        fragment.setArguments(args);
+        return fragment;
     }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(getView());
-
-        progressDrawable = new ProgressDrawable();
-        progressDrawable.setColor(context.getResources().getColor(R.color.white));
-
-        imageView.animate().setInterpolator(new LinearInterpolator());
-        imageView.setImageDrawable(progressDrawable);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
-    private View getView() {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCancelable(false);
+        setStyle(R.style.MyDialog, R.style.MyDialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        return getRootView();
+    }
+
+
+    private View getRootView() {
+        if (root != null) {
+            return root;
+        }
         root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -74,8 +87,8 @@ public class LoadingDialog extends Dialog {
         textLayoutParams.topMargin = (int) context.getResources().getDimension(R.dimen
                 .activity_margin);
         textView.setLayoutParams(textLayoutParams);
-        textView.setTextColor(getContext().getResources().getColor(R.color.white));
-        textView.setTextSize(DensityUtil.px2sp(getContext().getResources().getDimension
+        textView.setTextColor(context.getResources().getColor(R.color.white));
+        textView.setTextSize(DensityUtil.px2sp(context.getResources().getDimension
                 (R.dimen.text_size_small)));
         textView.setMaxWidth(DensityUtil.getWidth(context) / 2);
         textView.setEllipsize(TextUtils.TruncateAt.END);
@@ -83,6 +96,20 @@ public class LoadingDialog extends Dialog {
 
         root.addView(imageView);
         root.addView(textView);
+
+
+        progressDrawable = new ProgressDrawable();
+        progressDrawable.setColor(context.getResources().getColor(R.color.white));
+
+        imageView.animate().setInterpolator(new LinearInterpolator());
+        imageView.setImageDrawable(progressDrawable);
+        if (progressDrawable != null && !progressDrawable.isRunning()) {
+            progressDrawable.start();
+        }
+
+        if (!TextUtils.isEmpty(message)) {
+            textView.setText(message);
+        }
 
         return root;
     }
@@ -95,27 +122,22 @@ public class LoadingDialog extends Dialog {
      * @E-Mail: 528489389@qq.com
      */
     public void setMessage(String message) {
+        this.message = message;
         if (textView != null) {
             textView.setText("" + message);
         }
     }
 
-
     @Override
-    public void show() {
-        super.show();
-        progressDrawable.start();
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        progressDrawable.stop();
-    }
-
-    @Override
-    public void cancel() {
-        super.cancel();
-        progressDrawable.stop();
+    public void onDestroyView() {
+        if (progressDrawable != null) {
+            progressDrawable.stop();
+        }
+        //每次消失后都会被销毁
+        imageView = null;
+        progressDrawable = null;
+        root = null;
+        textView = null;
+        super.onDestroyView();
     }
 }

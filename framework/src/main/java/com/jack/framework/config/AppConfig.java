@@ -3,8 +3,6 @@ package com.jack.framework.config;
 import android.Manifest;
 import android.os.Environment;
 
-import com.jack.framework.R;
-
 
 /**
  * @Author: JACK-GU
@@ -33,12 +31,6 @@ public interface AppConfig {
     String BASE_FILE = Environment.getExternalStorageDirectory()
             .getPath() + "/" + FILE_NAME;
     String DATA_BASE_FILE = BASE_FILE + "/" + "DB/";
-
-
-    //配置加载的图片占位符
-    int IMAGE_ERROR = R.mipmap.ic_error;
-    int IMAGE_EMPTY = R.mipmap.ic_empty;
-    int IMAGE_LOADING = R.mipmap.ic_loading;
 
 
     //数据获取成功的code

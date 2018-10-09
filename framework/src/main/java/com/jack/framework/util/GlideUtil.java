@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.jack.framework.config.AppConfig;
+import com.jack.framework.R;
 import com.jack.framework.enums.GlideType;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -20,6 +20,19 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  */
 
 public class GlideUtil {
+    //配置加载的图片占位符
+    private static int IMAGE_ERROR = R.mipmap.ic_error;
+    private static int IMAGE_EMPTY = R.mipmap.ic_empty;
+    private static int IMAGE_LOADING = R.mipmap.ic_loading;
+    //圆形的时候
+    private static int IMAGE_ERROR_CIRCLE = R.mipmap.ic_error;
+    private static int IMAGE_EMPTY_CIRCLE = R.mipmap.ic_empty;
+    private static int IMAGE_LOADING_CIRCLE = R.mipmap.ic_loading;
+    //圆角的时候
+    private static int IMAGE_ERROR_ROUND = R.mipmap.ic_error;
+    private static int IMAGE_EMPTY_ROUND = R.mipmap.ic_empty;
+    private static int IMAGE_LOADING_ROUND = R.mipmap.ic_loading;
+
     /**
      * @param obj       图片的地址，可以是int，可以是string，uri，file
      * @param imageView 需要加载的试图
@@ -210,9 +223,19 @@ public class GlideUtil {
             }
         }
 
-        requestOptions.placeholder(AppConfig.IMAGE_LOADING);
-        requestOptions.error(AppConfig.IMAGE_ERROR);
-        requestOptions.fallback(AppConfig.IMAGE_EMPTY); //为空的时候
+        if (glideType == GlideType.CIRCLE) {
+            requestOptions.placeholder(IMAGE_LOADING_CIRCLE);
+            requestOptions.error(IMAGE_ERROR_CIRCLE);
+            requestOptions.fallback(IMAGE_EMPTY_CIRCLE); //为空的时候
+        } else if (glideType == GlideType.ROUND) {
+            requestOptions.placeholder(IMAGE_LOADING_ROUND);
+            requestOptions.error(IMAGE_ERROR_ROUND);
+            requestOptions.fallback(IMAGE_EMPTY_ROUND); //为空的时候
+        } else {
+            requestOptions.placeholder(IMAGE_LOADING);
+            requestOptions.error(IMAGE_ERROR);
+            requestOptions.fallback(IMAGE_EMPTY); //为空的时候
+        }
 
         if (changeCallBack != null) {
             changeCallBack.changeCallBack(requestOptions, requestBuilder);

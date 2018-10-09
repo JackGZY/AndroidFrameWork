@@ -1,6 +1,5 @@
 package com.jack.framework.base;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -142,7 +141,7 @@ public abstract class BaseActivity extends RxActivity {
         }
 
         mContext = this;
-        loadingDialog = new LoadingDialog(mContext);
+        loadingDialog = LoadingDialog.newInstance();
 
         if (isNeedSwipeBack()) {
 //            SwipeBackHelper.onCreate(this);
@@ -227,8 +226,8 @@ public abstract class BaseActivity extends RxActivity {
      * 显示进度对话框,带有消息
      */
     protected void showProgressDialog(String message) {
-        loadingDialog.show();
         loadingDialog.setMessage(message);
+        loadingDialog.show(getSupportFragmentManager().beginTransaction(), "loading");
     }
 
     /**
@@ -296,7 +295,7 @@ public abstract class BaseActivity extends RxActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // if (isNeedSwipeBack()) SwipeBackHelper.onDestroy(this);
+        // if (isNeedSwipeBack()) SwipeBackHelper.onDestroy(this);
         mUnbinder.unbind();
     }
 
@@ -354,14 +353,14 @@ public abstract class BaseActivity extends RxActivity {
 
             if (flag) {
                 //有的话，谈对话框提示用户
-                MessageDialog messageDialog = new MessageDialog(this, MessageDialog.TYPE_ONE_BUTTON);
-                messageDialog.show();
+                MessageDialog messageDialog = MessageDialog.newInstance(MessageDialog.TYPE_ONE_BUTTON);
+                messageDialog.show(getSupportFragmentManager().beginTransaction(),"promiseMessageDialog");
                 messageDialog.setContent(getResources().getString(R.string
                         .permission_really_declined));
-                messageDialog.getCenterButton().getTextView().setText(getResources().getString(R
+                messageDialog.setCenterButtonText(getResources().getString(R
                         .string.i_know));
                 messageDialog.setOneButtonClickListener(v -> {
-                    messageDialog.cancel();
+                    messageDialog.dismiss();
                     if (callBack != null)
                         callBack.callBack(false, strings);
                 });

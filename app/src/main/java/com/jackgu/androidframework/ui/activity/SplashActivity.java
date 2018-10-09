@@ -1,4 +1,4 @@
-package com.jackgu.androidframework.activity;
+package com.jackgu.androidframework.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

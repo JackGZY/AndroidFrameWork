@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,11 +29,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.TestActivity"></activity>
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.DrawerLayoutActivity" />
-        <activity android:name=".activity.FragmentTestActivity" />
-        <activity android:name=".activity.CoordinatorLayoutActivity" />
+        <activity android:name=".ui.activity.TestActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.DrawerLayoutActivity" />
+        <activity android:name=".ui.activity.FragmentTestActivity" />
+        <activity android:name=".ui.activity.CoordinatorLayoutActivity" />
+        <activity
+            android:name="com.jack.camera.CameraActivity"
+            android:screenOrientation="landscape" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

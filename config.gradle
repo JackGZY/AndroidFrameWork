@@ -1,8 +1,13 @@
 ext {
     config = [
-            VERSION_NAME: "1.0",
-            VERSION_CODE: 1,
-            ID          : "com.jackgu.androidframework"
+            VERSION_NAME     : "1.0",
+            VERSION_CODE     : 1,
+            ID               : "com.jackgu.androidframework",
+    ]
+
+
+    gradle_version =[
+            LIFECYCLE_VRESION: "1.1.1",
     ]
 
 }

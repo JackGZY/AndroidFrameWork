@@ -51,7 +51,7 @@ public abstract class BaseFragment extends RxFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = (Activity) context;
-        loadingDialog = new LoadingDialog(mContext);
+        loadingDialog = LoadingDialog.newInstance();
     }
 
 
@@ -132,7 +132,9 @@ public abstract class BaseFragment extends RxFragment {
      * 显示进度对话框,带有消息
      */
     protected void showProgressDialog(String message) {
-        loadingDialog.show();
+        loadingDialog.setMessage(message);
+
+        loadingDialog.show(getFragmentManager().beginTransaction(), "loading");
     }
 
     /**
