@@ -3,7 +3,7 @@ package com.jack.framework.view;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import java.util.Timer;
@@ -20,7 +20,7 @@ import java.util.TimerTask;
  * @E-Mail: 528489389@qq.com
  */
 
-public class TimerTextView extends android.support.v7.widget.AppCompatTextView {
+public class TimerTextView extends androidx.appcompat.widget.AppCompatTextView {
     public static final int WHAT_SECOND = 0;
     public static final int WHAT_FINISH = 1;
     private Context mContext;

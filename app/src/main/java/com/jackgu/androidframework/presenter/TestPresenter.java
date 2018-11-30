@@ -1,9 +1,9 @@
 package com.jackgu.androidframework.presenter;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Transformations;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Transformations;
 import android.os.Bundle;
 
 import com.jack.framework.scope.FragmentScope;
@@ -22,8 +22,7 @@ import javax.inject.Inject;
  * @E-Mail: 528489389@qq.com
  */
 @FragmentScope
-public class TestPresenter extends TestContract.TestIPresenter
-        <TestContract.TestIView, TestContract.TestIModel> {
+public class TestPresenter extends TestContract.TestIPresenter<TestContract.TestIView, TestContract.TestIModel> {
 
     @Inject
     protected RefreshHelper<String> refreshHelper;
@@ -81,10 +80,8 @@ public class TestPresenter extends TestContract.TestIPresenter
             }
         });
 
-
         //自动刷新
         refreshHelper.autoRefresh();
-
 
         /***********************************************
          *  一下功能只是演示用法 by JACK-GU 2018-08-30 15:55

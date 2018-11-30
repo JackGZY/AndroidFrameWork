@@ -1,11 +1,11 @@
 package com.jack.framework.base;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.jack.framework.enums.RxLifeEvent;
 
@@ -113,11 +113,11 @@ public abstract class BaseMvpPresenter<T extends BaseMvpView, R extends BaseMvpM
      * @E-Mail: 528489389@qq.com
      */
     protected void registerLifecycleObserver() {
-        if (mRootView != null && mRootView instanceof LifecycleOwner) {
+        if (mRootView instanceof LifecycleOwner) {
             ((LifecycleOwner) mRootView).getLifecycle().addObserver(this);
         }
 
-        if (mModel != null && mModel instanceof LifecycleOwner) {
+        if (mModel instanceof LifecycleOwner) {
             ((LifecycleOwner) mModel).getLifecycle().addObserver(this);
         }
     }
@@ -129,11 +129,11 @@ public abstract class BaseMvpPresenter<T extends BaseMvpView, R extends BaseMvpM
      * @E-Mail: 528489389@qq.com
      */
     protected void unRegisterLifecycleObserver() {
-        if (mRootView != null && mRootView instanceof LifecycleOwner) {
+        if (mRootView instanceof LifecycleOwner) {
             ((LifecycleOwner) mRootView).getLifecycle().removeObserver(this);
         }
 
-        if (mModel != null && mModel instanceof LifecycleOwner) {
+        if (mModel instanceof LifecycleOwner) {
             ((LifecycleOwner) mModel).getLifecycle().removeObserver(this);
         }
     }

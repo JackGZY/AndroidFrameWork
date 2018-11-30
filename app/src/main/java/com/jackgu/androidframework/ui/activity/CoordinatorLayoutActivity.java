@@ -1,7 +1,7 @@
 package com.jackgu.androidframework.ui.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.view.Gravity;
 
 import com.jack.framework.base.BaseActivity;

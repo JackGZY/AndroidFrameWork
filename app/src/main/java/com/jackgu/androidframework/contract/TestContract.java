@@ -1,7 +1,7 @@
 package com.jackgu.androidframework.contract;
 
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.jack.framework.base.BaseMvpModel;
 import com.jack.framework.base.BaseMvpPresenter;

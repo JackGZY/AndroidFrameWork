@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 
 def configInfo = rootProject.ext.config
+def gradleVersion = rootProject.ext.gradle_version
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion gradleVersion.COMPILE_SDK_VERSION
+    buildToolsVersion gradleVersion.BUILD_TOOLS_VERSION
     defaultConfig {
         applicationId configInfo.ID
-        minSdkVersion 18
-        targetSdkVersion 26
+        minSdkVersion gradleVersion.MIN_SDK_VERSION
+        targetSdkVersion gradleVersion.TARGET_SDK_VERSION
         versionCode configInfo.VERSION_CODE
         versionName configInfo.VERSION_NAME
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -45,24 +46,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha3', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    annotationProcessor"com.google.dagger:dagger-compiler:2.14.1"
-    testCompile 'junit:junit:4.12'
+    annotationProcessor "com.jakewharton:butterknife-compiler:$gradleVersion.BUTTERNIFE"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.14.1"
+    testImplementation 'junit:junit:4.12'
     implementation project(':framework')
-    implementation project(':cameralib')
-}
-
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '26.+'
-            }
-        }
-    }
 }

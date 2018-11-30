@@ -1,7 +1,7 @@
 package com.jack.framework.util.compress;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.jack.framework.FrameWorkApplication;
 

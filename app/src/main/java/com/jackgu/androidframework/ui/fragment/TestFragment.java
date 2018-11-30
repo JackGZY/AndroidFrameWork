@@ -2,7 +2,7 @@ package com.jackgu.androidframework.ui.fragment;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.jack.framework.base.BaseTitleFragment;

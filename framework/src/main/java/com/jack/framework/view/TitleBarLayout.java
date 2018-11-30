@@ -3,7 +3,7 @@ package com.jack.framework.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -49,8 +49,7 @@ public class TitleBarLayout extends RelativeLayout {
     private int MAX_WIDTH = -1;
     private ButtonLayout buttonLayoutBack;
     int ripplePadding = DensityUtil.dip2px(5);
-    int materialHeight = (int) ResourcesUtil.getPx(android.support.v7
-            .appcompat.R.dimen.abc_action_bar_default_height_material);
+    int materialHeight = (int) ResourcesUtil.getPx(androidx.appcompat.R.dimen.abc_action_bar_default_height_material);
 
 
     public TitleBarLayout(Context context) {

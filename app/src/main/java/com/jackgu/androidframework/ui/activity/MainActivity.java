@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jack.camera.CameraActivity;
 import com.jack.framework.base.BaseTitleActivity;
 import com.jack.framework.config.AppConfig;
 import com.jack.framework.enums.GlideType;
@@ -230,8 +229,8 @@ public class MainActivity extends BaseTitleActivity {
 
 
         buttonHaveSelect4.setOnClickListener(v -> {
-            CameraActivity.startActivityForResult(mContext, AppConfig.BASE_FILE,
-                    null, true, null);
+//            CameraActivity.startActivityForResult(mContext, AppConfig.BASE_FILE,
+//                    null, true, null);
         });
 
         buttonHaveSelect.setOnClickListener(v ->

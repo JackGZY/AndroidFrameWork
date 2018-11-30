@@ -1,9 +1,9 @@
 package com.jackgu.androidframework.dagger.module;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.jack.framework.scope.FragmentScope;
 import com.jack.framework.util.RefreshHelper;
