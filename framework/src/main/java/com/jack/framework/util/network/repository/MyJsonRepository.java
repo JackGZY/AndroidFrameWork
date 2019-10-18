@@ -178,7 +178,7 @@ public class MyJsonRepository<T> extends BaseRepository<T> {
     public Observable<List<T>> uploadFilesReturnArray(MultipartBody.Part file, String path) {
         Observable<List<T>> rObservable = null;
         ApiService apiService = RetrofitHelper.getInstance().createService(ApiService.class);
-        rObservable = transformResultJsonArray(apiService.uploadFlieReturnArray(file, path));
+        rObservable = transformResultJsonArray(apiService.uploadFileReturnArray(file, path));
 
         return rObservable;
     }
@@ -274,7 +274,7 @@ public class MyJsonRepository<T> extends BaseRepository<T> {
     public Observable<T> uploadFiles(MultipartBody.Part file) {
         Observable<T> rObservable = null;
         ApiService apiService = RetrofitHelper.getInstance().createService(ApiService.class);
-        rObservable = transformResultJsonObject(apiService.uploadFlie(file));
+        rObservable = transformResultJsonObject(apiService.uploadFile(file));
 
         return rObservable;
     }

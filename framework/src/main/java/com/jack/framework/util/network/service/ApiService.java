@@ -143,7 +143,7 @@ public interface ApiService {
      */
     @Multipart
     @POST("satinApi")
-    Observable<BaseEntity<JsonArray>> uploadFlieReturnArray(@Part() MultipartBody.Part file
+    Observable<BaseEntity<JsonArray>> uploadFileReturnArray(@Part() MultipartBody.Part file
             , @Path("path") String path);
 
     /**
@@ -207,7 +207,7 @@ public interface ApiService {
      */
     @Multipart
     @POST("satinApi")
-    Observable<BaseEntity<JsonObject>> uploadFlie(@Part() MultipartBody.Part file);
+    Observable<BaseEntity<JsonObject>> uploadFile(@Part() MultipartBody.Part file);
 
     /**
      * 上传多个文件，参数是文件的RequestBody，
